@@ -1,4 +1,4 @@
-package br.com.escola;
+package br.com.escola.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
