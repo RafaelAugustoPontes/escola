@@ -13,7 +13,7 @@ public class UsuarioModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idUsuario;
-	private String nome;
+	private String login;
 	private String senha;
 
 	public Integer getIdUsuario() {
@@ -24,12 +24,12 @@ public class UsuarioModel {
 		this.idUsuario = idUsuario;
 	}
 
-	public String getNome() {
-		return nome;
+	public String getLogin() {
+		return login;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setLogin(String login) {
+		this.login = login;
 	}
 
 	public String getSenha() {

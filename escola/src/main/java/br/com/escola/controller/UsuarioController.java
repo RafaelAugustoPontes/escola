@@ -4,14 +4,12 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.escola.model.UsuarioModel;
 import br.com.escola.repository.UsuarioRepository;
 
-@RestController()
-@RequestMapping("/servicos")
+@RestController
 public class UsuarioController {
 
 	@Autowired
