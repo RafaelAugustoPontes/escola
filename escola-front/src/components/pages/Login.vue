@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-form @submit="onSubmit" @reset="onReset">
+    <b-form @submit="onSubmit">
       <b-card class="mt-3" header="SISTEMA ESCOLAR">
         <b-container class="bv-example-row">
           <b-row>
@@ -35,11 +35,12 @@
           </b-row>
         </b-container>
         <b-button-group>
-          <b-button type="submit" variant="primary">Submit</b-button>
-          <b-button type="reset" variant="danger">Reset</b-button>
+          <b-button type="submit" variant="primary">Entrar</b-button>
+          <router-link to="/home">Home</router-link>
         </b-button-group>
       </b-card>
     </b-form>
+    {{ pessoas }}
   </div>
 </template>
 
@@ -50,22 +51,39 @@ export default {
       form: {
         login: "",
         senha: ""
-      }
+      },
+      pessoas: []
     };
   },
   methods: {
     onSubmit(evt) {
       evt.preventDefault();
-      alert(JSON.stringify(this.form));
+      this.$router.push(this.$route.query.redirect || '/home');
     },
-    onReset(evt) {
-      evt.preventDefault();
-      this.form.login = "";
-      this.form.senha = "";
-    }
+  },
+
+  created() {
+    this.$http
+      .get("http://localhost:8080/pessoas")
+      .then(resposta => resposta.json())
+      .then(
+        pessoas => (this.pessoas = pessoas),
+        erro =>
+          this.$bvToast.toast('Servidor não encontrado', {
+            title: "Mensagem",
+            autoHideDelay: 5000,
+            appendToast: false
+          })
+      );
   }
 };
 </script>
 
 <style scoped>
+
+.card-header{
+  background-color: darkred;
+  color : black
+}
+
 </style>
