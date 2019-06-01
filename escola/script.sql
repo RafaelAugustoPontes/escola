@@ -1,10 +1,24 @@
 
-
-INSERT INTO `escola`.`usuario`
-(`idUsuario`,
-`nome`,
-`senha`)
+INSERT INTO `escola`.`pessoa`
+(`IDPESSOA`,
+`NOME`,
+`CPF`,
+`MATRICULA`,
+`DATANASCIMENTO`)
 VALUES
 (1,
 'Rafael',
-'123');
+'08350193905',
+1,
+'1993-11-09');
+
+
+INSERT INTO `escola`.`usuario`
+(`IDUSUARIO`,
+`LOGIN`,
+`SENHA`,
+IDPESSOA)
+VALUES
+(1,
+'adm',
+'123',1);

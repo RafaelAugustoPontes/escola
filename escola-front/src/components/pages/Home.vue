@@ -1,15 +1,12 @@
 <template>
-  <menu-escola></menu-escola>
+  <div>
+    <h1>Hello world</h1>
+  </div>
 </template>
 
 <script>
-import Menu from "../partials/Menu.vue";
 
 export default {
-  components: {
-    "menu-escola": Menu
-  },
-
   data() {return{}}
 };
 </script>

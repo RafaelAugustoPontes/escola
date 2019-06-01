@@ -6,7 +6,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan("br.com.escola") //to scan packages mentioned
+@ComponentScan("br.com.escola") // to scan packages mentioned
 public class EscolaApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {

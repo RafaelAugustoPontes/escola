@@ -1,15 +1,15 @@
-import Login from "./components/pages/Login.vue";
 import Home from "./components/pages/Home.vue";
+import Usuarios from "./components/pages/Usuarios.vue"
 
 export const routes = [
   {
     path: "/",
-    component: Login,
-    titulo: "Login"
-  },
-  {
-    path: "/home",
     component: Home,
     titulo: "Home"
+  },
+  {
+    path: "/usuarios",
+    component: Usuarios,
+    titulo: "Usuários"
   }
 ];

@@ -1,16 +1,24 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <Menu :routes="routes">
+      <router-view></router-view>
+    </Menu>
   </div>
 </template>
 
 <script>
-import Login from './components/pages/Login.vue'
+import Menu from './components/partials/Menu'
+import {routes} from './routes.js'
 
 export default {
   name: 'app',
   components: {
-    Login
+    Menu
+  },
+  data(){
+    return{
+      routes
+    }
   }
 }
 </script>

@@ -1,24 +1,26 @@
-package br.com.escola.model;
+package br.com.escola.bo.pessoa.dto;
 
 import java.time.LocalDate;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+public class PessoaDTO {
 
-@Entity
-@Table(name = "PESSOA")
-public class PessoaModel {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idPessoa;
 	private String nome;
 	private String cpf;
 	private Integer matricula;
 	private LocalDate dataNascimento;
+
+	public PessoaDTO() {
+
+	}
+
+	public PessoaDTO(Integer idPessoa, String nome, String cpf, Integer matricula, LocalDate dataNascimento) {
+		this.idPessoa = idPessoa;
+		this.nome = nome;
+		this.cpf = cpf;
+		this.matricula = matricula;
+		this.dataNascimento = dataNascimento;
+	}
 
 	public Integer getIdPessoa() {
 		return idPessoa;
