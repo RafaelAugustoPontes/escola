@@ -30,6 +30,8 @@ public class PessoaBO {
 
 	public PessoaModel obterPessoa(PessoaDTO dto) {
 		PessoaModel model = new PessoaModel();
+		if (dto.getIdPessoa() != null)
+			model.setIdPessoa(dto.getIdPessoa());
 
 		model.setCpf(dto.getCpf());
 		model.setDataNascimento(dto.getDataNascimento());

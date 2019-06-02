@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import Menu from './components/partials/Menu'
+import Menu from './components/partials/menu/Menu.vue'
 import {routes} from './routes.js'
 
 export default {
