@@ -51,15 +51,18 @@ export default {
     };
   },
   created() {
-    this.$http
-      .get("http://localhost:8080/pessoa")
-      .then(resposta => resposta.json())
-      .then(
-        pessoas => (this.pessoas = pessoas),
-        erro => alert("erro ao buscar as pessoas" + erro)
-      );
+    this.buscarPessoas()
   },
   methods: {
+    buscarPessoas() {
+      this.$http
+        .get("http://localhost:8080/pessoa")
+        .then(resposta => resposta.json())
+        .then(
+          pessoas => (this.pessoas = pessoas),
+          erro => alert("erro ao buscar as pessoas" + erro)
+        );
+    },
     checkFormValidity() {
       const valid = this.$refs.form.checkValidity();
       this.nameState = valid ? "valid" : "invalid";
@@ -77,14 +80,11 @@ export default {
         return;
       }
 
-      var data = new FormData();
-      data.append("nome", this.pessoa.nome );
-
-      let header = { "Content-Type": "application/json" };
-
       this.$http
-        .post("http://localhost:8080/pessoa", data, header)
-        .then(alert("Inserido com sucesso"), alert("Erro ao inserir"));
+        .post("http://localhost:8080/pessoa", this.pessoa)
+        .then(this.buscarPessoas())
+        .catch(error => alert(error));
+
 
       this.$nextTick(() => {
         this.$refs.modal.hide();
