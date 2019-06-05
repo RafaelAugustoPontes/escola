@@ -3,7 +3,7 @@
     <Menu :routes="routes">
       <router-view></router-view>
     </Menu>
-  </div>
+  </div>  
 </template>
 
 <script>

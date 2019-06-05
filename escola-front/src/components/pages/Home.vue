@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <h1>Hello world</h1>
+  <div class="jumbotron">
+  <h1 class="display-4">Futuro Dashboard</h1>
   </div>
 </template>
 

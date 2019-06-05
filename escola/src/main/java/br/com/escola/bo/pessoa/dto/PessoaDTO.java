@@ -1,6 +1,7 @@
 package br.com.escola.bo.pessoa.dto;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class PessoaDTO {
 
@@ -56,6 +57,11 @@ public class PessoaDTO {
 
 	public LocalDate getDataNascimento() {
 		return dataNascimento;
+	}
+	
+	public String getDataNascimentoFormatada() {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		return formatter.format(dataNascimento);
 	}
 
 	public void setDataNascimento(LocalDate dataNascimento) {

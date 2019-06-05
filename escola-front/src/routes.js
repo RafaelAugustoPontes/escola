@@ -1,5 +1,5 @@
 import Home from "./components/pages/Home.vue";
-import Usuarios from "./components/pages/Usuarios.vue"
+import Pessoas from "./components/pages/Pessoas.vue"
 
 export const routes = [
   {
@@ -8,8 +8,8 @@ export const routes = [
     titulo: "Home"
   },
   {
-    path: "/usuarios",
-    component: Usuarios,
-    titulo: "Usuários"
+    path: "/pessoas",
+    component: Pessoas,
+    titulo: "Pessoas"
   }
 ];
