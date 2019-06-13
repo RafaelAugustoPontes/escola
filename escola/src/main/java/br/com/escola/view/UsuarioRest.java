@@ -1,4 +1,4 @@
-package br.com.escola.controller;
+package br.com.escola.view;
 
 import java.util.List;
 
@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.escola.model.UsuarioModel;
-import br.com.escola.repository.UsuarioRepository;
+import br.com.escola.model.repository.UsuarioRepository;
 
 @RestController
-public class UsuarioController {
+public class UsuarioRest {
 
 	@Autowired
 	private UsuarioRepository repository;

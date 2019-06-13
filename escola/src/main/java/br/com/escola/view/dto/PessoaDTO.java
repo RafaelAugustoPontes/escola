@@ -1,4 +1,4 @@
-package br.com.escola.bo.pessoa.dto;
+package br.com.escola.view.dto;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

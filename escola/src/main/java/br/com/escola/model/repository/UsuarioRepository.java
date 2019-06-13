@@ -1,4 +1,4 @@
-package br.com.escola.repository;
+package br.com.escola.model.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
