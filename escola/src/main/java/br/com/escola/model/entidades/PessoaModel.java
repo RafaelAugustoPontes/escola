@@ -127,6 +127,14 @@ public class PessoaModel {
 		this.email = email;
 	}
 
+	public PerfilModel getPerfil() {
+		return perfil;
+	}
+
+	public void setPerfil(PerfilModel perfil) {
+		this.perfil = perfil;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

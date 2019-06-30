@@ -1,4 +1,4 @@
-package br.com.escola.view;
+package br.com.escola.view.resource;
 
 import java.util.List;
 

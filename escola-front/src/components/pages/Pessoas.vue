@@ -21,6 +21,7 @@
           ></b-table>
 
           <b-modal
+            size="lg"
             id="modal-prevent-closing"
             ref="modal"
             title="Nova Pessoa"
@@ -53,26 +54,31 @@
                   required
                 ></b-form-input>
               </b-form-group>
-              <b-form-group label="Endereco" label-for="endereco">
-                <b-form-input id="endereco" type="text" v-model="pessoa.endereco"></b-form-input>
-              </b-form-group>
-              <b-form-group label="Número" label-for="numero">
-                <b-form-input id="numero" type="number" v-model="pessoa.numero"></b-form-input>
-              </b-form-group>
-              <b-form-group label="Bairro" label-for="bairro">
-                <b-form-input id="bairro" type="text" v-model="pessoa.bairro"></b-form-input>
-              </b-form-group>
-              <b-form-group label="Cidade" label-for="cidade">
-                <b-form-input id="cidade" type="text" v-model="pessoa.cidade"></b-form-input>
-              </b-form-group>
-              <b-form-group label="CEP" label-for="cep">
-                <b-form-input id="cep" type="text" v-model="pessoa.cep"></b-form-input>
-              </b-form-group>
               <b-form-group label="Telefone" label-for="telefone">
                 <b-form-input id="telefone" type="tel" v-model="pessoa.telefone"></b-form-input>
               </b-form-group>
               <b-form-group label="E-mail" label-for="email">
                 <b-form-input id="email" type="email" v-model="pessoa.email"></b-form-input>
+              </b-form-group>
+              <b-form-group label="CEP" label-for="cep">
+                <b-form-input
+                  id="cep"
+                  type="text"
+                  v-model="pessoa.cep"
+                  @focusout="buscarEndereco()"
+                ></b-form-input>
+              </b-form-group>
+              <b-form-group label="Endereco" label-for="endereco">
+                <b-form-input :disabled="enderecoDesabilitado" id="endereco" type="text" v-model="pessoa.endereco"></b-form-input>
+              </b-form-group>
+              <b-form-group label="Número" label-for="numero">
+                <b-form-input id="numero" type="number" v-model="pessoa.numero"></b-form-input>
+              </b-form-group>
+              <b-form-group label="Bairro" label-for="bairro">
+                <b-form-input :readonly="enderecoDesabilitado" id="bairro" type="text" v-model="pessoa.bairro"></b-form-input>
+              </b-form-group>
+              <b-form-group label="Cidade" label-for="cidade">
+                <b-form-input :readonly="enderecoDesabilitado" id="cidade" type="text" v-model="pessoa.cidade"></b-form-input>
               </b-form-group>
             </form>
           </b-modal>
@@ -98,13 +104,30 @@ export default {
             pessoas: [],
             perPage: 10,
             currentPage: 1,
+            enderecoDesabilitado: true,
         }
     },
     created() {
-        console.log(this.$appName)
         this.buscarPessoas()
     },
     methods: {
+        buscarEndereco() {
+            this.$http
+                .get('https://viacep.com.br/ws/' + this.pessoa.cep + '/json/')
+                .then(resposta => resposta.json())
+                .then(
+                    endereco => {
+                        this.pessoa.endereco = endereco.logradouro
+                        this.pessoa.bairro = endereco.bairro
+                        this.pessoa.cidade = endereco.localidade
+                    },
+                    erro =>
+                        this.$bvToast.toast(
+                            'Erro ao buscar o cep' + erro.body.message,
+                            this.$toastErro
+                        )
+                )
+        },
         editar(record, index) {
             alert(record.nome)
         },

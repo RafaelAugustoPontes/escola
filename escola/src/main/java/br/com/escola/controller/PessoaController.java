@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 
 import br.com.caelum.stella.validation.CPFValidator;
 import br.com.caelum.stella.validation.InvalidStateException;
+import br.com.escola.model.entidades.PerfilModel;
 import br.com.escola.model.entidades.PessoaModel;
 import br.com.escola.model.repository.PessoaRepository;
 import br.com.escola.view.dto.PessoaDTO;
@@ -24,7 +25,7 @@ public class PessoaController {
 		PessoaModel pessoa = repository.findById(id).get();
 		if (pessoa != null)
 			return mapper.map(pessoa, PessoaDTO.class);
-		
+
 		return new PessoaDTO();
 	}
 
@@ -42,9 +43,12 @@ public class PessoaController {
 			CPFValidator validator = new CPFValidator();
 			validator.assertValid(dto.getCpf());
 
-			PessoaModel pessoaAtualizada = repository.save(mapper.map(dto, PessoaModel.class));
+			// TODO Remover
+			PessoaModel pessoa = mapper.map(dto, PessoaModel.class);
+			pessoa.setPerfil(PerfilModel.ADMINISTRADOR);
+			pessoa = repository.save(pessoa);
 
-			return mapper.map(pessoaAtualizada, PessoaDTO.class);
+			return mapper.map(pessoa, PessoaDTO.class);
 		} catch (InvalidStateException e) {
 			e.printStackTrace();
 			throw new IllegalArgumentException("CPF inválido");

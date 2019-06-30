@@ -2,8 +2,8 @@
   <div>
     <b-card no-body>
       <b-tabs card>
-        <b-tab title="Cursos" active>
-          <b-card-text>Cadastro de cursos</b-card-text>
+        <b-tab title="Estágios" active>
+          <b-card-text>Cadastro de estágios</b-card-text>
           <b-button v-b-modal.modal-prevent-closing id="botaoNovo">Novo</b-button>
           <b-pagination
             v-model="currentPage"
@@ -13,7 +13,7 @@
           ></b-pagination>
           <b-table
             id="my-table"
-            :items="cursos"
+            :items="estagios"
             :per-page="perPage"
             :current-page="currentPage"
             @row-dblclicked="editar"
@@ -22,13 +22,13 @@
           <b-modal
             id="modal-prevent-closing"
             ref="modal"
-            title="Nova curso"
+            title="Nova estágio"
             @hidden="resetModal"
             @ok="handleSubmit"
           >
             <form ref="form" @submit.stop.prevent="handleSubmit">
               <b-form-group label="Nome" label-for="nome">
-                <b-form-input id="nome" v-model="curso.nome" required maxlength="45"></b-form-input>
+                <b-form-input id="nome" v-model="estagio.nome" required maxlength="45"></b-form-input>
               </b-form-group>
             </form>
           </b-modal>
@@ -42,55 +42,55 @@
 export default {
     computed: {
         rows() {
-            return this.cursos.length
+            return this.estagios.length
         },
     },
 
     data() {
         return {
-            curso: {},
-            cursos: [],
+            estagio: {},
+            estagios: [],
             perPage: 10,
             currentPage: 1,
         }
     },
 
     created() {
-        this.buscarCursos()
+        this.buscarEstagios()
     },
 
     methods: {
-        buscarCursos() {
+        buscarEstagios() {
             this.$http
-                .get(process.env.VUE_APP_BASE_URI + 'curso')
+                .get(process.env.VUE_APP_BASE_URI + 'estagio')
                 .then(resposta => resposta.json())
                 .then(
-                    cursos => (this.cursos = cursos),
+                    estagios => (this.estagios = estagios),
                     erro =>
                         this.$bvToast.toast(
-                            'Erro ao buscar os cursos' + erro.body.message,
+                            'Erro ao buscar os estágios' + erro.body.message,
                             this.$toastErro
                         )
                 )
         },
 
         resetModal() {
-            this.buscarCursos()
-            this.curso = {}
+            this.buscarEstagios()
+            this.estagio = {}
         },
 
-        editar(curso) {
-            this.curso = curso
+        editar(estagio) {
+            this.estagio = estagio
             this.$nextTick(() => {
                 this.$refs.modal.show()
             })
         },
 
-        atualizarCurso() {
+        atualizar() {
           this.$http
-                .put(process.env.VUE_APP_BASE_URI + 'curso', this.curso)
+                .put(process.env.VUE_APP_BASE_URI + 'estagio', this.estagio)
                 .then(
-                    sucesso => this.$bvToast.toast('Curso atualizada com sucesso', this.$toastInfo),
+                    sucesso => this.$bvToast.toast('Estágio atualizada com sucesso', this.$toastInfo),
                     erro =>
                         this.$bvToast.toast(erro.body.message, this.$toastInfo)
                 )
@@ -99,11 +99,11 @@ export default {
             })
         },
 
-        inserirCurso() {
+        inserir() {
           this.$http
-                .post(process.env.VUE_APP_BASE_URI + 'curso', this.curso)
+                .post(process.env.VUE_APP_BASE_URI + 'estagio', this.estagio)
                 .then(
-                    sucesso => this.$bvToast.toast('Curso inserido com sucesso', this.$toastInfo),
+                    sucesso => this.$bvToast.toast('Estágio inserido com sucesso', this.$toastInfo),
                     erro =>
                         this.$bvToast.toast(erro.body.message, this.$toastInfo)
                 )
@@ -113,8 +113,8 @@ export default {
         },
 
         handleSubmit() {
-            if (this.curso.idCurso) this.atualizarCurso()
-            else this.inserirCurso()
+            if (this.estagio.idEstagio) this.atualizar()
+            else this.inserir()
         },
 
     },
