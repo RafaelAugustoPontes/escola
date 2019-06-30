@@ -1,4 +1,4 @@
-package br.com.escola.model;
+package br.com.escola.model.entidades;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,20 +7,21 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "UNIDADE")
-public class UnidadeModel {
+@Table(name = "ESTAGIO")
+public class EstagioModel {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer idUnidade;
+	private Integer idEstagio;
 	private String nome;
 
-	public Integer getIdUnidade() {
-		return idUnidade;
+
+	public Integer getIdEstagio() {
+		return idEstagio;
 	}
 
-	public void setIdUnidade(Integer idUnidade) {
-		this.idUnidade = idUnidade;
+	public void setIdEstagio(Integer idEstagio) {
+		this.idEstagio = idEstagio;
 	}
 
 	public String getNome() {
@@ -35,7 +36,7 @@ public class UnidadeModel {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((idUnidade == null) ? 0 : idUnidade.hashCode());
+		result = prime * result + ((idEstagio == null) ? 0 : idEstagio.hashCode());
 		return result;
 	}
 
@@ -47,11 +48,11 @@ public class UnidadeModel {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		UnidadeModel other = (UnidadeModel) obj;
-		if (idUnidade == null) {
-			if (other.idUnidade != null)
+		EstagioModel other = (EstagioModel) obj;
+		if (idEstagio == null) {
+			if (other.idEstagio != null)
 				return false;
-		} else if (!idUnidade.equals(other.idUnidade))
+		} else if (!idEstagio.equals(other.idEstagio))
 			return false;
 		return true;
 	}

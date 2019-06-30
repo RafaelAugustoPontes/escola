@@ -10,17 +10,10 @@ public class PessoaDTO {
 	private String cpf;
 	private Integer matricula;
 	private LocalDate dataNascimento;
+	private String perfilDescricao;
 
 	public PessoaDTO() {
 
-	}
-
-	public PessoaDTO(Integer idPessoa, String nome, String cpf, Integer matricula, LocalDate dataNascimento) {
-		this.idPessoa = idPessoa;
-		this.nome = nome;
-		this.cpf = cpf;
-		this.matricula = matricula;
-		this.dataNascimento = dataNascimento;
 	}
 
 	public Integer getIdPessoa() {
@@ -58,7 +51,7 @@ public class PessoaDTO {
 	public LocalDate getDataNascimento() {
 		return dataNascimento;
 	}
-	
+
 	public String getDataNascimentoFormatada() {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		return formatter.format(dataNascimento);
@@ -66,6 +59,14 @@ public class PessoaDTO {
 
 	public void setDataNascimento(LocalDate dataNascimento) {
 		this.dataNascimento = dataNascimento;
+	}
+
+	public String getPerfilDescricao() {
+		return perfilDescricao;
+	}
+
+	public void setPerfilDescricao(String perfilDescricao) {
+		this.perfilDescricao = perfilDescricao;
 	}
 
 }

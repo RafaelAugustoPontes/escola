@@ -1,8 +1,10 @@
-package br.com.escola.model;
+package br.com.escola.model.entidades;
 
 import java.time.LocalDate;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -26,6 +28,8 @@ public class PessoaModel {
 	private String cep;
 	private String telefone;
 	private String email;
+	@Enumerated(EnumType.STRING)
+	private PerfilModel perfil;
 
 	public Integer getIdPessoa() {
 		return idPessoa;

@@ -1,4 +1,4 @@
-package br.com.escola.model;
+package br.com.escola.model.entidades;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,21 +7,20 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "ESTAGIO")
-public class EstagioModel {
+@Table(name = "CURSO")
+public class CursoModel {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer idEstagio;
+	private Integer idCurso;
 	private String nome;
 
-
-	public Integer getIdEstagio() {
-		return idEstagio;
+	public Integer getIdCurso() {
+		return idCurso;
 	}
 
-	public void setIdEstagio(Integer idEstagio) {
-		this.idEstagio = idEstagio;
+	public void setIdCurso(Integer idCurso) {
+		this.idCurso = idCurso;
 	}
 
 	public String getNome() {
@@ -36,7 +35,7 @@ public class EstagioModel {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((idEstagio == null) ? 0 : idEstagio.hashCode());
+		result = prime * result + ((idCurso == null) ? 0 : idCurso.hashCode());
 		return result;
 	}
 
@@ -48,11 +47,11 @@ public class EstagioModel {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		EstagioModel other = (EstagioModel) obj;
-		if (idEstagio == null) {
-			if (other.idEstagio != null)
+		CursoModel other = (CursoModel) obj;
+		if (idCurso == null) {
+			if (other.idCurso != null)
 				return false;
-		} else if (!idEstagio.equals(other.idEstagio))
+		} else if (!idCurso.equals(other.idCurso))
 			return false;
 		return true;
 	}

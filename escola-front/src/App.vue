@@ -1,8 +1,9 @@
 <template>
   <div id="app">
-    <Menu :routes="routes">
+    <Menu :routes="routes"/>
+    <main id="content">
       <router-view></router-view>
-    </Menu>
+    </main>
   </div>
 </template>
 
@@ -31,5 +32,10 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+#content {
+    width: 80%;
+    margin: 0 auto;
 }
 </style>

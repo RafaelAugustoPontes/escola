@@ -4,13 +4,30 @@ INSERT INTO `escola`.`pessoa`
 `NOME`,
 `CPF`,
 `MATRICULA`,
-`DATANASCIMENTO`)
+`DATANASCIMENTO`
+`PERFIL`)
 VALUES
 (1,
 'Rafael',
 '08350193905',
 1,
-'1993-11-09');
+'1993-11-09',
+'ADMINISTRADOR');
+
+INSERT INTO `escola`.`unidade`
+(`IDUNIDADE`,
+`NOME`)
+VALUES
+(1,
+'Cajuru');
+
+INSERT INTO `escola`.`curso`
+(`IDCURSO`,
+`NOME`)
+VALUES
+(1,
+'Inglês');
+
 
 
 INSERT INTO `escola`.`usuario`

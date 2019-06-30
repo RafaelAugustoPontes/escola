@@ -19,6 +19,7 @@
             @row-dblclicked="editar"
             small
           ></b-table>
+
           <b-modal
             id="modal-prevent-closing"
             ref="modal"
@@ -52,6 +53,27 @@
                   required
                 ></b-form-input>
               </b-form-group>
+              <b-form-group label="Endereco" label-for="endereco">
+                <b-form-input id="endereco" type="text" v-model="pessoa.endereco"></b-form-input>
+              </b-form-group>
+              <b-form-group label="Número" label-for="numero">
+                <b-form-input id="numero" type="number" v-model="pessoa.numero"></b-form-input>
+              </b-form-group>
+              <b-form-group label="Bairro" label-for="bairro">
+                <b-form-input id="bairro" type="text" v-model="pessoa.bairro"></b-form-input>
+              </b-form-group>
+              <b-form-group label="Cidade" label-for="cidade">
+                <b-form-input id="cidade" type="text" v-model="pessoa.cidade"></b-form-input>
+              </b-form-group>
+              <b-form-group label="CEP" label-for="cep">
+                <b-form-input id="cep" type="text" v-model="pessoa.cep"></b-form-input>
+              </b-form-group>
+              <b-form-group label="Telefone" label-for="telefone">
+                <b-form-input id="telefone" type="tel" v-model="pessoa.telefone"></b-form-input>
+              </b-form-group>
+              <b-form-group label="E-mail" label-for="email">
+                <b-form-input id="email" type="email" v-model="pessoa.email"></b-form-input>
+              </b-form-group>
             </form>
           </b-modal>
         </b-tab>
@@ -61,67 +83,64 @@
 </template>
 
 <script>
-import { mask } from "vue-the-mask";
+import { mask } from 'vue-the-mask'
 export default {
-  directives: { mask },
-  computed: {
-    rows() {
-      return this.pessoas.length;
-    }
-  },
-  data() {
-    return {
-      colunas: ["Nome", "CPF", "Matrícula", "Data de nascimento"],
-      pessoa: {},
-      pessoas: [],
-      perPage: 5,
-      currentPage: 1
-    };
-  },
-  created() {
-    this.buscarPessoas();
-  },
-  methods: {
-    editar(record, index) {
-      alert(record.nome);
+    directives: { mask },
+    computed: {
+        rows() {
+            return this.pessoas.length
+        },
     },
-    buscarPessoas() {
-      this.$http
-        .get("http://localhost:8080/pessoa")
-        .then(resposta => resposta.json())
-        .then(
-          pessoas => (this.pessoas = pessoas),
-          erro => alert("Erro ao buscar as pessoas" + erro)
-        );
+    data() {
+        return {
+            colunas: ['Nome', 'CPF', 'Matrícula', 'Data de nascimento'],
+            pessoa: {},
+            pessoas: [],
+            perPage: 10,
+            currentPage: 1,
+        }
     },
-    checkFormValidity() {
-      const valid = this.$refs.form.checkValidity();
-      this.nameState = valid ? "valid" : "invalid";
-      return valid;
+    created() {
+        console.log(this.$appName)
+        this.buscarPessoas()
     },
-    resetModal() {
-      this.pessoa = {};
-    },
-    handleOk(bvModalEvt) {
-      bvModalEvt.preventDefault();
-      this.handleSubmit();
-    },
-    handleSubmit() {
-      if (!this.checkFormValidity()) {
-        return;
-      }
+    methods: {
+        editar(record, index) {
+            alert(record.nome)
+        },
+        buscarPessoas() {
+            this.$http
+                .get(process.env.VUE_APP_BASE_URI + 'pessoa')
+                .then(resposta => resposta.json())
+                .then(
+                    pessoas => (this.pessoas = pessoas),
+                    erro =>
+                        this.$bvToast.toast(
+                            'Erro ao buscar as pessoas' + erro.body.message,
+                            this.$toastErro
+                        )
+                )
+        },
 
-      this.$http
-        .post("http://localhost:8080/pessoa", this.pessoa)
-        .then(this.buscarPessoas())
-        .catch(error => alert(error));
-
-      this.$nextTick(() => {
-        this.$refs.modal.hide();
-      });
-    }
-  }
-};
+        resetModal() {
+            this.pessoa = {}
+        },
+        handleOk(bvModalEvt) {
+            bvModalEvt.preventDefault()
+            this.handleSubmit()
+        },
+        handleSubmit() {
+            this.$http
+                .post(process.env.VUE_APP_BASE_URI + 'pessoa', this.pessoa)
+                .then(this.buscarPessoas(), erro =>
+                    this.$bvToast.toast(erro.body.message, this.$toastInfo)
+                )
+            this.$nextTick(() => {
+                this.$refs.modal.hide()
+            })
+        },
+    },
+}
 </script>
 
 <style scoped>
