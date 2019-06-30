@@ -100,6 +100,7 @@ export default {
     data() {
         return {
             colunas: ['Nome', 'CPF', 'Matrícula', 'Data de nascimento'],
+            
             pessoa: {},
             pessoas: [],
             perPage: 10,
