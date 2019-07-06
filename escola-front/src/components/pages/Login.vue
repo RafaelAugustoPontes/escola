@@ -49,10 +49,10 @@ export default {
   data() {
     return {
       form: {
-        login: "",
-        senha: ""
+        login: '',
+        senha: '',
       },
-      pessoas: []
+      pessoas: [],
     };
   },
   methods: {
@@ -64,26 +64,24 @@ export default {
 
   created() {
     this.$http
-      .get("http://localhost:8080/pessoas")
+      .get('http://localhost:8080/pessoas')
       .then(resposta => resposta.json())
       .then(
         pessoas => (this.pessoas = pessoas),
         erro =>
           this.$bvToast.toast('Servidor não encontrado', {
-            title: "Mensagem",
+            title: 'Mensagem',
             autoHideDelay: 5000,
-            appendToast: false
+            appendToast: false,
           })
       );
-  }
+  },
 };
 </script>
 
 <style scoped>
-
-.card-header{
+.card-header {
   background-color: darkred;
-  color : black
+  color: black;
 }
-
 </style>

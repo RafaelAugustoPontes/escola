@@ -40,87 +40,92 @@
 
 <script>
 export default {
-    computed: {
-        rows() {
-            return this.unidades.length
-        },
+  computed: {
+    rows() {
+      return this.unidades.length;
+    },
+  },
+
+  data() {
+    return {
+      unidade: {},
+      unidades: [],
+      perPage: 10,
+      currentPage: 1,
+    };
+  },
+
+  created() {
+    this.buscarUnidades();
+  },
+
+  methods: {
+    buscarUnidades() {
+      this.$http
+        .get(process.env.VUE_APP_BASE_URI + 'unidade')
+        .then(resposta => resposta.json())
+        .then(
+          unidades => (this.unidades = unidades),
+          erro =>
+            this.$bvToast.toast(
+              'Erro ao buscar as unidades' + erro.body.message,
+              this.$toastErro
+            )
+        );
     },
 
-    data() {
-        return {
-            unidade: {},
-            unidades: [],
-            perPage: 10,
-            currentPage: 1,
-        }
+    resetModal() {
+      console.log('reset');
+      this.buscarUnidades();
+      this.unidade = {};
     },
 
-    created() {
-        this.buscarUnidades()
+    editar(unidade) {
+      console.log(unidade);
+      this.unidade = unidade;
+      this.$nextTick(() => {
+        this.$refs.modal.show();
+      });
     },
 
-    methods: {
-        buscarUnidades() {
-            this.$http
-                .get(process.env.VUE_APP_BASE_URI + 'unidade')
-                .then(resposta => resposta.json())
-                .then(
-                    unidades => (this.unidades = unidades),
-                    erro =>
-                        this.$bvToast.toast(
-                            'Erro ao buscar as unidades' + erro.body.message,
-                            this.$toastErro
-                        )
-                )
-        },
-
-        resetModal() {
-            console.log('reset')
-            this.buscarUnidades()
-            this.unidade = {}
-        },
-
-        editar(unidade) {
-            console.log(unidade)
-            this.unidade = unidade
-            this.$nextTick(() => {
-                this.$refs.modal.show()
-            })
-        },
-
-        atualizarUnidade() {
-          this.$http
-                .put(process.env.VUE_APP_BASE_URI + 'unidade', this.unidade)
-                .then(
-                    sucesso => this.$bvToast.toast('Unidade atualizada com sucesso', this.$toastInfo),
-                    erro =>
-                        this.$bvToast.toast(erro.body.message, this.$toastInfo)
-                )
-            this.$nextTick(() => {
-                this.$refs.modal.hide()
-            })
-        },
-
-        inserirUnidade() {
-          this.$http
-                .post(process.env.VUE_APP_BASE_URI + 'unidade', this.unidade)
-                .then(
-                    sucesso => this.$bvToast.toast('Unidade inserida com sucesso', this.$toastInfo),
-                    erro =>
-                        this.$bvToast.toast(erro.body.message, this.$toastInfo)
-                )
-            this.$nextTick(() => {
-                this.$refs.modal.hide()
-            })
-        },
-
-        handleSubmit() {
-            if (this.unidade.idUnidade) this.atualizarUnidade()
-            else this.inserirUnidade()
-        },
-
+    atualizarUnidade() {
+      this.$http
+        .put(process.env.VUE_APP_BASE_URI + 'unidade', this.unidade)
+        .then(
+          sucesso =>
+            this.$bvToast.toast(
+              'Unidade atualizada com sucesso',
+              this.$toastInfo
+            ),
+          erro => this.$bvToast.toast(erro.body.message, this.$toastInfo)
+        );
+      this.$nextTick(() => {
+        this.$refs.modal.hide();
+      });
     },
-}
+
+    inserirUnidade() {
+      this.$http
+        .post(process.env.VUE_APP_BASE_URI + 'unidade', this.unidade)
+        .then(
+          sucesso =>
+            this.$bvToast.toast(
+              'Unidade inserida com sucesso',
+              this.$toastInfo
+            ),
+          erro => this.$bvToast.toast(erro.body.message, this.$toastInfo)
+        );
+      this.$nextTick(() => {
+        this.$refs.modal.hide();
+      });
+    },
+
+    handleSubmit() {
+      if (this.unidade.idUnidade) this.atualizarUnidade();
+      else this.inserirUnidade();
+    },
+  },
+};
 </script>
 
 

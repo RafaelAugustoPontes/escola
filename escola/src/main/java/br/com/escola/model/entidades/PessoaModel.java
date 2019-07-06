@@ -26,7 +26,7 @@ public class PessoaModel {
 	private String bairro;
 	private String cidade;
 	private String cep;
-	private String telefone;
+	private String telefone;	
 	private String email;
 	@Enumerated(EnumType.STRING)
 	private PerfilModel perfil;

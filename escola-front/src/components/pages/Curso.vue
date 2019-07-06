@@ -22,7 +22,7 @@
           <b-modal
             id="modal-prevent-closing"
             ref="modal"
-            title="Nova curso"
+            title="Novo curso"
             @hidden="resetModal"
             @ok="handleSubmit"
           >
@@ -40,85 +40,87 @@
 
 <script>
 export default {
-    computed: {
-        rows() {
-            return this.cursos.length
-        },
+  computed: {
+    rows() {
+      return this.cursos.length;
+    },
+  },
+
+  data() {
+    return {
+      curso: {},
+      cursos: [],
+      perPage: 10,
+      currentPage: 1,
+    };
+  },
+
+  created() {
+    this.buscarCursos();
+  },
+
+  methods: {
+    buscarCursos() {
+      this.$http
+        .get(process.env.VUE_APP_BASE_URI + 'curso')
+        .then(resposta => resposta.json())
+        .then(
+          cursos => (this.cursos = cursos),
+          erro =>
+            this.$bvToast.toast(
+              'Erro ao buscar os cursos' + erro.body.message,
+              this.$toastErro
+            )
+        );
     },
 
-    data() {
-        return {
-            curso: {},
-            cursos: [],
-            perPage: 10,
-            currentPage: 1,
-        }
+    resetModal() {
+      this.buscarCursos();
+      this.curso = {};
     },
 
-    created() {
-        this.buscarCursos()
+    editar(curso) {
+      this.curso = curso;
+      this.$nextTick(() => {
+        this.$refs.modal.show();
+      });
     },
 
-    methods: {
-        buscarCursos() {
-            this.$http
-                .get(process.env.VUE_APP_BASE_URI + 'curso')
-                .then(resposta => resposta.json())
-                .then(
-                    cursos => (this.cursos = cursos),
-                    erro =>
-                        this.$bvToast.toast(
-                            'Erro ao buscar os cursos' + erro.body.message,
-                            this.$toastErro
-                        )
-                )
-        },
-
-        resetModal() {
-            this.buscarCursos()
-            this.curso = {}
-        },
-
-        editar(curso) {
-            this.curso = curso
-            this.$nextTick(() => {
-                this.$refs.modal.show()
-            })
-        },
-
-        atualizarCurso() {
-          this.$http
-                .put(process.env.VUE_APP_BASE_URI + 'curso', this.curso)
-                .then(
-                    sucesso => this.$bvToast.toast('Curso atualizada com sucesso', this.$toastInfo),
-                    erro =>
-                        this.$bvToast.toast(erro.body.message, this.$toastInfo)
-                )
-            this.$nextTick(() => {
-                this.$refs.modal.hide()
-            })
-        },
-
-        inserirCurso() {
-          this.$http
-                .post(process.env.VUE_APP_BASE_URI + 'curso', this.curso)
-                .then(
-                    sucesso => this.$bvToast.toast('Curso inserido com sucesso', this.$toastInfo),
-                    erro =>
-                        this.$bvToast.toast(erro.body.message, this.$toastInfo)
-                )
-            this.$nextTick(() => {
-                this.$refs.modal.hide()
-            })
-        },
-
-        handleSubmit() {
-            if (this.curso.idCurso) this.atualizarCurso()
-            else this.inserirCurso()
-        },
-
+    atualizarCurso() {
+      this.$http
+        .put(process.env.VUE_APP_BASE_URI + 'curso', this.curso)
+        .then(
+          sucesso =>
+            this.$bvToast.toast(
+              'Curso atualizada com sucesso',
+              this.$toastInfo
+            ),
+          erro => this.$bvToast.toast(erro.body.message, this.$toastInfo)
+        );
+      this.$nextTick(() => {
+        this.$refs.modal.hide();
+      });
     },
-}
+
+    inserirCurso() {
+      this.$http
+        .post(process.env.VUE_APP_BASE_URI + 'curso', this.curso)
+        .then(
+          sucesso =>
+            this.$bvToast.toast('Curso inserido com sucesso', this.$toastInfo),
+          erro => this.$bvToast.toast(erro.body.message, this.$toastInfo)
+        );
+      this.$nextTick(() => {
+        this.$refs.modal.hide();
+      });
+    },
+
+    handleSubmit() {
+      if (this.curso.idCurso) this.atualizarCurso();
+      else this.inserirCurso();
+    },
+  },
+};
 </script>
 
 

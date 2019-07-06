@@ -25,7 +25,6 @@
             id="modal-prevent-closing"
             ref="modal"
             title="Nova Pessoa"
-            @show="resetModal"
             @hidden="resetModal"
             @ok="handleOk"
           >
@@ -69,16 +68,31 @@
                 ></b-form-input>
               </b-form-group>
               <b-form-group label="Endereco" label-for="endereco">
-                <b-form-input :disabled="enderecoDesabilitado" id="endereco" type="text" v-model="pessoa.endereco"></b-form-input>
+                <b-form-input
+                  :disabled="enderecoDesabilitado"
+                  id="endereco"
+                  type="text"
+                  v-model="pessoa.endereco"
+                ></b-form-input>
               </b-form-group>
               <b-form-group label="Número" label-for="numero">
                 <b-form-input id="numero" type="number" v-model="pessoa.numero"></b-form-input>
               </b-form-group>
               <b-form-group label="Bairro" label-for="bairro">
-                <b-form-input :readonly="enderecoDesabilitado" id="bairro" type="text" v-model="pessoa.bairro"></b-form-input>
+                <b-form-input
+                  :readonly="enderecoDesabilitado"
+                  id="bairro"
+                  type="text"
+                  v-model="pessoa.bairro"
+                ></b-form-input>
               </b-form-group>
               <b-form-group label="Cidade" label-for="cidade">
-                <b-form-input :readonly="enderecoDesabilitado" id="cidade" type="text" v-model="pessoa.cidade"></b-form-input>
+                <b-form-input
+                  :readonly="enderecoDesabilitado"
+                  id="cidade"
+                  type="text"
+                  v-model="pessoa.cidade"
+                ></b-form-input>
               </b-form-group>
             </form>
           </b-modal>
@@ -89,82 +103,97 @@
 </template>
 
 <script>
-import { mask } from 'vue-the-mask'
+import { mask } from 'vue-the-mask';
 export default {
-    directives: { mask },
-    computed: {
-        rows() {
-            return this.pessoas.length
-        },
+  directives: { mask },
+  computed: {
+    rows() {
+      return this.pessoas.length;
     },
-    data() {
-        return {
-            colunas: ['Nome', 'CPF', 'Matrícula', 'Data de nascimento'],
-            
-            pessoa: {},
-            pessoas: [],
-            perPage: 10,
-            currentPage: 1,
-            enderecoDesabilitado: true,
-        }
+  },
+  data() {
+    return {
+      colunas: ['Nome', 'CPF', 'Matrícula', 'Data de nascimento'],
+      pessoa: {},
+      pessoas: [],
+      perPage: 10,
+      currentPage: 1,
+      enderecoDesabilitado: true,
+    };
+  },
+  created() {
+    this.buscarPessoas();
+  },
+  methods: {
+    buscarEndereco() {
+      this.$http
+        .get('https://viacep.com.br/ws/' + this.pessoa.cep + '/json/')
+        .then(resposta => resposta.json())
+        .then(
+          endereco => {
+            this.pessoa.endereco = endereco.logradouro;
+            this.pessoa.bairro = endereco.bairro;
+            this.pessoa.cidade = endereco.localidade;
+          },
+          erro =>
+            this.$bvToast.toast(
+              'Erro ao buscar o cep' + erro.body.message,
+              this.$toastErro
+            )
+        );
     },
-    created() {
-        this.buscarPessoas()
+    editar(pessoa) {
+      this.pessoa = pessoa;
+      this.$nextTick(() => {
+        this.$refs.modal.show();
+      });
     },
-    methods: {
-        buscarEndereco() {
-            this.$http
-                .get('https://viacep.com.br/ws/' + this.pessoa.cep + '/json/')
-                .then(resposta => resposta.json())
-                .then(
-                    endereco => {
-                        this.pessoa.endereco = endereco.logradouro
-                        this.pessoa.bairro = endereco.bairro
-                        this.pessoa.cidade = endereco.localidade
-                    },
-                    erro =>
-                        this.$bvToast.toast(
-                            'Erro ao buscar o cep' + erro.body.message,
-                            this.$toastErro
-                        )
-                )
-        },
-        editar(record, index) {
-            alert(record.nome)
-        },
-        buscarPessoas() {
-            this.$http
-                .get(process.env.VUE_APP_BASE_URI + 'pessoa')
-                .then(resposta => resposta.json())
-                .then(
-                    pessoas => (this.pessoas = pessoas),
-                    erro =>
-                        this.$bvToast.toast(
-                            'Erro ao buscar as pessoas' + erro.body.message,
-                            this.$toastErro
-                        )
-                )
-        },
+    buscarPessoas() {
+      this.$http
+        .get(process.env.VUE_APP_BASE_URI + 'pessoa')
+        .then(resposta => resposta.json())
+        .then(
+          pessoas => (this.pessoas = pessoas),
+          erro =>
+            this.$bvToast.toast(
+              'Erro ao buscar as pessoas' + erro.body.message,
+              this.$toastErro
+            )
+        );
+    },
 
-        resetModal() {
-            this.pessoa = {}
-        },
-        handleOk(bvModalEvt) {
-            bvModalEvt.preventDefault()
-            this.handleSubmit()
-        },
-        handleSubmit() {
-            this.$http
-                .post(process.env.VUE_APP_BASE_URI + 'pessoa', this.pessoa)
-                .then(this.buscarPessoas(), erro =>
-                    this.$bvToast.toast(erro.body.message, this.$toastInfo)
-                )
-            this.$nextTick(() => {
-                this.$refs.modal.hide()
-            })
-        },
+    resetModal() {
+      this.pessoa = {};
+      this.buscarPessoas();
     },
-}
+    handleOk(bvModalEvt) {
+      bvModalEvt.preventDefault();
+      this.handleSubmit();
+    },
+    handleSubmit() {
+      if (this.pessoa.idPessoa) this.atualizar();
+      else this.inserir();
+      this.$nextTick(() => {
+        this.$refs.modal.hide();
+      });
+    },
+    inserir() {
+      this.$http
+        .post(process.env.VUE_APP_BASE_URI + 'pessoa', this.pessoa)
+        .then(this.buscarPessoas(), erro =>
+          this.$bvToast.toast(erro.body.message, this.$toastInfo)
+        );
+    },
+    atualizar() {
+      console.log(this.pessoa);
+      this.$http
+        .put(process.env.VUE_APP_BASE_URI + 'pessoa', this.pessoa)
+        .then(this.buscarPessoas(), erro =>
+          this.$bvToast.toast(erro.body.message, this.$toastInfo)
+        );
+    },
+  },
+};
 </script>
 
 <style scoped>

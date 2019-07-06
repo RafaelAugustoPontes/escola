@@ -40,85 +40,90 @@
 
 <script>
 export default {
-    computed: {
-        rows() {
-            return this.estagios.length
-        },
+  computed: {
+    rows() {
+      return this.estagios.length;
+    },
+  },
+
+  data() {
+    return {
+      estagio: {},
+      estagios: [],
+      perPage: 10,
+      currentPage: 1,
+    };
+  },
+
+  created() {
+    this.buscarEstagios();
+  },
+
+  methods: {
+    buscarEstagios() {
+      this.$http
+        .get(process.env.VUE_APP_BASE_URI + 'estagio')
+        .then(resposta => resposta.json())
+        .then(
+          estagios => (this.estagios = estagios),
+          erro =>
+            this.$bvToast.toast(
+              'Erro ao buscar os estágios' + erro.body.message,
+              this.$toastErro
+            )
+        );
     },
 
-    data() {
-        return {
-            estagio: {},
-            estagios: [],
-            perPage: 10,
-            currentPage: 1,
-        }
+    resetModal() {
+      this.buscarEstagios();
+      this.estagio = {};
     },
 
-    created() {
-        this.buscarEstagios()
+    editar(estagio) {
+      this.estagio = estagio;
+      this.$nextTick(() => {
+        this.$refs.modal.show();
+      });
     },
 
-    methods: {
-        buscarEstagios() {
-            this.$http
-                .get(process.env.VUE_APP_BASE_URI + 'estagio')
-                .then(resposta => resposta.json())
-                .then(
-                    estagios => (this.estagios = estagios),
-                    erro =>
-                        this.$bvToast.toast(
-                            'Erro ao buscar os estágios' + erro.body.message,
-                            this.$toastErro
-                        )
-                )
-        },
-
-        resetModal() {
-            this.buscarEstagios()
-            this.estagio = {}
-        },
-
-        editar(estagio) {
-            this.estagio = estagio
-            this.$nextTick(() => {
-                this.$refs.modal.show()
-            })
-        },
-
-        atualizar() {
-          this.$http
-                .put(process.env.VUE_APP_BASE_URI + 'estagio', this.estagio)
-                .then(
-                    sucesso => this.$bvToast.toast('Estágio atualizada com sucesso', this.$toastInfo),
-                    erro =>
-                        this.$bvToast.toast(erro.body.message, this.$toastInfo)
-                )
-            this.$nextTick(() => {
-                this.$refs.modal.hide()
-            })
-        },
-
-        inserir() {
-          this.$http
-                .post(process.env.VUE_APP_BASE_URI + 'estagio', this.estagio)
-                .then(
-                    sucesso => this.$bvToast.toast('Estágio inserido com sucesso', this.$toastInfo),
-                    erro =>
-                        this.$bvToast.toast(erro.body.message, this.$toastInfo)
-                )
-            this.$nextTick(() => {
-                this.$refs.modal.hide()
-            })
-        },
-
-        handleSubmit() {
-            if (this.estagio.idEstagio) this.atualizar()
-            else this.inserir()
-        },
-
+    atualizar() {
+      this.$http
+        .put(process.env.VUE_APP_BASE_URI + 'estagio', this.estagio)
+        .then(
+          sucesso =>
+            this.$bvToast.toast(
+              'Estágio atualizada com sucesso',
+              this.$toastInfo
+            ),
+          erro => this.$bvToast.toast(erro.body.message, this.$toastInfo)
+        );
+      this.$nextTick(() => {
+        this.$refs.modal.hide();
+      });
     },
-}
+
+    inserir() {
+      this.$http
+        .post(process.env.VUE_APP_BASE_URI + 'estagio', this.estagio)
+        .then(
+          sucesso =>
+            this.$bvToast.toast(
+              'Estágio inserido com sucesso',
+              this.$toastInfo
+            ),
+          erro => this.$bvToast.toast(erro.body.message, this.$toastInfo)
+        );
+      this.$nextTick(() => {
+        this.$refs.modal.hide();
+      });
+    },
+
+    handleSubmit() {
+      if (this.estagio.idEstagio) this.atualizar();
+      else this.inserir();
+    },
+  },
+};
 </script>
 
 
