@@ -1,18 +1,18 @@
 <template>
   <div>
     <b-modal
-      id="modal-cadastro-unidade"
+      id="modal-cadastro-curso"
       ref="modal"
-      title="Nova unidade"
+      title="Novo curso"
       cancel-title="Cancelar"
       ok-title="Gravar"
-      :ok-disabled="!unidade || !unidade.nome"
+      :ok-disabled="!curso || !curso.nome"
       @hidden="resetModal"
       @ok="handleSubmit"
     >
       <form ref="form" @submit.stop.prevent="handleSubmit">
         <b-form-group label="Nome" label-for="nome">
-          <b-form-input id="nome" v-model="unidade.nome" required maxlength="45"></b-form-input>
+          <b-form-input id="nome" v-model="curso.nome" required maxlength="45"></b-form-input>
         </b-form-group>
       </form>
     </b-modal>
@@ -21,20 +21,20 @@
 
 <script>
 export default {
-  props: ['unidade'],
+  props: ['curso'],
 
   methods: {
     resetModal() {
       this.$emit('modalFechada');
     },
 
-    atualizarUnidade() {
+    atualizar() {
       this.$http
-        .put(process.env.VUE_APP_BASE_URI + 'unidade', this.unidade)
+        .put(process.env.VUE_APP_BASE_URI + 'curso', this.curso)
         .then(
-          sucesso =>
+          () =>
             this.$bvToast.toast(
-              'Unidade atualizada com sucesso',
+              'Curso atualizado com sucesso',
               this.$toastInfo
             ),
           erro => this.$bvToast.toast(erro.body.message, this.$toastInfo)
@@ -42,23 +42,20 @@ export default {
       this.fechar();
     },
 
-    inserirUnidade() {
+    inserir() {
       this.$http
-        .post(process.env.VUE_APP_BASE_URI + 'unidade', this.unidade)
+        .post(process.env.VUE_APP_BASE_URI + 'curso', this.curso)
         .then(
           () =>
-            this.$bvToast.toast(
-              'Unidade inserida com sucesso',
-              this.$toastInfo
-            ),
+            this.$bvToast.toast('Curso inserido com sucesso', this.$toastInfo),
           erro => this.$bvToast.toast(erro.body.message, this.$toastInfo)
         );
       this.fechar();
     },
 
     handleSubmit() {
-      if (this.unidade.idUnidade) this.atualizarUnidade();
-      else this.inserirUnidade();
+      if (this.curso.idCurso) this.atualizar();
+      else this.inserir();
     },
 
     abrir() {

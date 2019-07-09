@@ -10,6 +10,7 @@ import br.com.caelum.stella.validation.InvalidStateException;
 import br.com.escola.model.entidades.PerfilModel;
 import br.com.escola.model.entidades.PessoaModel;
 import br.com.escola.model.repository.PessoaRepository;
+import br.com.escola.view.dto.OpcaoDTO;
 import br.com.escola.view.dto.PessoaDTO;
 
 public class PessoaController {
@@ -42,10 +43,10 @@ public class PessoaController {
 		try {
 			CPFValidator validator = new CPFValidator();
 			validator.assertValid(dto.getCpf());
-
-			// TODO Remover
 			PessoaModel pessoa = mapper.map(dto, PessoaModel.class);
-			pessoa.setPerfil(PerfilModel.ADMINISTRADOR);
+			if (pessoa.getIdPessoa() == null)
+				pessoa.setMatricula(buscarMatricula());
+			pessoa.setPerfil(PerfilModel.valueOf(dto.getPerfilDescricao()));
 			pessoa = repository.save(pessoa);
 
 			return mapper.map(pessoa, PessoaDTO.class);
@@ -55,8 +56,21 @@ public class PessoaController {
 		}
 	}
 
-	public Integer buscarMatricula() {
-		return 1;
+	private Integer buscarMatricula() {
+		return repository.findProximaMatricula();
+	}
+
+	public List<OpcaoDTO> buscarPerfis() {
+		List<OpcaoDTO> opcoes = new ArrayList<>();
+		PerfilModel[] perfis = PerfilModel.values();
+		for (PerfilModel perfilModel : perfis) {
+			OpcaoDTO opcao = new OpcaoDTO();
+			opcao.setText(perfilModel.getDescricao());
+			opcao.setValue(perfilModel.name());
+			opcoes.add(opcao);
+		}
+
+		return opcoes;
 	}
 
 }

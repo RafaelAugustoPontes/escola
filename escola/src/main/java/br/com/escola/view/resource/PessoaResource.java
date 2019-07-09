@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.escola.controller.PessoaController;
 import br.com.escola.model.repository.PessoaRepository;
+import br.com.escola.view.dto.OpcaoDTO;
 import br.com.escola.view.dto.PessoaDTO;
 
 @RestController
@@ -32,11 +33,6 @@ public class PessoaResource {
 		return new PessoaController(pessoaRepository).buscar(id);
 	}
 
-	@GetMapping("/matricula")
-	public Integer buscarMatricula() {
-		return new PessoaController(pessoaRepository).buscarMatricula();
-	}
-
 	@PostMapping
 	public void inserir(@RequestBody PessoaDTO pessoa) {
 		new PessoaController(pessoaRepository).persistir(pessoa);
@@ -45,6 +41,11 @@ public class PessoaResource {
 	@PutMapping
 	public PessoaDTO atualizar(@RequestBody PessoaDTO pessoa) {
 		return new PessoaController(pessoaRepository).persistir(pessoa);
+	}
+
+	@GetMapping("/perfis")
+	public List<OpcaoDTO> buscarPerfis() {
+		return new PessoaController(pessoaRepository).buscarPerfis();
 	}
 
 }
