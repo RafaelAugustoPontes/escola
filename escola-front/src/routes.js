@@ -1,33 +1,66 @@
-import Home from './components/pages/Home.vue';
-import CadastroPessoas from './components/pages/CadastroPessoas.vue';
-import CadastroUnidade from './components/pages/CadastroUnidade.vue';
-import CadastroCurso from './components/pages/CadastroCurso.vue';
-import CadastroEstagio from './components/pages/CadastroEstagio.vue';
+import Vue from 'vue';
+import Router from 'vue-router';
+import { isSignedIn } from './auth/auth';
 
 export const routes = [
   {
     path: '/',
-    component: Home,
+    component: () => import('./components/pages/Home.vue').then(m => m.default),
     titulo: 'Home',
+    beforeEnter(_, __, next) {
+      // Impede usuários não assinados
+      if (isSignedIn()) {
+        // de acessar a página Home.
+        next();
+        return;
+      }
+      next('/login');
+    },
   },
   {
     path: '/pessoas',
-    component: CadastroPessoas,
+    component: () =>
+      import('./components/pages/CadastroPessoas.vue').then(m => m.default),
     titulo: 'Pessoa',
+    beforeEnter(_, __, next) {
+      if (isSignedIn()) {
+        next();
+        return;
+      }
+      next('/login');
+    },
   },
   {
     path: '/unidades',
-    component: CadastroUnidade,
+    component: () =>
+      import('./components/pages/CadastroUnidade.vue').then(m => m.default),
     titulo: 'Unidade',
   },
   {
     path: '/cursos',
-    component: CadastroCurso,
+    component: () =>
+      import('./components/pages/CadastroCurso.vue').then(m => m.default),
     titulo: 'Curso',
   },
   {
     path: '/estagios',
-    component: CadastroEstagio,
+    component: () =>
+      import('./components/pages/CadastroEstagio.vue').then(m => m.default),
     titulo: 'Estágio',
+  },
+  {
+    path: '/login',
+    component: () =>
+      import('./components/pages/Login.vue').then(m => m.default),
+    titulo: 'Login',
+    beforeEnter(_, __, next) {
+      // Impede usuários assinados de
+      if (!isSignedIn()) {
+        // acessar a página de login.
+        next();
+        return;
+      }
+      next('/home');
+    },
   },
 ];

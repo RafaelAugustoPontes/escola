@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-form @submit="onSubmit">
+    <b-form @submit.prevent="onSubmit">
       <b-card class="mt-3" header="SISTEMA ESCOLAR">
         <b-container class="bv-example-row">
           <b-row>
@@ -9,7 +9,7 @@
               <b-form-group id="input-group-1" label="Login:" label-for="input-1">
                 <b-form-input
                   id="input-1"
-                  v-model="form.login"
+                  v-model="form.username"
                   type="text"
                   required
                   placeholder="Digite o seu login"
@@ -24,7 +24,7 @@
               <b-form-group id="input-group-2" label="Senha:" label-for="input-2">
                 <b-form-input
                   id="input-2"
-                  v-model="form.senha"
+                  v-model="form.password"
                   type="password"
                   required
                   placeholder="Senha"
@@ -40,41 +40,26 @@
         </b-button-group>
       </b-card>
     </b-form>
-    {{ pessoas }}
   </div>
 </template>
 
 <script>
+import { signIn } from '../../auth/auth';
 export default {
   data() {
     return {
       form: {
-        login: '',
-        senha: '',
+        username: '',
+        password: '',
       },
-      pessoas: [],
     };
   },
   methods: {
-    onSubmit(evt) {
+    async onSubmit(evt) {
       evt.preventDefault();
-      this.$router.push(this.$route.query.redirect || '/home');
+      await signIn(this.email, this.password);
+      this.$router.push('/home');
     },
-  },
-
-  created() {
-    this.$http
-      .get('http://localhost:8080/pessoas')
-      .then(resposta => resposta.json())
-      .then(
-        pessoas => (this.pessoas = pessoas),
-        erro =>
-          this.$bvToast.toast('Servidor não encontrado', {
-            title: 'Mensagem',
-            autoHideDelay: 5000,
-            appendToast: false,
-          })
-      );
   },
 };
 </script>
