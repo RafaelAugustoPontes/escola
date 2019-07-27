@@ -8,6 +8,7 @@
 </template>
 
 <script>
+
 import Menu from "./components/partials/menu/Menu.vue";
 import { routes } from "./routes.js";
 
