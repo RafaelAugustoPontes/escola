@@ -1,19 +1,19 @@
 package br.com.escola.model.entidades;
 
-public enum PerfilModel {
+public enum TurnoModel {
 
-	ADMINISTRADOR("ADMINISTRADOR"), PROFESSOR("PROFESSOR"), ALUNO("ALUNO");
+	MANHA("Manhã"), TARDE("Tarde"), NOITE("Noite");
 
 	private String descricao;
 
-	PerfilModel(String descricao) {
+	TurnoModel(String descricao) {
 		this.descricao = descricao;
 	}
 
 	public String getDescricao() {
 		return descricao;
 	}
-	
+
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}

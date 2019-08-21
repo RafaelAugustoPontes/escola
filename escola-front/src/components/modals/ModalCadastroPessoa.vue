@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-modal
-      size="lg"
+      size="xl"
       id="modal-cadastro-pessoa"
       ref="modal"
       title="Nova Pessoa"
@@ -15,7 +15,7 @@
           <b-form-input id="nome" v-model="pessoa.nome" required maxlength="45"></b-form-input>
         </b-form-group>
         <b-form-group label="Perfil" label-for="Perfil">
-          <b-form-select v-model="pessoa.perfil" :options="opcoesPerfil"></b-form-select>
+          <b-form-select v-model="pessoa.perfilDescricao" :options="opcoesPerfil"></b-form-select>
         </b-form-group>
         <b-form-group label="CPF" label-for="cpf">
           <b-form-input
@@ -37,34 +37,19 @@
           <b-form-input id="email" type="email" v-model="pessoa.email"></b-form-input>
         </b-form-group>
         <b-form-group label="CEP" label-for="cep">
-          <b-form-input id="cep" type="text" v-model="pessoa.cep" @focusout="buscarEndereco()"></b-form-input>
+          <b-form-input id="cep" type="text" v-model="pessoa.cep"></b-form-input>
         </b-form-group>
         <b-form-group label="Endereco" label-for="endereco">
-          <b-form-input
-            :disabled="enderecoDesabilitado"
-            id="endereco"
-            type="text"
-            v-model="pessoa.endereco"
-          ></b-form-input>
+          <b-form-input id="endereco" type="text" v-model="pessoa.endereco"></b-form-input>
         </b-form-group>
         <b-form-group label="Número" label-for="numero">
           <b-form-input id="numero" type="number" v-model="pessoa.numero"></b-form-input>
         </b-form-group>
         <b-form-group label="Bairro" label-for="bairro">
-          <b-form-input
-            :readonly="enderecoDesabilitado"
-            id="bairro"
-            type="text"
-            v-model="pessoa.bairro"
-          ></b-form-input>
+          <b-form-input id="bairro" type="text" v-model="pessoa.bairro"></b-form-input>
         </b-form-group>
         <b-form-group label="Cidade" label-for="cidade">
-          <b-form-input
-            :readonly="enderecoDesabilitado"
-            id="cidade"
-            type="text"
-            v-model="pessoa.cidade"
-          ></b-form-input>
+          <b-form-input id="cidade" type="text" v-model="pessoa.cidade"></b-form-input>
         </b-form-group>
       </form>
     </b-modal>
@@ -79,11 +64,10 @@ export default {
 
   data() {
     return {
-      enderecoDesabilitado: true,
       opcoesPerfil: [
-        { text: 'Administrador', value: 'ADMINISTRADOR' },
-        { text: 'Professor', value: 'PROFESSOR' },
-        { text: 'Aluno', value: 'ALUNO' },
+        { text: 'ADMINISTRADOR', value: 'ADMINISTRADOR' },
+        { text: 'PROFESSOR', value: 'PROFESSOR' },
+        { text: 'ALUNO', value: 'ALUNO' },
       ],
     };
   },
@@ -91,24 +75,6 @@ export default {
   methods: {
     resetModal() {
       this.$emit('modalFechada');
-    },
-
-    buscarEndereco() {
-      this.$http
-        .get('https://viacep.com.br/ws/' + this.pessoa.cep + '/json/')
-        .then(resposta => resposta.json())
-        .then(
-          endereco => {
-            this.pessoa.endereco = endereco.logradouro;
-            this.pessoa.bairro = endereco.bairro;
-            this.pessoa.cidade = endereco.localidade;
-          },
-          erro =>
-            this.$bvToast.toast(
-              'Erro ao buscar o cep' + erro.body.message,
-              this.$toastErro
-            )
-        );
     },
 
     atualizar() {

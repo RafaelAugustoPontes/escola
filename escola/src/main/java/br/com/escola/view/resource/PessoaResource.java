@@ -48,4 +48,14 @@ public class PessoaResource {
 		return new PessoaController(pessoaRepository).buscarPerfis();
 	}
 
+	@GetMapping("/alunos")
+	public List<PessoaDTO> buscarAlunos() {
+		return new PessoaController(pessoaRepository).buscarAlunos();
+	}
+
+	@GetMapping("/professores")
+	public List<PessoaDTO> buscarProfessores() {
+		return new PessoaController(pessoaRepository).buscarProfessores();
+	}
+
 }

@@ -9,7 +9,7 @@
 
     <b-table
       id="my-table"
-      :items="pessoas"
+      :items="itens"
       :fields="campos"
       :per-page="itensPorPagina"
       :current-page="paginaAtual"
@@ -23,20 +23,19 @@
 
 <script>
 export default {
-  props: ['pessoas'],
+  props: ['itens', 'campos'],
 
   data() {
     return {
-      campos: ['nome', 'cpf', 'matricula', 'perfilDescricao'],
       itensPorPagina: 10,
       paginaAtual: 1,
-      quantidade: this.pessoas.length,
+      quantidade: this.itens.length,
     };
   },
 
   methods: {
-    editar(pessoas) {
-      this.$emit('editar', pessoas);
+    editar(item) {
+      this.$emit('editar', item);
     },
   },
 };

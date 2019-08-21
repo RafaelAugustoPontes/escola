@@ -15,7 +15,7 @@
       :current-page="paginaAtual"
       :striped="true"
       :bordered="true"
-      @row-dblclicked="editar"
+      @row-clicked="editar"
       small
     ></b-table>
   </div>

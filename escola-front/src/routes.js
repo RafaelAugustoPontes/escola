@@ -1,58 +1,58 @@
-import Vue from 'vue';
-import Router from 'vue-router';
 import { isSignedIn } from './auth/auth';
 
 export const routes = [
   {
-    path: '/',
+    path: '/home',
     component: () => import('./components/pages/Home.vue').then(m => m.default),
     titulo: 'Home',
-    beforeEnter(_, __, next) {
-      // Impede usuários não assinados
-      if (isSignedIn()) {
-        // de acessar a página Home.
-        next();
-        return;
-      }
-      next('/login');
-    },
+    oculto: false,
   },
   {
     path: '/pessoas',
     component: () =>
       import('./components/pages/CadastroPessoas.vue').then(m => m.default),
-    titulo: 'Pessoa',
-    beforeEnter(_, __, next) {
-      if (isSignedIn()) {
-        next();
-        return;
-      }
-      next('/login');
-    },
+    titulo: 'Pessoas',
+    oculto: false,
+    classe: 'cadastro',
   },
   {
     path: '/unidades',
     component: () =>
       import('./components/pages/CadastroUnidade.vue').then(m => m.default),
     titulo: 'Unidade',
+    oculto: false,
+    classe: 'cadastro',
   },
   {
     path: '/cursos',
     component: () =>
       import('./components/pages/CadastroCurso.vue').then(m => m.default),
     titulo: 'Curso',
+    oculto: false,
+    classe: 'cadastro',
   },
   {
     path: '/estagios',
     component: () =>
       import('./components/pages/CadastroEstagio.vue').then(m => m.default),
     titulo: 'Estágio',
+    oculto: false,
+    classe: 'cadastro',
+  },
+  {
+    path: '/turmas',
+    component: () =>
+      import('./components/pages/CadastroTurmas.vue').then(m => m.default),
+    titulo: 'Turma',
+    oculto: false,
+    classe: 'cadastro',
   },
   {
     path: '/login',
     component: () =>
       import('./components/pages/Login.vue').then(m => m.default),
     titulo: 'Login',
+    oculto: true,
     beforeEnter(_, __, next) {
       // Impede usuários assinados de
       if (!isSignedIn()) {

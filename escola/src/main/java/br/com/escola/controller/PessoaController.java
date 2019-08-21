@@ -73,4 +73,26 @@ public class PessoaController {
 		return opcoes;
 	}
 
+	public List<PessoaDTO> buscarAlunos() {
+		List<PessoaDTO> resultado = new ArrayList<>();
+		List<PessoaModel> alunos = repository.findByPerfil(PerfilModel.ALUNO);
+
+		alunos.forEach(pessoa -> {
+			resultado.add(mapper.map(pessoa, PessoaDTO.class));
+		});
+
+		return resultado;
+	}
+
+	public List<PessoaDTO> buscarProfessores() {
+		List<PessoaDTO> resultado = new ArrayList<>();
+		List<PessoaModel> alunos = repository.findByPerfil(PerfilModel.PROFESSOR);
+
+		alunos.forEach(pessoa -> {
+			resultado.add(mapper.map(pessoa, PessoaDTO.class));
+		});
+
+		return resultado;
+	}
+
 }

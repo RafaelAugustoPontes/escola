@@ -9,9 +9,13 @@
 
           <b-collapse id="nav-collapse" is-nav>
             <b-navbar-nav>
-              <b-nav-item v-for="rota in routes" :value="rota.titulo" :key="rota.titulo">
-                <router-link :to="rota.path ? rota.path  :  '/'">{{rota.titulo}}</router-link>
-              </b-nav-item>
+              <b-dropdown id="dropdown-left" text="Cadastro" variant="primary" class="m-3">
+                <b-nav-item v-for="rota in routes" :value="rota.titulo" :key="rota.titulo">
+                  <div v-if="!rota.oculto && rota.classe ==='cadastro'">
+                    <router-link :to="rota.path ? rota.path  :  '/'">{{rota.titulo}}</router-link>
+                  </div>
+                </b-nav-item>
+              </b-dropdown>
             </b-navbar-nav>
 
             <b-navbar-nav class="ml-auto">
@@ -35,7 +39,7 @@
 
 <script>
 export default {
-  props: ["routes"]
+  props: ['routes'],
 };
 </script>
 
