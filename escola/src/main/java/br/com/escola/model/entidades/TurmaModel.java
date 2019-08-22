@@ -46,7 +46,7 @@ public class TurmaModel {
 	@Enumerated(EnumType.STRING)
 	private TurnoModel turno;
 
-	@OneToMany
+	@OneToMany(mappedBy = "turma")
 	private Set<PessoaTurmaModel> alunos;
 
 	public Integer getIdTurma() {

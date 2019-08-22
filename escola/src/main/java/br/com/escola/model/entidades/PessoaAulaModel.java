@@ -9,29 +9,37 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "PESSOA_TURMA")
-public class PessoaTurmaModel {
+@Table(name = "PESSOA_AULA")
+public class PessoaAulaModel {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer idPessoaTurma;
+	private Integer idPessoaAula;
+
+	@ManyToOne
+	@JoinColumn(name = "IDAULA")
+	private AulaModel aula;
 
 	@ManyToOne
 	@JoinColumn(name = "IDPESSOA")
 	private PessoaModel pessoa;
 
-	@ManyToOne
-	@JoinColumn(name = "IDTURMA")
-	private TurmaModel turma;
+	private Boolean presente;
 
-	private Double nota;
-
-	public Integer getIdPessoaTurma() {
-		return idPessoaTurma;
+	public Integer getIdPessoaAula() {
+		return idPessoaAula;
 	}
 
-	public void setIdPessoaTurma(Integer idPessoaTurma) {
-		this.idPessoaTurma = idPessoaTurma;
+	public void setIdPessoaAula(Integer idPessoaAula) {
+		this.idPessoaAula = idPessoaAula;
+	}
+
+	public AulaModel getAula() {
+		return aula;
+	}
+
+	public void setAula(AulaModel aula) {
+		this.aula = aula;
 	}
 
 	public PessoaModel getPessoa() {
@@ -42,27 +50,19 @@ public class PessoaTurmaModel {
 		this.pessoa = pessoa;
 	}
 
-	public TurmaModel getTurma() {
-		return turma;
+	public Boolean getPresente() {
+		return presente;
 	}
 
-	public void setTurma(TurmaModel turma) {
-		this.turma = turma;
-	}
-
-	public Double getNota() {
-		return nota;
-	}
-
-	public void setNota(Double nota) {
-		this.nota = nota;
+	public void setPresente(Boolean presente) {
+		this.presente = presente;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((idPessoaTurma == null) ? 0 : idPessoaTurma.hashCode());
+		result = prime * result + ((idPessoaAula == null) ? 0 : idPessoaAula.hashCode());
 		return result;
 	}
 
@@ -74,11 +74,11 @@ public class PessoaTurmaModel {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		PessoaTurmaModel other = (PessoaTurmaModel) obj;
-		if (idPessoaTurma == null) {
-			if (other.idPessoaTurma != null)
+		PessoaAulaModel other = (PessoaAulaModel) obj;
+		if (idPessoaAula == null) {
+			if (other.idPessoaAula != null)
 				return false;
-		} else if (!idPessoaTurma.equals(other.idPessoaTurma))
+		} else if (!idPessoaAula.equals(other.idPessoaAula))
 			return false;
 		return true;
 	}

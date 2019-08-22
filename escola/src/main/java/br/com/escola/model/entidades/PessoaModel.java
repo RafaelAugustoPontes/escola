@@ -1,6 +1,7 @@
 package br.com.escola.model.entidades;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -8,6 +9,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -26,10 +28,20 @@ public class PessoaModel {
 	private String bairro;
 	private String cidade;
 	private String cep;
-	private String telefone;	
+	private String telefone;
 	private String email;
+
 	@Enumerated(EnumType.STRING)
 	private PerfilModel perfil;
+
+	@OneToMany(mappedBy = "pessoa")
+	private Set<UsuarioModel> usuarios;
+
+	@OneToMany(mappedBy = "pessoa")
+	private Set<PessoaTurmaModel> pessoaTurmas;
+
+	@OneToMany(mappedBy = "pessoa")
+	private Set<PessoaAulaModel> pessoaAulas;
 
 	public Integer getIdPessoa() {
 		return idPessoa;
@@ -133,6 +145,30 @@ public class PessoaModel {
 
 	public void setPerfil(PerfilModel perfil) {
 		this.perfil = perfil;
+	}
+
+	public Set<UsuarioModel> getUsuarios() {
+		return usuarios;
+	}
+
+	public void setUsuarios(Set<UsuarioModel> usuarios) {
+		this.usuarios = usuarios;
+	}
+
+	public Set<PessoaTurmaModel> getPessoaTurmas() {
+		return pessoaTurmas;
+	}
+
+	public void setPessoaTurmas(Set<PessoaTurmaModel> pessoaTurmas) {
+		this.pessoaTurmas = pessoaTurmas;
+	}
+
+	public Set<PessoaAulaModel> getPessoaAulas() {
+		return pessoaAulas;
+	}
+
+	public void setPessoaAulas(Set<PessoaAulaModel> pessoaAulas) {
+		this.pessoaAulas = pessoaAulas;
 	}
 
 	@Override

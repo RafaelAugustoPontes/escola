@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -13,8 +15,14 @@ public class UsuarioModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idUsuario;
+
 	private String login;
+
 	private String senha;
+
+	@ManyToOne
+	@JoinColumn(name = "IDPESSOA")
+	private PessoaModel pessoa;
 
 	public Integer getIdUsuario() {
 		return idUsuario;
@@ -38,6 +46,14 @@ public class UsuarioModel {
 
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+
+	public PessoaModel getPessoa() {
+		return pessoa;
+	}
+
+	public void setPessoa(PessoaModel pessoa) {
+		this.pessoa = pessoa;
 	}
 
 	@Override
