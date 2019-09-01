@@ -1,6 +1,7 @@
 package br.com.escola.model.entidades;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -47,7 +48,11 @@ public class TurmaModel {
 	private TurnoModel turno;
 
 	@OneToMany(mappedBy = "turma")
-	private Set<PessoaTurmaModel> alunos;
+	private Set<PessoaTurmaModel> alunosTurma;
+
+	@ManyToOne
+	@JoinColumn(name = "IDESTAGIO")
+	private EstagioModel estagio;
 
 	public Integer getIdTurma() {
 		return idTurma;
@@ -111,6 +116,28 @@ public class TurmaModel {
 
 	public void setTurno(TurnoModel turno) {
 		this.turno = turno;
+	}
+
+	public Set<PessoaTurmaModel> getAlunosTurma() {
+		return alunosTurma;
+	}
+
+	public void setAlunosTurma(Set<PessoaTurmaModel> alunosTurma) {
+		this.alunosTurma = alunosTurma;
+	}
+
+	public void adicionarAlunoTurma(PessoaTurmaModel alunoTurma) {
+		if (alunosTurma == null)
+			alunosTurma = new HashSet<>();
+		alunosTurma.add(alunoTurma);
+	}
+
+	public EstagioModel getEstagio() {
+		return estagio;
+	}
+
+	public void setEstagio(EstagioModel estagio) {
+		this.estagio = estagio;
 	}
 
 	@Override

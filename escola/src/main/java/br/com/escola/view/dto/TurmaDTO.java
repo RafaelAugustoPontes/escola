@@ -1,6 +1,7 @@
 package br.com.escola.view.dto;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class TurmaDTO {
@@ -14,6 +15,13 @@ public class TurmaDTO {
 	private PessoaDTO professor;
 	private String turno;
 	private List<PessoaDTO> alunos;
+	private EstagioDTO estagio;
+
+	public void adicionarAluno(PessoaDTO aluno) {
+		if (alunos == null)
+			alunos = new ArrayList<>();
+		alunos.add(aluno);
+	}
 
 	public Integer getIdTurma() {
 		return idTurma;
@@ -85,6 +93,14 @@ public class TurmaDTO {
 
 	public void setAlunos(List<PessoaDTO> alunos) {
 		this.alunos = alunos;
+	}
+
+	public EstagioDTO getEstagio() {
+		return estagio;
+	}
+
+	public void setEstagio(EstagioDTO estagio) {
+		this.estagio = estagio;
 	}
 
 }

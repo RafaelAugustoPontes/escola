@@ -16,6 +16,7 @@
       :striped="true"
       :bordered="true"
       @row-clicked="editar"
+      @row-dblclicked="selecionar"
       small
     ></b-table>
   </div>
@@ -36,6 +37,9 @@ export default {
   methods: {
     editar(item) {
       this.$emit('editar', item);
+    },
+    selecionar(item, index) {
+      this.$emit('selecionar', item, index);
     },
   },
 };

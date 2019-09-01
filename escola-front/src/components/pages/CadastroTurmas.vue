@@ -48,7 +48,20 @@ export default {
         );
     },
 
-    editar() {},
+    fecharModal() {
+      this.turma = {};
+      this.buscar();
+      this.$refs.modal.fechar();
+    },
+
+    selecionar(item) {
+      alert(item);
+    },
+
+    editar(turma) {
+      this.turma = turma;
+      this.$refs.modal.abrir();
+    },
   },
 };
 </script>

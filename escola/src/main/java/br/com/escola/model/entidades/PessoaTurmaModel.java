@@ -1,5 +1,6 @@
 package br.com.escola.model.entidades;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,14 +15,15 @@ public class PessoaTurmaModel {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "IDPESSOATURMA")
 	private Integer idPessoaTurma;
 
 	@ManyToOne
-	@JoinColumn(name = "IDPESSOA")
+	@JoinColumn(name = "IDPESSOA", nullable = false, insertable = true, updatable = true)
 	private PessoaModel pessoa;
 
 	@ManyToOne
-	@JoinColumn(name = "IDTURMA")
+	@JoinColumn(name = "IDTURMA", nullable = false, insertable = true, updatable = true)
 	private TurmaModel turma;
 
 	private Double nota;
