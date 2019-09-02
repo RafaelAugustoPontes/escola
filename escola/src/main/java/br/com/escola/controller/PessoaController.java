@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 
 import br.com.caelum.stella.validation.CPFValidator;
 import br.com.caelum.stella.validation.InvalidStateException;
+import br.com.escola.controller.exception.RegraDeNegocioException;
 import br.com.escola.model.entidades.PerfilModel;
 import br.com.escola.model.entidades.PessoaModel;
 import br.com.escola.model.repository.PessoaRepository;
@@ -44,8 +45,12 @@ public class PessoaController {
 			CPFValidator validator = new CPFValidator();
 			validator.assertValid(dto.getCpf());
 			PessoaModel pessoa = mapper.map(dto, PessoaModel.class);
-			if (pessoa.getIdPessoa() == null)
+			if (pessoa.getIdPessoa() == null) {
 				pessoa.setMatricula(buscarMatricula());
+				PessoaModel pessoaPorCpf = repository.findByCpf(dto.getCpf());
+				if (pessoaPorCpf != null)
+					throw new RegraDeNegocioException("Já existe uma pessoa cadastrada com esse CPF.");
+			}
 			pessoa.setPerfil(PerfilModel.valueOf(dto.getPerfilDescricao()));
 			pessoa = repository.save(pessoa);
 

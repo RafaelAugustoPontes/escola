@@ -21,4 +21,12 @@ public class UnidadeDTO {
 		this.nome = nome;
 	}
 
+	public String getText() {
+		return nome;
+	}
+
+	public String getValue() {
+		return nome;
+	}
+
 }

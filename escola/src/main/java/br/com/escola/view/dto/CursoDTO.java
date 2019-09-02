@@ -1,6 +1,6 @@
 package br.com.escola.view.dto;
 
-public class CursoDTO {
+public class CursoDTO implements OpcaoParaSelect {
 
 	private Integer idCurso;
 	private String nome;
@@ -19,6 +19,14 @@ public class CursoDTO {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	public String getText() {
+		return nome;
+	}
+
+	public Integer getValue() {
+		return idCurso;
 	}
 
 }

@@ -9,6 +9,7 @@
       ok-title="Gravar"
       @hidden="resetModal"
       @ok="handleSubmit"
+      :ok-disabled="!pessoa || !pessoa.nome || !pessoa.perfilDescricao || !pessoa.cpf || !pessoa.dataNascimento"
     >
       <form ref="form" @submit.stop.prevent="handleSubmit">
         <b-form-group label="Nome" label-for="nome">
@@ -92,14 +93,15 @@ export default {
         .post(process.env.VUE_APP_BASE_URI + 'pessoa', this.pessoa)
         .then(
           () => {
-            this.$bvToast.toast('Pessoa inserida com sucesso', this.$toastInfo),
-              this.fechar();
+            this.$bvToast.toast('Pessoa inserida com sucesso', this.$toastInfo)
+            this.fechar();
           },
           erro => this.$bvToast.toast(erro.body.message, this.$toastInfo)
         );
     },
 
-    handleSubmit() {
+    handleSubmit(bvModalEvt) {
+      bvModalEvt.preventDefault()
       if (this.pessoa.idPessoa) this.atualizar();
       else this.inserir();
     },

@@ -32,7 +32,7 @@ export default {
       this.$http
         .put(process.env.VUE_APP_BASE_URI + 'unidade', this.unidade)
         .then(
-          sucesso =>
+          () =>
             this.$bvToast.toast(
               'Unidade atualizada com sucesso',
               this.$toastInfo

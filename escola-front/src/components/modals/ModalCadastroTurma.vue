@@ -17,19 +17,21 @@
         </b-form-group>
         <b-form-group label="Unidade" label-for="Unidade">
           <b-form-select
-            :text-field="unidade.nome"
             :options="opcoesUnidade"
             v-model="unidade.idUnidade"
           ></b-form-select>
         </b-form-group>
-        <b-form-group label="Curso" label-for="Curso">
-          <b-form-select v-model="curso.idCurso" :options="opcoesUnidade"></b-form-select>
+          <b-form-group label="Curso" label-for="Curso">
+          <b-form-select
+            :options="opcoesCursos"
+            v-model="curso.idCurso"
+          ></b-form-select>
         </b-form-group>
         <b-form-group label="Estágio" label-for="Estágio">
-          <b-form-select v-model="estagio.idEstagio" :options="opcoesUnidade"></b-form-select>
+          <b-form-select v-model="estagio.idEstagio"  :options="opcoesEstagios"></b-form-select>
         </b-form-group>
         <b-form-group label="Professor" label-for="Professor">
-          <b-form-select v-model="professor.idPessoa" :options="opcoesUnidade"></b-form-select>
+          <b-form-select v-model="professor.idPessoa" :options="opcoesProfessores"></b-form-select>
         </b-form-group>
         <b-form-group label="Data início" label-for="dataInicio">
           <b-form-input id="dataInicio" type="date" v-model="turma.dataInicio" required></b-form-input>
@@ -41,6 +43,7 @@
           <b-card header="Alunos selecionados">
             <b-list-group>
               <b-list-group-item
+                @click="teste"
                 v-for="item in alunos"
                 :value="item.nome"
                 :key="item.idPessoa"
@@ -63,6 +66,9 @@ export default {
   created() {
     this.buscarAlunos();
     this.buscarUnidades();
+    this.buscarCursos();
+    this.buscarEstagios();
+    this.buscarProfessores();
   },
 
   props: ['turma'],
@@ -74,6 +80,7 @@ export default {
       estagio: {},
       professor: {},
       opcoesUnidade: [],
+      opcoesCursos: [],
       opcoesEstagios: [],
       opcoesProfessores: [],
       opcoesAlunos: [],
@@ -160,7 +167,46 @@ export default {
           opcoesUnidade => (this.opcoesUnidade = opcoesUnidade),
           erro =>
             this.$bvToast.toast(
-              'Erro ao buscar os alunos' + erro.body.message,
+              'Erro ao buscar as unidades' + erro.body.message,
+              this.$toastErro
+            )
+        );
+    },
+    buscarCursos() {
+      this.$http
+        .get(process.env.VUE_APP_BASE_URI + 'curso')
+        .then(resposta => resposta.json())
+        .then(
+          opcoesCursos => (this.opcoesCursos = opcoesCursos),
+          erro =>
+            this.$bvToast.toast(
+              'Erro ao buscar os cursos' + erro.body.message,
+              this.$toastErro
+            )
+        );
+    },
+    buscarEstagios() {
+      this.$http
+        .get(process.env.VUE_APP_BASE_URI + 'estagio')
+        .then(resposta => resposta.json())
+        .then(
+          opcoesEstagios => (this.opcoesEstagios = opcoesEstagios),
+          erro =>
+            this.$bvToast.toast(
+              'Erro ao buscar os estágios' + erro.body.message,
+              this.$toastErro
+            )
+        );
+    },
+    buscarProfessores() {
+      this.$http
+        .get(process.env.VUE_APP_BASE_URI + 'pessoa/professores')
+        .then(resposta => resposta.json())
+        .then(
+          opcoesProfessores => (this.opcoesProfessores = opcoesProfessores),
+          erro =>
+            this.$bvToast.toast(
+              'Erro ao buscar os professores' + erro.body.message,
               this.$toastErro
             )
         );

@@ -3,7 +3,7 @@ package br.com.escola.view.dto;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public class PessoaDTO {
+public class PessoaDTO implements OpcaoParaSelect {
 
 	private Integer idPessoa;
 	private String nome;
@@ -130,6 +130,14 @@ public class PessoaDTO {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getText() {
+		return nome;
+	}
+
+	public Integer getValue() {
+		return idPessoa;
 	}
 
 }

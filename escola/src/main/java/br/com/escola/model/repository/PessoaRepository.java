@@ -12,9 +12,13 @@ import br.com.escola.model.entidades.PessoaModel;
 @Repository
 public interface PessoaRepository extends JpaRepository<PessoaModel, Integer> {
 
-	@Query("SELECT MAX(pessoa.matricula) FROM PessoaModel pessoa")
+	@Query(value = "SELECT COALESCE(MAX(MATRICULA) + 1, 1) FROM PESSOA", nativeQuery = true)
 	Integer findProximaMatricula();
 
-	List<PessoaModel>findByPerfil(PerfilModel perfil);
+	List<PessoaModel> findByPerfil(PerfilModel perfil);
+
+	List<PessoaModel> findByMatricula(Integer numero);
+
+	PessoaModel findByCpf(String cpf);
 
 }
