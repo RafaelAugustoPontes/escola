@@ -15,20 +15,14 @@
         <b-form-group label="Nome" label-for="nome">
           <b-form-input id="nome" v-model="turma.nome" required maxlength="45"></b-form-input>
         </b-form-group>
-        <b-form-group label="Unidade" label-for="Unidade">
-          <b-form-select
-            :options="opcoesUnidade"
-            v-model="unidade.idUnidade"
-          ></b-form-select>
+        <b-form-group label="Unidade" label-for="select-unidade">
+          <b-form-select id="select-unidade" :options="opcoesUnidade" v-model="unidade.idUnidade"></b-form-select>
         </b-form-group>
-          <b-form-group label="Curso" label-for="Curso">
-          <b-form-select
-            :options="opcoesCursos"
-            v-model="curso.idCurso"
-          ></b-form-select>
+        <b-form-group label="Curso" label-for="Curso">
+          <b-form-select :options="opcoesCursos" v-model="curso.idCurso"></b-form-select>
         </b-form-group>
         <b-form-group label="Estágio" label-for="Estágio">
-          <b-form-select v-model="estagio.idEstagio"  :options="opcoesEstagios"></b-form-select>
+          <b-form-select v-model="estagio.idEstagio" :options="opcoesEstagios"></b-form-select>
         </b-form-group>
         <b-form-group label="Professor" label-for="Professor">
           <b-form-select v-model="professor.idPessoa" :options="opcoesProfessores"></b-form-select>
@@ -40,20 +34,16 @@
           <b-form-input id="dataFim" type="date" v-model="turma.dataFim" required></b-form-input>
         </b-form-group>
         <b-card-group deck>
-          <b-card header="Alunos selecionados">
-            <b-list-group>
-              <b-list-group-item
-                @click="teste"
-                v-for="item in alunos"
-                :value="item.nome"
-                :key="item.idPessoa"
-              >{{item.nome}}</b-list-group-item>
-            </b-list-group>
+          <b-card header="Alunos disponíveis">
+            <tabela-generica :itens="opcoesAlunos" :campos="campos" @selecionar="selecionar"></tabela-generica>
           </b-card>
         </b-card-group>
-        <div>
-          <tabela-generica :itens="opcoesAlunos" :campos="campos" @selecionar="selecionar"></tabela-generica>
-        </div>
+        <br />
+        <b-card-group deck>
+          <b-card header="Alunos selecionados">
+            <tabela-generica :itens="alunos" :campos="campos" @editar="remover"></tabela-generica>
+          </b-card>
+        </b-card-group>
       </form>
     </b-modal>
   </div>
@@ -71,11 +61,10 @@ export default {
     this.buscarProfessores();
   },
 
-  props: ['turma'],
+  props: ['turma', 'unidade'],
 
   data() {
     return {
-      unidade: {},
       curso: {},
       estagio: {},
       professor: {},
@@ -144,6 +133,15 @@ export default {
         }
       });
       if (!alunoExiste) this.alunos.unshift(item);
+    },
+    remover(item) {
+      let posicao = 0;
+      for (let i = 0; i < this.alunos.length; i++) {
+        if (this.alunos[i].idPessoa == item.idPessoa) {
+          console.log(i);
+          this.alunos.splice(i, 1);
+        }
+      }
     },
 
     buscarAlunos() {
