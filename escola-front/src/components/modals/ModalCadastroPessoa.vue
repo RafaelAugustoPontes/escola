@@ -29,7 +29,14 @@
           ></b-form-input>
         </b-form-group>
         <b-form-group label="Data de nascimento" label-for="dataNascimento">
-          <b-form-input id="dataNascimento" type="date" v-model="pessoa.dataNascimento" required></b-form-input>
+          <b-form-input
+            id="dataNascimento"
+            type="date"
+            v-model="pessoa.dataNascimento"
+            min="1920-01-01"
+            max="2015-12-31"
+            required
+          ></b-form-input>
         </b-form-group>
         <b-form-group label="Telefone" label-for="telefone">
           <b-form-input id="telefone" type="tel" v-model="pessoa.telefone"></b-form-input>
@@ -93,7 +100,7 @@ export default {
         .post(process.env.VUE_APP_BASE_URI + 'pessoa', this.pessoa)
         .then(
           () => {
-            this.$bvToast.toast('Pessoa inserida com sucesso', this.$toastInfo)
+            this.$bvToast.toast('Pessoa inserida com sucesso', this.$toastInfo);
             this.fechar();
           },
           erro => this.$bvToast.toast(erro.body.message, this.$toastInfo)
@@ -101,7 +108,7 @@ export default {
     },
 
     handleSubmit(bvModalEvt) {
-      bvModalEvt.preventDefault()
+      bvModalEvt.preventDefault();
       if (this.pessoa.idPessoa) this.atualizar();
       else this.inserir();
     },

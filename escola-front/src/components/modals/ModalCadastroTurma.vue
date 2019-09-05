@@ -7,7 +7,10 @@
       title="Nova turma"
       cancel-title="Cancelar"
       ok-title="Gravar"
-      :ok-disabled="!turma || !turma.nome"
+      :ok-disabled="!turma || !turma.nome || !turma.dataInicio 
+      || !turma.dataFim || !turma.turno || !turma.unidade.idUnidade
+      || !turma.curso.idCurso || !turma.estagio.idEstagio || !turma.professor.idPessoa
+      || !turma.alunos.length > 0"
       @hidden="resetModal"
       @ok="handleSubmit"
     >
