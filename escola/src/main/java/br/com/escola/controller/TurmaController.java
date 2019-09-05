@@ -20,6 +20,7 @@ import br.com.escola.model.repository.TurmaRepository;
 import br.com.escola.model.repository.UnidadeRepository;
 import br.com.escola.view.dto.CursoDTO;
 import br.com.escola.view.dto.EstagioDTO;
+import br.com.escola.view.dto.OpcaoParaSelect;
 import br.com.escola.view.dto.PessoaDTO;
 import br.com.escola.view.dto.TurmaDTO;
 import br.com.escola.view.dto.UnidadeDTO;
@@ -102,7 +103,7 @@ public class TurmaController {
 		dto.setNome(turma.getNome());
 		dto.setDataInicio(turma.getDataInicio());
 		dto.setDataFim(turma.getDataFim());
-		dto.setTurno(turma.getTurno().getDescricao());
+		dto.setTurno(turma.getTurno().name());
 		UnidadeDTO unidadeDTO = new UnidadeDTO();
 		mapper.map(turma.getUnidade(), unidadeDTO);
 		dto.setUnidade(unidadeDTO);
@@ -119,14 +120,26 @@ public class TurmaController {
 		mapper.map(turma.getEstagio(), estagioDTO);
 		dto.setEstagio(estagioDTO);
 
+		List<PessoaDTO> alunos = new ArrayList<>();
 		for (PessoaTurmaModel pessoaTurma : turma.getAlunosTurma()) {
 			PessoaModel pessoa = pessoaTurma.getPessoa();
 			PessoaDTO alunoDTO = new PessoaDTO();
 			mapper.map(pessoa, alunoDTO);
-			dto.setEstagio(estagioDTO);
+			alunos.add(alunoDTO);
 		}
 
+		dto.setAlunos(alunos);
+
 		return dto;
+	}
+
+	public List<OpcaoParaSelect> buscarTurnos() {
+		List<OpcaoParaSelect> opcoes = new ArrayList<OpcaoParaSelect>();
+		opcoes.add(TurnoModel.MANHA);
+		opcoes.add(TurnoModel.TARDE);
+		opcoes.add(TurnoModel.NOITE);
+
+		return opcoes;
 	}
 
 }

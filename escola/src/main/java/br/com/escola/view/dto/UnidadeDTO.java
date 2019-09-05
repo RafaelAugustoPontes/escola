@@ -1,6 +1,6 @@
 package br.com.escola.view.dto;
 
-public class UnidadeDTO {
+public class UnidadeDTO implements OpcaoParaSelect {
 
 	private Integer idUnidade;
 	private String nome;
@@ -25,8 +25,8 @@ public class UnidadeDTO {
 		return nome;
 	}
 
-	public String getValue() {
-		return nome;
+	public Integer getValue() {
+		return idUnidade;
 	}
 
 }

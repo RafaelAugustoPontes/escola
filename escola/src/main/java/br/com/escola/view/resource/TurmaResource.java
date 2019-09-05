@@ -18,6 +18,7 @@ import br.com.escola.model.repository.PessoaRepository;
 import br.com.escola.model.repository.PessoaTurmaRepository;
 import br.com.escola.model.repository.TurmaRepository;
 import br.com.escola.model.repository.UnidadeRepository;
+import br.com.escola.view.dto.OpcaoParaSelect;
 import br.com.escola.view.dto.TurmaDTO;
 
 @RestController
@@ -50,6 +51,11 @@ public class TurmaResource {
 	@GetMapping
 	public List<TurmaDTO> buscar() {
 		return new TurmaController(turmaRepository).buscar();
+	}
+
+	@GetMapping("/turnos")
+	public List<OpcaoParaSelect> buscarTurnos() {
+		return new TurmaController(turmaRepository).buscarTurnos();
 	}
 
 	@PostMapping

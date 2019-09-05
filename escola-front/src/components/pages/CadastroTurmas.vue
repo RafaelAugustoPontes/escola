@@ -24,7 +24,13 @@ export default {
   data() {
     return {
       turmas: [],
-      turma: {},
+      turma: {
+        unidade: {},
+        curso: {},
+        estagio: {},
+        professor: {},
+        alunos: [],
+      },
       campos: ['nome'],
     };
   },
@@ -49,7 +55,13 @@ export default {
     },
 
     fecharModal() {
-      this.turma = {};
+      this.turma = {
+        unidade: {},
+        curso: {},
+        estagio: {},
+        professor: {},
+        alunos: [],
+      };
       this.buscar();
       this.$refs.modal.fechar();
     },

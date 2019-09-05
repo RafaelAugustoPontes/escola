@@ -1,6 +1,8 @@
 package br.com.escola.model.entidades;
 
-public enum TurnoModel {
+import br.com.escola.view.dto.OpcaoParaSelect;
+
+public enum TurnoModel implements OpcaoParaSelect {
 
 	MANHA("Manhã"), TARDE("Tarde"), NOITE("Noite");
 
@@ -16,6 +18,16 @@ public enum TurnoModel {
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+
+	@Override
+	public String getText() {
+		return this.name();
+	}
+
+	@Override
+	public Integer getValue() {
+		return this.ordinal();
 	}
 
 }

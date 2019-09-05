@@ -15,23 +15,30 @@
         <b-form-group label="Nome" label-for="nome">
           <b-form-input id="nome" v-model="turma.nome" required maxlength="45"></b-form-input>
         </b-form-group>
-        <b-form-group label="Unidade" label-for="select-unidade">
-          <b-form-select id="select-unidade" :options="opcoesUnidade" v-model="unidade.idUnidade"></b-form-select>
-        </b-form-group>
-        <b-form-group label="Curso" label-for="Curso">
-          <b-form-select :options="opcoesCursos" v-model="curso.idCurso"></b-form-select>
-        </b-form-group>
-        <b-form-group label="Estágio" label-for="Estágio">
-          <b-form-select v-model="estagio.idEstagio" :options="opcoesEstagios"></b-form-select>
-        </b-form-group>
-        <b-form-group label="Professor" label-for="Professor">
-          <b-form-select v-model="professor.idPessoa" :options="opcoesProfessores"></b-form-select>
-        </b-form-group>
         <b-form-group label="Data início" label-for="dataInicio">
           <b-form-input id="dataInicio" type="date" v-model="turma.dataInicio" required></b-form-input>
         </b-form-group>
         <b-form-group label="Data fim" label-for="dataFim">
           <b-form-input id="dataFim" type="date" v-model="turma.dataFim" required></b-form-input>
+        </b-form-group>
+        <b-form-group label="Turno" label-for="select-turno">
+          <b-form-select id="select-turno" :options="opcoesTurno" v-model="turma.turno"></b-form-select>
+        </b-form-group>
+        <b-form-group label="Unidade" label-for="select-unidade">
+          <b-form-select
+            id="select-unidade"
+            :options="opcoesUnidade"
+            v-model="turma.unidade.idUnidade"
+          ></b-form-select>
+        </b-form-group>
+        <b-form-group label="Curso" label-for="Curso">
+          <b-form-select :options="opcoesCursos" v-model="turma.curso.idCurso"></b-form-select>
+        </b-form-group>
+        <b-form-group label="Estágio" label-for="Estágio">
+          <b-form-select v-model="turma.estagio.idEstagio" :options="opcoesEstagios"></b-form-select>
+        </b-form-group>
+        <b-form-group label="Professor" label-for="Professor">
+          <b-form-select v-model="turma.professor.idPessoa" :options="opcoesProfessores"></b-form-select>
         </b-form-group>
         <b-card-group deck>
           <b-card header="Alunos disponíveis">
@@ -41,7 +48,7 @@
         <br />
         <b-card-group deck>
           <b-card header="Alunos selecionados">
-            <tabela-generica :itens="alunos" :campos="campos" @editar="remover"></tabela-generica>
+            <tabela-generica :itens="turma.alunos" :campos="campos" @editar="remover"></tabela-generica>
           </b-card>
         </b-card-group>
       </form>
@@ -59,21 +66,19 @@ export default {
     this.buscarCursos();
     this.buscarEstagios();
     this.buscarProfessores();
+    this.buscarTurnos();
   },
 
-  props: ['turma', 'unidade'],
+  props: ['turma'],
 
   data() {
     return {
-      curso: {},
-      estagio: {},
-      professor: {},
       opcoesUnidade: [],
       opcoesCursos: [],
       opcoesEstagios: [],
       opcoesProfessores: [],
       opcoesAlunos: [],
-      alunos: [],
+      opcoesTurno: [],
       campos: ['nome'],
     };
   },
@@ -127,19 +132,19 @@ export default {
 
     selecionar(item) {
       let alunoExiste = false;
-      this.alunos.forEach(aluno => {
+      this.turma.alunos.forEach(aluno => {
         if (aluno.idPessoa == item.idPessoa) {
           alunoExiste = true;
         }
       });
-      if (!alunoExiste) this.alunos.unshift(item);
+      if (!alunoExiste) this.turma.alunos.unshift(item);
     },
     remover(item) {
       let posicao = 0;
-      for (let i = 0; i < this.alunos.length; i++) {
-        if (this.alunos[i].idPessoa == item.idPessoa) {
+      for (let i = 0; i < this.turma.alunos.length; i++) {
+        if (this.turma.alunos[i].idPessoa == item.idPessoa) {
           console.log(i);
-          this.alunos.splice(i, 1);
+          this.turma.alunos.splice(i, 1);
         }
       }
     },
@@ -205,6 +210,19 @@ export default {
           erro =>
             this.$bvToast.toast(
               'Erro ao buscar os professores' + erro.body.message,
+              this.$toastErro
+            )
+        );
+    },
+    buscarTurnos() {
+      this.$http
+        .get(process.env.VUE_APP_BASE_URI + 'turma/turnos')
+        .then(resposta => resposta.json())
+        .then(
+          opcoesTurno => (this.opcoesTurno = opcoesTurno),
+          erro =>
+            this.$bvToast.toast(
+              'Erro ao buscar os turnos' + erro.body.message,
               this.$toastErro
             )
         );
