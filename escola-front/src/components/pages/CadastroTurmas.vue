@@ -1,11 +1,11 @@
 <template>
   <div>
     <h1>Cadastro de turmas</h1>
-    <b-form-group label="Pesquisa por nome" label-for="a">
-      <b-form-input id="a"></b-form-input>
+    <b-form-group>
+      <b-form-input type="search" placeholder="Digite um nome para pesquisar" v-model="filtro"></b-form-input>
     </b-form-group>
     <b-button class="btn btn-success float-right" v-b-modal.modal-cadastro-turma>Nova</b-button>
-    <tabela-generica :itens="turmas" :campos="campos" @editar="editar"></tabela-generica>
+    <tabela-generica :itens="dadosComFiltro()" :campos="campos" @editar="editar"></tabela-generica>
     <modal-cadastro-turma ref="modal" :turma="turma" @modalFechada="fecharModal()"></modal-cadastro-turma>
   </div>
 </template>
@@ -31,6 +31,7 @@ export default {
         alunos: [],
       },
       campos: ['nome'],
+      filtro: '',
     };
   },
 
@@ -39,6 +40,14 @@ export default {
   },
 
   methods: {
+    dadosComFiltro() {
+      if (this.filtro) {
+        let expressao = new RegExp(this.filtro.trim(), 'i');
+        return this.turmas.filter(turma => expressao.test(turma.nome));
+      } else {
+        return this.turmas;
+      }
+    },
     buscar() {
       this.$http
         .get(process.env.VUE_APP_BASE_URI + 'turma')

@@ -1,11 +1,11 @@
 <template>
   <div>
     <h1>Cadastro de pessoas</h1>
-    <b-form-group label="Pesquisa por nome" label-for="a">
-      <b-form-input id="a"></b-form-input>
+    <b-form-group>
+      <b-form-input type="search" placeholder="Digite um nome para pesquisar" v-model="filtro"></b-form-input>
     </b-form-group>
     <b-button class="btn btn-success float-right" v-b-modal.modal-cadastro-pessoa>Nova</b-button>
-    <tabela-pessoas :pessoas="pessoas" @editar="editar"></tabela-pessoas>
+    <tabela-pessoas :pessoas="dadosComFiltro()" @editar="editar"></tabela-pessoas>
     <modal-cadastro-pessoa ref="modal" :pessoa="pessoa" @modalFechada="fecharModal()"></modal-cadastro-pessoa>
   </div>
 </template>
@@ -20,10 +20,13 @@ export default {
     'tabela-pessoas': TabelaPessoas,
   },
 
+  computed: {},
+
   data() {
     return {
       pessoa: {},
       pessoas: [],
+      filtro: '',
     };
   },
 
@@ -32,6 +35,14 @@ export default {
   },
 
   methods: {
+    dadosComFiltro() {
+      if (this.filtro) {
+        let expressao = new RegExp(this.filtro.trim(), 'i');
+        return this.pessoas.filter(pessoa => expressao.test(pessoa.nome));
+      } else {
+        return this.pessoas;
+      }
+    },
     buscarPessoas() {
       this.$http
         .get(process.env.VUE_APP_BASE_URI + 'pessoa')

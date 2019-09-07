@@ -1,11 +1,11 @@
 <template>
   <div>
     <h1>Cadastro de estágios</h1>
-    <b-form-group label="Pesquisa por nome" label-for="a">
-      <b-form-input id="a"></b-form-input>
+    <b-form-group>
+      <b-form-input type="search" placeholder="Digite um nome para pesquisar" v-model="filtro"></b-form-input>
     </b-form-group>
     <b-button class="btn btn-success float-right" v-b-modal.modal-cadastro-estagio>Novo</b-button>
-    <tabela-estagios :estagios="estagios" @editar="editar"></tabela-estagios>
+    <tabela-estagios :estagios="dadosComFiltro()" @editar="editar"></tabela-estagios>
     <modal-cadastro-estagio ref="modal" :estagio="estagio" @modalFechada="fecharModal()"></modal-cadastro-estagio>
   </div>
 </template>
@@ -24,6 +24,7 @@ export default {
     return {
       estagio: {},
       estagios: [],
+      filtro: '',
     };
   },
 
@@ -32,6 +33,14 @@ export default {
   },
 
   methods: {
+    dadosComFiltro() {
+      if (this.filtro) {
+        let expressao = new RegExp(this.filtro.trim(), 'i');
+        return this.estagios.filter(estagio => expressao.test(estagio.nome));
+      } else {
+        return this.estagios;
+      }
+    },
     buscarEstagios() {
       this.$http
         .get(process.env.VUE_APP_BASE_URI + 'estagio')

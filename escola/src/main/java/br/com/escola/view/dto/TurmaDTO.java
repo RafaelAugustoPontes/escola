@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TurmaDTO {
+public class TurmaDTO implements OpcaoParaSelect {
 
 	private Integer idTurma;
 	private String nome;
@@ -101,6 +101,16 @@ public class TurmaDTO {
 
 	public void setEstagio(EstagioDTO estagio) {
 		this.estagio = estagio;
+	}
+
+	@Override
+	public String getText() {
+		return getNome();
+	}
+
+	@Override
+	public Integer getValue() {
+		return getIdTurma();
 	}
 
 }

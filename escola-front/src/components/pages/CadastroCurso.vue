@@ -1,11 +1,15 @@
 <template>
   <div>
     <h1>Cadastro de cursos</h1>
-    <b-form-group label="Pesquisa por nome" label-for="a">
-      <b-form-input id="a"></b-form-input>
+    <b-form-group>
+      <b-form-input
+        type="search"
+        placeholder="Digite um nome para pesquisar"
+        v-model="filtro"
+      ></b-form-input>
     </b-form-group>
     <b-button class="btn btn-success float-right" v-b-modal.modal-cadastro-curso>Novo</b-button>
-    <tabela-cursos :cursos="cursos" @editar="editar"></tabela-cursos>
+    <tabela-cursos :cursos="dadosComFiltro()" @editar="editar"></tabela-cursos>
     <modal-cadastro-curso ref="modal" :curso="curso" @modalFechada="fecharModal()"></modal-cadastro-curso>
   </div>
 </template>
@@ -23,6 +27,7 @@ export default {
     return {
       curso: {},
       cursos: [],
+      filtro: '',
     };
   },
 
@@ -31,6 +36,15 @@ export default {
   },
 
   methods: {
+    dadosComFiltro() {
+      if (this.filtro) {
+        let expressao = new RegExp(this.filtro.trim(), 'i');
+        return this.cursos.filter(curso => expressao.test(curso.nome));
+      } else {
+        return this.cursos;
+      }
+    },
+
     buscarCursos() {
       this.$http
         .get(process.env.VUE_APP_BASE_URI + 'curso')
