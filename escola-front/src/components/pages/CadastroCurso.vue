@@ -1,13 +1,12 @@
 <template>
   <div>
-    <b-card no-body>
-      <b-tabs card>
-        <b-card-text>Cadastro de cursos</b-card-text>
-        <b-button v-b-modal.modal-cadastro-curso id="botaoNovo">Novo</b-button>
-        <tabela-cursos :cursos="cursos" @editar="editar"></tabela-cursos>
-        <modal-cadastro-curso ref="modal" :curso="curso" @modalFechada="fecharModal()"></modal-cadastro-curso>
-      </b-tabs>
-    </b-card>
+    <h1>Cadastro de cursos</h1>
+    <b-form-group label="Pesquisa por nome" label-for="a">
+      <b-form-input id="a"></b-form-input>
+    </b-form-group>
+    <b-button class="btn btn-success float-right" v-b-modal.modal-cadastro-curso>Novo</b-button>
+    <tabela-cursos :cursos="cursos" @editar="editar"></tabela-cursos>
+    <modal-cadastro-curso ref="modal" :curso="curso" @modalFechada="fecharModal()"></modal-cadastro-curso>
   </div>
 </template>
 

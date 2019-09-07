@@ -1,13 +1,12 @@
 <template>
   <div>
-    <b-card no-body>
-      <b-tabs card>
-        <b-card-text>Cadastro de pessoas</b-card-text>
-        <b-button v-b-modal.modal-cadastro-pessoa>Nova</b-button>
-        <tabela-pessoas :pessoas="pessoas" @editar="editar"></tabela-pessoas>
-        <modal-cadastro-pessoa ref="modal" :pessoa="pessoa" @modalFechada="fecharModal()"></modal-cadastro-pessoa>
-      </b-tabs>
-    </b-card>
+    <h1>Cadastro de pessoas</h1>
+    <b-form-group label="Pesquisa por nome" label-for="a">
+      <b-form-input id="a"></b-form-input>
+    </b-form-group>
+    <b-button class="btn btn-success float-right" v-b-modal.modal-cadastro-pessoa>Nova</b-button>
+    <tabela-pessoas :pessoas="pessoas" @editar="editar"></tabela-pessoas>
+    <modal-cadastro-pessoa ref="modal" :pessoa="pessoa" @modalFechada="fecharModal()"></modal-cadastro-pessoa>
   </div>
 </template>
 

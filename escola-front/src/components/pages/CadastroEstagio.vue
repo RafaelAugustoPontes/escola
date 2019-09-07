@@ -1,13 +1,12 @@
 <template>
   <div>
-    <b-card no-body>
-      <b-tabs card>
-        <b-card-text>Cadastro de estágios</b-card-text>
-        <b-button v-b-modal.modal-cadastro-estagio id="botaoNovo">Novo</b-button>
-        <tabela-estagios :estagios="estagios" @editar="editar"></tabela-estagios>
-        <modal-cadastro-estagio ref="modal" :estagio="estagio" @modalFechada="fecharModal()"></modal-cadastro-estagio>
-      </b-tabs>
-    </b-card>
+    <h1>Cadastro de estágios</h1>
+    <b-form-group label="Pesquisa por nome" label-for="a">
+      <b-form-input id="a"></b-form-input>
+    </b-form-group>
+    <b-button class="btn btn-success float-right" v-b-modal.modal-cadastro-estagio>Novo</b-button>
+    <tabela-estagios :estagios="estagios" @editar="editar"></tabela-estagios>
+    <modal-cadastro-estagio ref="modal" :estagio="estagio" @modalFechada="fecharModal()"></modal-cadastro-estagio>
   </div>
 </template>
 

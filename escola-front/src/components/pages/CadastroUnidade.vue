@@ -1,13 +1,12 @@
 <template>
   <div>
-    <b-card no-body>
-      <b-tabs card>
-        <b-card-text>Cadastro de unidades</b-card-text>
-        <b-button v-b-modal.modal-cadastro-unidade id="botaoNovo">Nova</b-button>
-        <tabela-unidades :unidades="unidades" @editar="editar"></tabela-unidades>
-        <modal-cadastro-unidade ref="modal" :unidade="unidade" @modalFechada="fecharModal()"></modal-cadastro-unidade>
-      </b-tabs>
-    </b-card>
+    <h1>Cadastro de unidades</h1>
+    <b-form-group label="Pesquisa por nome" label-for="a">
+      <b-form-input id="a"></b-form-input>
+    </b-form-group>
+    <b-button class="btn btn-success float-right" v-b-modal.modal-cadastro-unidade>Nova</b-button>
+    <tabela-unidades :unidades="unidades" @editar="editar"></tabela-unidades>
+    <modal-cadastro-unidade ref="modal" :unidade="unidade" @modalFechada="fecharModal()"></modal-cadastro-unidade>
   </div>
 </template>
 

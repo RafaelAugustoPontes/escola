@@ -1,13 +1,12 @@
 <template>
   <div>
-    <b-card no-body>
-      <b-tabs card>
-        <b-card-text>Cadastro de turmas</b-card-text>
-        <b-button v-b-modal.modal-cadastro-turma>Nova</b-button>
-        <tabela-generica :itens="turmas" :campos="campos" @editar="editar"></tabela-generica>
-        <modal-cadastro-turma ref="modal" :turma="turma" @modalFechada="fecharModal()"></modal-cadastro-turma>
-      </b-tabs>
-    </b-card>
+    <h1>Cadastro de turmas</h1>
+    <b-form-group label="Pesquisa por nome" label-for="a">
+      <b-form-input id="a"></b-form-input>
+    </b-form-group>
+    <b-button class="btn btn-success float-right" v-b-modal.modal-cadastro-turma>Nova</b-button>
+    <tabela-generica :itens="turmas" :campos="campos" @editar="editar"></tabela-generica>
+    <modal-cadastro-turma ref="modal" :turma="turma" @modalFechada="fecharModal()"></modal-cadastro-turma>
   </div>
 </template>
 

@@ -3,7 +3,9 @@
     <b-row>
       <b-col cols="12">
         <b-navbar class="header" toggleable="lg" type="dark" variant="dark">
-          <b-navbar-brand href="#">E-Escola</b-navbar-brand>
+          <b-navbar-brand>
+            <router-link to="home">E-Escola</router-link>
+          </b-navbar-brand>
 
           <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -12,6 +14,15 @@
               <b-dropdown id="dropdown-left" text="Cadastro" variant="primary" class="m-3">
                 <b-nav-item v-for="rota in routes" :value="rota.titulo" :key="rota.titulo">
                   <div v-if="!rota.oculto && rota.classe ==='cadastro'">
+                    <router-link :to="rota.path ? rota.path  :  '/'">{{rota.titulo}}</router-link>
+                  </div>
+                </b-nav-item>
+              </b-dropdown>
+            </b-navbar-nav>
+            <b-navbar-nav>
+              <b-dropdown id="dropdown-left" text="Lançamentos" variant="primary" class="m-3">
+                <b-nav-item v-for="rota in routes" :value="rota.titulo" :key="rota.titulo">
+                  <div v-if="!rota.oculto && rota.classe ==='lancamento'">
                     <router-link :to="rota.path ? rota.path  :  '/'">{{rota.titulo}}</router-link>
                   </div>
                 </b-nav-item>
@@ -31,9 +42,6 @@
         </b-navbar>
       </b-col>
     </b-row>
-    <transition name="painel-fade">
-      <slot></slot>
-    </transition>
   </div>
 </template>
 
@@ -50,16 +58,6 @@ export default {
   top: 0;
   width: 100vw;
   z-index: 200;
-}
-
-.painel-fade-enter,
-.painel-fade-leave-active {
-  opacity: 0;
-}
-
-.painel-fade-enter-active,
-.painel-fade-leave-active {
-  transition: opacity 0.2s;
 }
 </style>
 

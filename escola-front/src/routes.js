@@ -1,5 +1,3 @@
-import { isSignedIn } from './auth/auth';
-
 export const routes = [
   {
     path: '/home',
@@ -48,19 +46,35 @@ export const routes = [
     classe: 'cadastro',
   },
   {
-    path: '/login',
+    path: '/aulas',
     component: () =>
-      import('./components/pages/Login.vue').then(m => m.default),
-    titulo: 'Login',
-    oculto: true,
-    beforeEnter(_, __, next) {
-      // Impede usuários assinados de
-      if (!isSignedIn()) {
-        // acessar a página de login.
-        next();
-        return;
-      }
-      next('/home');
-    },
+      import('./components/pages/LancamentoAula.vue').then(m => m.default),
+    titulo: 'Aula',
+    oculto: false,
+    classe: 'lancamento',
   },
+  {
+    path: '/notas',
+    component: () =>
+      import('./components/pages/LancamentoNota.vue').then(m => m.default),
+    titulo: 'Nota',
+    oculto: false,
+    classe: 'lancamento',
+  },
+  // {
+  //   path: '/login',
+  //   component: () =>
+  //     import('./components/pages/Login.vue').then(m => m.default),
+  //   titulo: 'Login',
+  //   oculto: true,
+  //   beforeEnter(_, __, next) {
+  //     // Impede usuários assinados de
+  //     if (!isSignedIn()) {
+  //       // acessar a página de login.
+  //       next();
+  //       return;
+  //     }
+  //     next('/home');
+  //   },
+  // },
 ];
