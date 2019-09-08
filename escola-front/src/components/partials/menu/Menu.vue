@@ -35,7 +35,7 @@
                   <em>Rafael</em>
                 </template>
                 <b-dropdown-item href="#">Perfil</b-dropdown-item>
-                <b-dropdown-item href="#">Sign Out</b-dropdown-item>
+                <b-dropdown-item href="#">Sair</b-dropdown-item>
               </b-nav-item-dropdown>
             </b-navbar-nav>
           </b-collapse>

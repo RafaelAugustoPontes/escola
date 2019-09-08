@@ -4,16 +4,16 @@
     <b-form-group label="Turma" label-for="select-turma">
       <b-form-select
         id="select-turma"
-        @change="buscarAulas()"
+        @change="onChange($event)"
         :options="opcoesTurma"
         v-model="idTurmaSelecionada"
       ></b-form-select>
     </b-form-group>
-    <div v-if="idTurmaSelecionada">
+    <div v-if="idTurmaSelecionada && aulas && aulas.length > 0">
       <b-button class="btn btn-success float-right" v-b-modal.modal-cadastro-aula>Nova</b-button>
       <tabela-generica :itens="aulas" :campos="campos" @editar="editar"></tabela-generica>
-      <modal-cadastro-aula :turma="turmaSelecionada" :aula="aula"></modal-cadastro-aula>
     </div>
+    <modal-cadastro-aula :aula="aula"></modal-cadastro-aula>
   </div>
 </template>
 
@@ -24,28 +24,43 @@ export default {
   data() {
     return {
       aulas: [],
-      aula: {},
+      aula: {
+        alunos: [],
+        turma: {
+          unidade: {},
+          curso: {},
+          estagio: {},
+          alunos: [],
+        },
+      },
       opcoesTurma: [],
-      idTurmaSelecionada: undefined,
-      turmaSelecionada: {},
-      campos: ['nome'],
+      idTurmaSelecionada: null,
+      campos: ['dataAula', 'diarioResumido'],
     };
   },
   created() {
-    this.buscarTurma();
+    this.buscarTurmas();
   },
 
   methods: {
-    buscarAulas() {
-      this.buscarTurmaPorId();
-    },
-
-    buscarTurma() {
+    onChange(event) {
+      this.idTurmaSelecionada = event;
       this.$http
-        .get(process.env.VUE_APP_BASE_URI + 'turma')
+        .get(process.env.VUE_APP_BASE_URI + 'aula/' + this.idTurmaSelecionada)
         .then(resposta => resposta.json())
         .then(
-          opcoesTurma => (this.opcoesTurma = opcoesTurma),
+          aulas => (this.aulas = aulas),
+          erro =>
+            this.$bvToast.toast(
+              'Erro ao buscar as aulas' + erro.body.message,
+              this.$toastErro
+            )
+        );
+      this.$http
+        .get(process.env.VUE_APP_BASE_URI + 'turma/' + this.idTurmaSelecionada)
+        .then(resposta => resposta.json())
+        .then(
+          turmaSelecionada => (this.aula.turma = turmaSelecionada),
           erro =>
             this.$bvToast.toast(
               'Erro ao buscar as turmas' + erro.body.message,
@@ -54,12 +69,12 @@ export default {
         );
     },
 
-    buscarTurmaPorId() {
+    buscarTurmas() {
       this.$http
-        .get(process.env.VUE_APP_BASE_URI + 'turma/' + this.idTurmaSelecionada)
+        .get(process.env.VUE_APP_BASE_URI + 'turma')
         .then(resposta => resposta.json())
         .then(
-          turmaSelecionada => (this.turmaSelecionada = turmaSelecionada),
+          opcoesTurma => (this.opcoesTurma = opcoesTurma),
           erro =>
             this.$bvToast.toast(
               'Erro ao buscar as turmas' + erro.body.message,

@@ -64,7 +64,8 @@ public class PessoaTurmaModel {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((idPessoaTurma == null) ? 0 : idPessoaTurma.hashCode());
+		result = prime * result + ((pessoa == null) ? 0 : pessoa.hashCode());
+		result = prime * result + ((turma == null) ? 0 : turma.hashCode());
 		return result;
 	}
 
@@ -77,10 +78,15 @@ public class PessoaTurmaModel {
 		if (getClass() != obj.getClass())
 			return false;
 		PessoaTurmaModel other = (PessoaTurmaModel) obj;
-		if (idPessoaTurma == null) {
-			if (other.idPessoaTurma != null)
+		if (pessoa == null) {
+			if (other.pessoa != null)
 				return false;
-		} else if (!idPessoaTurma.equals(other.idPessoaTurma))
+		} else if (!pessoa.equals(other.pessoa))
+			return false;
+		if (turma == null) {
+			if (other.turma != null)
+				return false;
+		} else if (!turma.equals(other.turma))
 			return false;
 		return true;
 	}

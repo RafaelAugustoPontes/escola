@@ -2,7 +2,7 @@
   <div>
     <h1 class="display-4">Dashboard</h1>
     <b-card-group deck>
-      <b-card header="Gráfico 2" header-tag="header" title="Pessoas por turma">
+      <b-card header="Gráfico 1" header-tag="header" title="Pessoas por turma">
         <apexchart
           width="380"
           type="donut"

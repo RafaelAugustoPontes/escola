@@ -54,6 +54,9 @@ public class TurmaModel {
 	@JoinColumn(name = "IDESTAGIO")
 	private EstagioModel estagio;
 
+	@OneToMany(mappedBy = "turma")
+	private Set<AulaModel> aulas;
+
 	public Integer getIdTurma() {
 		return idTurma;
 	}
@@ -138,6 +141,14 @@ public class TurmaModel {
 
 	public void setEstagio(EstagioModel estagio) {
 		this.estagio = estagio;
+	}
+
+	public Set<AulaModel> getAulas() {
+		return aulas;
+	}
+
+	public void setAulas(Set<AulaModel> aulas) {
+		this.aulas = aulas;
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package br.com.escola.model.entidades;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,6 +15,7 @@ public class PessoaAulaModel {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "IDPESSOAAULA")
 	private Integer idPessoaAula;
 
 	@ManyToOne
@@ -62,7 +64,8 @@ public class PessoaAulaModel {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((idPessoaAula == null) ? 0 : idPessoaAula.hashCode());
+		result = prime * result + ((aula == null) ? 0 : aula.hashCode());
+		result = prime * result + ((pessoa == null) ? 0 : pessoa.hashCode());
 		return result;
 	}
 
@@ -75,10 +78,15 @@ public class PessoaAulaModel {
 		if (getClass() != obj.getClass())
 			return false;
 		PessoaAulaModel other = (PessoaAulaModel) obj;
-		if (idPessoaAula == null) {
-			if (other.idPessoaAula != null)
+		if (aula == null) {
+			if (other.aula != null)
 				return false;
-		} else if (!idPessoaAula.equals(other.idPessoaAula))
+		} else if (!aula.equals(other.aula))
+			return false;
+		if (pessoa == null) {
+			if (other.pessoa != null)
+				return false;
+		} else if (!pessoa.equals(other.pessoa))
 			return false;
 		return true;
 	}

@@ -135,7 +135,7 @@ export default {
 
     selecionar(item) {
       let alunoExiste = false;
-      this.turma.alunos.forEach(aluno => {
+      this.aula.alunos.forEach(aluno => {
         if (aluno.idPessoa == item.idPessoa) {
           alunoExiste = true;
         }
@@ -144,10 +144,9 @@ export default {
     },
     remover(item) {
       let posicao = 0;
-      for (let i = 0; i < this.turma.alunos.length; i++) {
-        if (this.turma.alunos[i].idPessoa == item.idPessoa) {
-          console.log(i);
-          this.turma.alunos.splice(i, 1);
+      for (let i = 0; i < this.aula.alunos.length; i++) {
+        if (this.aula.alunos[i].idPessoa == item.idPessoa) {
+          this.aula.alunos.splice(i, 1);
         }
       }
     },
