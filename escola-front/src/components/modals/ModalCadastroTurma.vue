@@ -121,7 +121,7 @@ export default {
     },
 
     handleSubmit() {
-      if (this.turma.idturma) this.atualizar();
+      if (this.turma.idTurma) this.atualizar();
       else this.inserir();
     },
 
@@ -135,7 +135,7 @@ export default {
 
     selecionar(item) {
       let alunoExiste = false;
-      this.aula.alunos.forEach(aluno => {
+      this.turma.alunos.forEach(aluno => {
         if (aluno.idPessoa == item.idPessoa) {
           alunoExiste = true;
         }
@@ -143,10 +143,17 @@ export default {
       if (!alunoExiste) this.turma.alunos.unshift(item);
     },
     remover(item) {
-      let posicao = 0;
-      for (let i = 0; i < this.aula.alunos.length; i++) {
-        if (this.aula.alunos[i].idPessoa == item.idPessoa) {
-          this.aula.alunos.splice(i, 1);
+      if (this.turma.idTurma) {
+        this.$bvToast.toast(
+          'Não é possível remover alunos de uma turma em andamento',
+          this.$toastInfo
+        );
+      } else {
+        let posicao = 0;
+        for (let i = 0; i < this.turma.alunos.length; i++) {
+          if (this.turma.alunos[i].idPessoa == item.idPessoa) {
+            this.turma.alunos.splice(i, 1);
+          }
         }
       }
     },

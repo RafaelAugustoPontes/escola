@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -47,7 +48,7 @@ public class TurmaModel {
 	@Enumerated(EnumType.STRING)
 	private TurnoModel turno;
 
-	@OneToMany(mappedBy = "turma")
+	@OneToMany(mappedBy = "turma", fetch = FetchType.EAGER)
 	private Set<PessoaTurmaModel> alunosTurma;
 
 	@ManyToOne

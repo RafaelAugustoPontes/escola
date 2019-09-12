@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <header id="header">
-      <Menu :routes="routes" />
+      <Menu :routes="routes" v-if="!hide" />
     </header>
     <main id="content">
       <router-view></router-view>
@@ -17,6 +17,12 @@ export default {
   name: 'app',
   components: {
     Menu,
+  },
+
+  computed: {
+    hide() {
+      return this.$route.path === '/login';
+    },
   },
   data() {
     return {

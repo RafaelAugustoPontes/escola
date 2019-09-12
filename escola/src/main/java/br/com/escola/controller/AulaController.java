@@ -2,6 +2,7 @@ package br.com.escola.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import br.com.escola.model.entidades.AulaModel;
 import br.com.escola.model.entidades.PessoaAulaModel;
@@ -35,9 +36,45 @@ public class AulaController {
 			dto.setIdAula(aula.getIdAula());
 			dto.setData(aula.getData());
 			dto.setDiario(aula.getDiario());
+			dto.setTurma(new TurmaController(turmaRepository).obterDTO(turma));
+
+			dto.setAlunos(buscarAlunosPresentes(aula));
+
 			aulas.add(dto);
 		}
 		return aulas;
+	}
+
+	private List<PessoaDTO> buscarAlunosPresentes(AulaModel aula) {
+		List<PessoaDTO> presentes = new ArrayList<>();
+		Set<PessoaAulaModel> pessoasAula = aula.getPessoasAula();
+		if (pessoasAula != null) {
+			for (PessoaAulaModel pessoaAulaModel : pessoasAula) {
+				if (pessoaAulaModel.getPresente()) {
+					presentes.add(new PessoaDTO(pessoaAulaModel.getPessoa().getIdPessoa(),
+							pessoaAulaModel.getPessoa().getNome()));
+				}
+			}
+
+		}
+		return presentes;
+	}
+
+	public void atualizar(AulaDTO dto) {
+		TurmaModel turmaModel = turmaRepository.findById(dto.getTurma().getIdTurma()).get();
+		AulaModel aulaModel = obterAula(dto, turmaModel);
+		aulaRepository.save(aulaModel);
+
+		for (PessoaAulaModel pessoaAula : aulaModel.getPessoasAula()) {
+			pessoaAula.setPresente(false);
+			for (PessoaDTO alunoPresente : dto.getAlunos()) {
+				if (alunoPresente.getIdPessoa().equals(pessoaAula.getPessoa().getIdPessoa())) {
+					pessoaAula.setPresente(true);
+				}
+			}
+			pessoaAulaRepository.save(pessoaAula);
+		}
+
 	}
 
 	public void inserir(AulaDTO dto) {

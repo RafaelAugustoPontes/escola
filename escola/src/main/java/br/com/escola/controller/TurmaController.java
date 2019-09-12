@@ -64,6 +64,23 @@ public class TurmaController {
 		return turma;
 	}
 
+	public void atualizar(TurmaDTO dto) {
+		TurmaModel turma = obterTurma(dto);
+
+		alunos: for (PessoaDTO dtoAluno : dto.getAlunos()) {
+			if (turma.getAlunosTurma() != null)
+				for (PessoaTurmaModel pessoaTurma : turma.getAlunosTurma()) {
+					if (pessoaTurma.getPessoa().getIdPessoa().equals(dtoAluno.getIdPessoa()))
+						continue alunos;
+				}
+			PessoaTurmaModel pessoaTurmaModel = new PessoaTurmaModel();
+			PessoaModel aluno = pessoaRepository.findById(dtoAluno.getIdPessoa()).get();
+			pessoaTurmaModel.setPessoa(aluno);
+			pessoaTurmaModel.setTurma(turma);
+			pessoaTurmaRepository.save(pessoaTurmaModel);
+		}
+	}
+
 	public TurmaDTO persistir(TurmaDTO dto) {
 		TurmaModel turma = obterTurma(dto);
 		repository.save(turma);
@@ -77,7 +94,7 @@ public class TurmaController {
 		return dto;
 	}
 
-	private TurmaModel obterTurma(TurmaDTO dto) {
+	public TurmaModel obterTurma(TurmaDTO dto) {
 		TurmaModel turma = new TurmaModel();
 		if (dto.getIdTurma() != null)
 			turma.setIdTurma(dto.getIdTurma());

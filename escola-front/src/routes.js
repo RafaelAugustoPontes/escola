@@ -61,6 +61,14 @@ export const routes = [
     oculto: false,
     classe: 'lancamento',
   },
+  {
+    path: '/login',
+    component: () =>
+      import('./components/pages/Login.vue').then(m => m.default),
+    titulo: 'Login',
+    oculto: true,
+    classe: '',
+  },
   // {
   //   path: '/login',
   //   component: () =>

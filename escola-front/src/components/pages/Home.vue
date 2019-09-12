@@ -1,5 +1,6 @@
 <template>
   <div>
+    <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="fullPage"></loading>
     <h1 class="display-4">Dashboard</h1>
     <b-card-group deck>
       <b-card header="Gráfico 1" header-tag="header" title="Pessoas por turma">
@@ -18,6 +19,8 @@
 </template>
 
 <script>
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
 export default {
   data() {
     return {
@@ -26,6 +29,8 @@ export default {
         labels: ['Apple', 'Mango', 'Orange', 'Watermelon'],
       },
       graficoTurma: {},
+      isLoading: true,
+      fullPage: true,
     };
   },
 
@@ -35,21 +40,28 @@ export default {
 
   methods: {
     buscarPessoasPorTurma() {
+      this.isLoading = true;
       this.$http
         .get(process.env.VUE_APP_BASE_URI + 'grafico/pessoas-turma')
         .then(resposta => resposta.json())
         .then(
           graficoTurma => {
             this.graficoTurma = graficoTurma;
-            console.log(graficoTurma);
+            this.isLoading = false;
           },
-          erro =>
+          erro => {
+            this.isLoading = false;
             this.$bvToast.toast(
               'Erro ao buscar as turmas' + erro.body.message,
               this.$toastErro
-            )
+            );
+          }
         );
     },
+  },
+
+  components: {
+    Loading,
   },
 };
 </script>

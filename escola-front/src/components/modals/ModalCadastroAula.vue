@@ -1,6 +1,7 @@
 <template>
   <div>
     <b-modal
+      size="lg"
       id="modal-cadastro-aula"
       ref="modal"
       title="Nova aula"
@@ -10,6 +11,7 @@
       @hidden="resetModal"
       @ok="handleSubmit"
     >
+      <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="fullPage"></loading>
       <form ref="form" @submit.stop.prevent="handleSubmit">
         <b-form-group label="Turma" label-for="turma">
           <span id="turma" class="label">{{aula.turma.nome}}</span>
@@ -30,7 +32,7 @@
           <b-form-textarea id="diario" v-model="aula.diario" rows="3" maxlength="2000"></b-form-textarea>
         </b-form-group>
         <b-card-group deck>
-          <b-card header="Alunos da turma">
+          <b-card header="Alunos que faltaram">
             <tabela-generica :itens="aula.turma.alunos" :campos="campos" @selecionar="selecionar"></tabela-generica>
           </b-card>
         </b-card-group>
@@ -45,6 +47,8 @@
 </template>
 
 <script>
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
 import TabelaGenerica from '../tables/TabelaGenerica';
 
 export default {
@@ -53,11 +57,13 @@ export default {
   data() {
     return {
       campos: ['nome'],
+      isLoading: false,
     };
   },
 
   components: {
     'tabela-generica': TabelaGenerica,
+    Loading,
   },
 
   methods: {
@@ -72,10 +78,9 @@ export default {
     },
     remover(item) {
       let posicao = 0;
-      for (let i = 0; i < this.turma.alunos.length; i++) {
-        if (this.turma.alunos[i].idPessoa == item.idPessoa) {
-          console.log(i);
-          this.turma.alunos.splice(i, 1);
+      for (let i = 0; i < this.aula.alunos.length; i++) {
+        if (this.aula.alunos[i].idPessoa == item.idPessoa) {
+          this.aula.alunos.splice(i, 1);
         }
       }
     },
@@ -85,28 +90,33 @@ export default {
     },
 
     atualizar() {
-      this.$http
-        .put(process.env.VUE_APP_BASE_URI + 'aula', this.aula)
-        .then(
-          () =>
-            this.$bvToast.toast('Aula atualizada com sucesso', this.$toastInfo),
-          erro => this.$bvToast.toast(erro.body.message, this.$toastInfo)
-        );
+      this.isLoading = true;
+      this.$http.put(process.env.VUE_APP_BASE_URI + 'aula', this.aula).then(
+        () => {
+          this.$bvToast.toast('Aula atualizada com sucesso', this.$toastInfo);
+          this.isLoading = false;
+          this.fechar();
+        },
+        erro => this.$bvToast.toast(erro.body.message, this.$toastInfo)
+      );
       this.fechar();
     },
 
     inserir() {
-      this.$http
-        .post(process.env.VUE_APP_BASE_URI + 'aula', this.aula)
-        .then(
-          () =>
-            this.$bvToast.toast('Aula inserida com sucesso', this.$toastInfo),
-          erro => this.$bvToast.toast(erro.body.message, this.$toastInfo)
-        );
+      this.isLoading = true;
+      this.$http.post(process.env.VUE_APP_BASE_URI + 'aula', this.aula).then(
+        () => {
+          this.$bvToast.toast('Aula inserida com sucesso', this.$toastInfo);
+          this.isLoading = false;
+          this.fechar();
+        },
+        erro => this.$bvToast.toast(erro.body.message, this.$toastInfo)
+      );
       this.fechar();
     },
 
-    handleSubmit() {
+    handleSubmit(bvModalEvt) {
+      bvModalEvt.preventDefault();
       if (this.aula.idAula) this.atualizar();
       else this.inserir();
     },

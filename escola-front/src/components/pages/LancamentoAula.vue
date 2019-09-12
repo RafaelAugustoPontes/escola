@@ -9,11 +9,16 @@
         v-model="idTurmaSelecionada"
       ></b-form-select>
     </b-form-group>
-    <div v-if="idTurmaSelecionada && aulas && aulas.length > 0">
+    <div v-if="idTurmaSelecionada">
       <b-button class="btn btn-success float-right" v-b-modal.modal-cadastro-aula>Nova</b-button>
-      <tabela-generica :itens="aulas" :campos="campos" @editar="editar"></tabela-generica>
+      <tabela-generica
+        :itens="aulas"
+        :campos="campos"
+        @editar="editar"
+        v-if="aulas && aulas.length > 0"
+      ></tabela-generica>
     </div>
-    <modal-cadastro-aula :aula="aula"></modal-cadastro-aula>
+    <modal-cadastro-aula ref="modal" :aula="aula" @modalFechada="fecharModal()"></modal-cadastro-aula>
   </div>
 </template>
 
@@ -82,8 +87,25 @@ export default {
             )
         );
     },
+
+    fecharModal() {
+      this.onChange(this.idTurmaSelecionada);
+      this.aula = {
+        alunos: [],
+        turma: {
+          unidade: {},
+          curso: {},
+          estagio: {},
+          alunos: [],
+        },
+      };
+      console.log(this.aula);
+      this.$refs.modal.fechar();
+    },
+
     editar(aula) {
       this.aula = aula;
+      console.log(aula);
       this.$refs.modal.abrir();
     },
   },

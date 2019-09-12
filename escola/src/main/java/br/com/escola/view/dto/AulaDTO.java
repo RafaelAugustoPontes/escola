@@ -2,6 +2,7 @@ package br.com.escola.view.dto;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AulaDTO {
@@ -10,7 +11,7 @@ public class AulaDTO {
 	private LocalDate data;
 	private String diario;
 	private TurmaDTO turma;
-	private List<PessoaDTO> alunos;
+	private List<PessoaDTO> alunos = new ArrayList<>();
 
 	public Integer getIdAula() {
 		return idAula;

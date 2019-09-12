@@ -23,6 +23,11 @@ public class PessoaDTO implements OpcaoParaSelect {
 
 	}
 
+	public PessoaDTO(Integer idPessoa, String nome) {
+		this.idPessoa = idPessoa;
+		this.nome = nome;
+	}
+
 	public Integer getIdPessoa() {
 		return idPessoa;
 	}
@@ -60,6 +65,8 @@ public class PessoaDTO implements OpcaoParaSelect {
 	}
 
 	public String getDataNascimentoFormatada() {
+		if (dataNascimento == null)
+			return null;
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		return formatter.format(dataNascimento);
 	}
