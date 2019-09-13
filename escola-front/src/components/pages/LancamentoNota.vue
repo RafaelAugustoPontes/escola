@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>Lançamento de notas</h1>
-    <b-form-group>
+    <b-form-group label="Turma">
       <b-form-input type="search" placeholder="Digite um nome para pesquisar" v-model="filtro"></b-form-input>
     </b-form-group>
     <tabela-generica :itens="dadosComFiltro()" :campos="campos" @editar="editar"></tabela-generica>
@@ -9,12 +9,18 @@
 </template>
 
 <script>
+import TabelaGenerica from '../tables/TabelaGenerica.vue';
+
 export default {
+  created() {
+    this.buscar();
+  },
+
   data() {
     return {
       turmas: [],
       filtro: '',
-      campos: 'nome',
+      campos: ['nome'],
     };
   },
 
@@ -32,6 +38,23 @@ export default {
       this.turma = turma;
       // this.$refs.modal.abrir();
     },
+
+    buscar() {
+      this.$http
+        .get(process.env.VUE_APP_BASE_URI + 'turma')
+        .then(resposta => resposta.json())
+        .then(
+          turmas => (this.turmas = turmas),
+          erro =>
+            this.$bvToast.toast(
+              'Erro ao buscar as turmas' + erro.body.message,
+              this.$toastErro
+            )
+        );
+    },
+  },
+  components: {
+    'tabela-generica': TabelaGenerica,
   },
 };
 </script>
