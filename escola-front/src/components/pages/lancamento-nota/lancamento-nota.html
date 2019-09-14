@@ -1,0 +1,22 @@
+<div>
+  <h1>Lançamento de notas</h1>
+  <b-form-group label="Turma">
+    <b-form-input
+      type="search"
+      placeholder="Digite um nome para pesquisar"
+      v-model="filtro"
+    ></b-form-input>
+  </b-form-group>
+  <tabela-generica
+    :itens="dadosComFiltro()"
+    :campos="campos"
+    @editar="editar"
+  ></tabela-generica>
+  <div v-if="pessoasTurma">
+    <modal-lancamento-nota
+      ref="modal"
+      :pessoasTurma="pessoasTurma"
+      @modalFechada="fecharModal()"
+    ></modal-lancamento-nota>
+  </div>
+</div>

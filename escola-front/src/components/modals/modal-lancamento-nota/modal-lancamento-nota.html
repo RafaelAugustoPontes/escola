@@ -1,0 +1,29 @@
+<b-modal
+  id="modal-lancamento-nota"
+  ref="modal"
+  title="Lançamento"
+  cancel-title="Cancelar"
+  ok-title="Gravar"
+  :ok-disabled="!pessoasTurma"
+  @hidden="resetModal"
+  @ok="handleSubmit"
+>
+  <form ref="form" @submit.stop.prevent="handleSubmit">
+    <b-form-group
+      :label="pessoaTurma.pessoa.nome"
+      label-for="turma"
+      v-for="pessoaTurma in pessoasTurma"
+      :value="pessoaTurma.idPessoaTurma"
+      :key="pessoaTurma.idPessoaTurma"
+    >
+      <b-form-input
+        id="nota"
+        type="number"
+        v-model="pessoaTurma.nota"
+        maxlength="3"
+        min="1"
+        max="100"
+      ></b-form-input>
+    </b-form-group>
+  </form>
+</b-modal>

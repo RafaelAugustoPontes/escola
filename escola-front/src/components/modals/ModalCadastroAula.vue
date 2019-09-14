@@ -11,7 +11,7 @@
       @hidden="resetModal"
       @ok="handleSubmit"
     >
-      <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="fullPage"></loading>
+      <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true"></loading>
       <form ref="form" @submit.stop.prevent="handleSubmit">
         <b-form-group label="Turma" label-for="turma">
           <span id="turma" class="label">{{aula.turma.nome}}</span>

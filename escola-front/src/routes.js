@@ -56,7 +56,9 @@ export const routes = [
   {
     path: '/notas',
     component: () =>
-      import('./components/pages/LancamentoNota.vue').then(m => m.default),
+      import('./components/pages/lancamento-nota/lancamento-nota.vue').then(
+        m => m.default
+      ),
     titulo: 'Nota',
     oculto: false,
     classe: 'lancamento',
