@@ -12,20 +12,20 @@
           <b-collapse id="nav-collapse" is-nav>
             <b-navbar-nav>
               <b-dropdown id="dropdown-left" text="Cadastro" variant="primary" class="m-3">
-                <b-nav-item v-for="rota in routes" :value="rota.titulo" :key="rota.titulo">
-                  <div v-if="!rota.oculto && rota.classe ==='cadastro'">
+                <div v-for="rota in routes" :value="rota.titulo" :key="rota.titulo">
+                <b-nav-item  v-if="!rota.oculto && rota.classe ==='cadastro'">
                     <router-link :to="rota.path ? rota.path  :  '/'">{{rota.titulo}}</router-link>
-                  </div>
                 </b-nav-item>
+                </div>
               </b-dropdown>
             </b-navbar-nav>
             <b-navbar-nav>
               <b-dropdown id="dropdown-left" text="Lançamentos" variant="primary" class="m-3">
-                <b-nav-item v-for="rota in routes" :value="rota.titulo" :key="rota.titulo">
-                  <div v-if="!rota.oculto && rota.classe ==='lancamento'">
+                <div v-for="rota in routes" :value="rota.titulo" :key="rota.titulo">
+                  <b-nav-item v-if="!rota.oculto && rota.classe ==='lancamento'">
                     <router-link :to="rota.path ? rota.path  :  '/'">{{rota.titulo}}</router-link>
-                  </div>
-                </b-nav-item>
+                  </b-nav-item>
+                </div>
               </b-dropdown>
             </b-navbar-nav>
 
