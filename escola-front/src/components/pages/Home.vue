@@ -1,6 +1,6 @@
 <template>
   <div>
-    <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="fullPage"></loading>
+    <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true"></loading>
     <h1 class="display-4">Dashboard</h1>
     <b-card-group deck>
       <b-card header="Gráfico 1" header-tag="header" title="Pessoas por turma">
@@ -30,7 +30,6 @@ export default {
       },
       graficoTurma: {},
       isLoading: true,
-      fullPage: true,
     };
   },
 

@@ -1,0 +1,54 @@
+<div>
+  <loading
+    :active.sync="isLoading"
+    :can-cancel="false"
+    :is-full-page="true"
+  ></loading>
+  <b-card-group deck>
+    <b-button
+    <b-card  :title="aluno.nome">
+      <b-card-text>CPF: {{ aluno.cpf }}</b-card-text>
+      <b-card-text
+        >Data de nascimento: {{ aluno.dataNascimentoFormatada }}</b-card-text
+      >
+      <b-card-text>Matrícula: {{ aluno.matricula }}</b-card-text>
+    </b-card>
+  </b-card-group>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Turma</th>
+        <th scope="col">Curso</th>
+        <th scope="col">Professor</th>
+        <th scope="col">Estágio</th>
+        <th scope="col">Nota</th>
+        <th scope="col">Aulas</th>
+        <th scope="col">Faltas</th>
+        <th scope="col">Situação</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        v-for="dado in aluno.dados"
+        :value="dado.nomeTurma"
+        :key="dado.nomeTurma"
+      >
+        <th scope="row">{{ dado.nomeTurma }}</th>
+        <th scope="row">{{ dado.nomeCurso }}</th>
+        <th scope="row">{{ dado.nomeProfessor }}</th>
+        <th scope="row">{{ dado.nomeEstagio }}</th>
+        <th scope="row">{{ dado.nota }}</th>
+        <th scope="row">{{ dado.quantidadeAulas }}</th>
+        <th scope="row">{{ dado.faltas }}</th>
+        <div v-if="dado.nota">
+          <th v-if="dado.aprovado" scope="row">Aprovado</th>
+          <th v-else>Reprovado</th>
+        </div>
+        <div v-else>
+          <th>-</th>
+        </div>
+      </tr>
+    </tbody>
+  </table>
+  <b-button class="btn btn-secondary float-right" @click="voltar">Voltar</b-button>
+</div>

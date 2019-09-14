@@ -53,7 +53,7 @@ export default {
   -ms-flex: 3;
   flex: 3;
   padding: 10px;
-  width: 85%;
+  width: 78%;
   margin: 0 auto;
 }
 </style>

@@ -64,6 +64,36 @@ export const routes = [
     classe: 'lancamento',
   },
   {
+    path: '/consulta-aluno',
+    component: () =>
+      import('./components/pages/consulta-aluno/consulta-aluno.vue').then(
+        m => m.default
+      ),
+    titulo: 'Alunos',
+    oculto: false,
+    classe: 'consulta',
+  },
+  {
+    path: '/consulta-aluno-detalhe/:id',
+    component: () =>
+      import(
+        './components/pages/consulta-aluno-detalhe/consulta-aluno-detalhe.vue'
+      ).then(m => m.default),
+    titulo: '',
+    oculto: true,
+    classe: '',
+  },
+  {
+    path: '/consulta-turma',
+    component: () =>
+      import('./components/pages/consulta-turma/consulta-turma.vue').then(
+        m => m.default
+      ),
+    titulo: 'Turmas',
+    oculto: false,
+    classe: 'consulta',
+  },
+  {
     path: '/login',
     component: () =>
       import('./components/pages/Login.vue').then(m => m.default),
