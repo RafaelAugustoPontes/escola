@@ -39,9 +39,9 @@ public class AulaDTO {
 	}
 
 	public String getDiarioResumido() {
-		if (diario.isEmpty() || diario.length() < 8)
+		if (diario.isEmpty() || diario.length() < 15)
 			return diario;
-		return diario.substring(0, 8).concat("...");
+		return diario.substring(0, 15).concat("...");
 	}
 
 	public void setDiario(String diario) {

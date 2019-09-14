@@ -28,6 +28,34 @@ public class PessoaTurmaModel {
 
 	private Double nota;
 
+	public int calcularFaltas() {
+		int total = 0;
+		if (turma.getAulas() != null && !turma.getAulas().isEmpty()) {
+			for (AulaModel aula : turma.getAulas()) {
+				if (aula.getPessoasAula() != null) {
+					for (PessoaAulaModel pessoaAula : aula.getPessoasAula()) {
+						if (!pessoaAula.getPresente()
+								&& pessoaAula.getPessoa().getIdPessoa().equals(pessoa.getIdPessoa()))
+							total++;
+					}
+				}
+			}
+		}
+		return total;
+	}
+
+	public int quantidadeDeAulas() {
+		if (turma.getAulas() == null)
+			return 0;
+		return turma.getAulas().size();
+	}
+
+	public boolean aprovado() {
+		if (nota == null || nota < 70D)
+			return false;
+		return true;
+	}
+
 	public Integer getIdPessoaTurma() {
 		return idPessoaTurma;
 	}

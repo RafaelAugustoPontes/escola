@@ -24,6 +24,8 @@ import br.com.escola.view.dto.OpcaoParaSelect;
 import br.com.escola.view.dto.PessoaDTO;
 import br.com.escola.view.dto.TurmaDTO;
 import br.com.escola.view.dto.UnidadeDTO;
+import br.com.escola.view.dto.turma.AlunoTurmaDTO;
+import br.com.escola.view.dto.turma.TurmaConsultaDTO;
 
 public class TurmaController {
 
@@ -48,6 +50,30 @@ public class TurmaController {
 		this.unidadeRepository = unidadeRepository;
 		this.cursoRepository = cursoRepository;
 		this.estagioRepository = estagioRepository;
+	}
+
+	public TurmaConsultaDTO buscarConsultaTurma(Integer id) {
+		TurmaModel turmaModel = repository.findById(id).get();
+		TurmaConsultaDTO dto = new TurmaConsultaDTO();
+		dto.setNomeTurma(turmaModel.getNome());
+		dto.setNomeProfessor(turmaModel.getProfessor().getNome());
+		dto.setNomeEstagio(turmaModel.getEstagio().getNome());
+		dto.setNomeCurso(turmaModel.getCurso().getNome());
+
+		turmaModel.getAlunosTurma().forEach(alunoTurma -> {
+			PessoaModel pessoa = alunoTurma.getPessoa();
+			AlunoTurmaDTO aluno = new AlunoTurmaDTO();
+			aluno.setAprovado(alunoTurma.aprovado());
+			aluno.setFalta(alunoTurma.calcularFaltas());
+			aluno.setIdPessoa(pessoa.getIdPessoa());
+			aluno.setNome(pessoa.getNome());
+			aluno.setNota(alunoTurma.getNota());
+			aluno.setQuantidadeAulas(alunoTurma.quantidadeDeAulas());
+
+			dto.adicionarAluno(aluno);
+		});
+
+		return dto;
 	}
 
 	public TurmaDTO buscarPorId(Integer id) {

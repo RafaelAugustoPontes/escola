@@ -2,6 +2,7 @@ package br.com.escola.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.modelmapper.ModelMapper;
 
@@ -10,9 +11,13 @@ import br.com.caelum.stella.validation.InvalidStateException;
 import br.com.escola.controller.exception.RegraDeNegocioException;
 import br.com.escola.model.entidades.PerfilModel;
 import br.com.escola.model.entidades.PessoaModel;
+import br.com.escola.model.entidades.PessoaTurmaModel;
+import br.com.escola.model.entidades.TurmaModel;
 import br.com.escola.model.repository.PessoaRepository;
 import br.com.escola.view.dto.OpcaoDTO;
 import br.com.escola.view.dto.PessoaDTO;
+import br.com.escola.view.dto.pessoa.AlunoConsultaDTO;
+import br.com.escola.view.dto.pessoa.DadosAlunoConsultaDTO;
 
 public class PessoaController {
 
@@ -87,6 +92,32 @@ public class PessoaController {
 		});
 
 		return resultado;
+	}
+
+	public AlunoConsultaDTO buscarAluno(Integer idPessoa) {
+		AlunoConsultaDTO dto = new AlunoConsultaDTO();
+		PessoaModel aluno = repository.findById(idPessoa).get();
+		dto.setIdPessoa(aluno.getIdPessoa());
+		dto.setNome(aluno.getNome());
+		dto.setCpf(aluno.getCpf());
+		dto.setDataNascimento(aluno.getDataNascimento());
+		dto.setMatricula(aluno.getMatricula());
+		Set<PessoaTurmaModel> pessoaTurmas = aluno.getPessoaTurmas();
+		for (PessoaTurmaModel pessoaTurma : pessoaTurmas) {
+			DadosAlunoConsultaDTO dado = new DadosAlunoConsultaDTO();
+			dado.setFaltas(pessoaTurma.calcularFaltas());
+			TurmaModel turma = pessoaTurma.getTurma();
+			dado.setNomeCurso(turma.getCurso().getNome());
+			dado.setNomeEstagio(turma.getEstagio().getNome());
+			dado.setNomeProfessor(turma.getProfessor().getNome());
+			dado.setNomeTurma(turma.getNome());
+			dado.setAprovado(pessoaTurma.aprovado());
+			dado.setNota(pessoaTurma.getNota());
+			dado.setQuantidadeAulas(pessoaTurma.quantidadeDeAulas());
+
+			dto.adicionarDado(dado);
+		}
+		return dto;
 	}
 
 	public List<PessoaDTO> buscarProfessores() {

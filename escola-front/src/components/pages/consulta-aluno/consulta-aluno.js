@@ -2,6 +2,10 @@ import TabelaGenerica from '../../tables/TabelaGenerica';
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
 
+// Aulas / Frequencia
+// Nota outros alunos
+//
+
 export default {
   created() {
     this.buscarAlunos();

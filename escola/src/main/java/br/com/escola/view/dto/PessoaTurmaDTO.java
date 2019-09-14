@@ -4,8 +4,7 @@ public class PessoaTurmaDTO {
 
 	private Integer idPessoaTurma;
 	private PessoaDTO pessoa;
-	private Integer turmaIdTurma;
-	private Integer turmaNome;
+	private TurmaDTO turma;
 	private Double nota;
 
 	public Integer getIdPessoaTurma() {
@@ -24,20 +23,12 @@ public class PessoaTurmaDTO {
 		this.pessoa = pessoa;
 	}
 
-	public Integer getTurmaIdTurma() {
-		return turmaIdTurma;
+	public TurmaDTO getTurma() {
+		return turma;
 	}
 
-	public void setTurmaIdTurma(Integer turmaIdTurma) {
-		this.turmaIdTurma = turmaIdTurma;
-	}
-
-	public Integer getTurmaNome() {
-		return turmaNome;
-	}
-
-	public void setTurmaNome(Integer turmaNome) {
-		this.turmaNome = turmaNome;
+	public void setTurma(TurmaDTO turma) {
+		this.turma = turma;
 	}
 
 	public Double getNota() {

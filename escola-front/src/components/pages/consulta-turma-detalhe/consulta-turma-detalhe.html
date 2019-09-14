@@ -1,0 +1,25 @@
+<div>
+  <loading
+    :active.sync="isLoading"
+    :can-cancel="false"
+    :is-full-page="true"
+  ></loading>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Turma</th>
+        <th scope="col">Curso</th>
+        <th scope="col">Professor</th>
+        <th scope="col">Estágio</th>
+        <th scope="col">Nota</th>
+        <th scope="col">Aulas</th>
+        <th scope="col">Faltas</th>
+        <th scope="col">Situação</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+  <b-button class="btn btn-secondary float-right" @click="voltar"
+    >Voltar</b-button
+  >
+</div>

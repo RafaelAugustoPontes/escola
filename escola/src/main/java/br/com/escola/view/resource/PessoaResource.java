@@ -15,6 +15,7 @@ import br.com.escola.controller.PessoaController;
 import br.com.escola.model.repository.PessoaRepository;
 import br.com.escola.view.dto.OpcaoDTO;
 import br.com.escola.view.dto.PessoaDTO;
+import br.com.escola.view.dto.pessoa.AlunoConsultaDTO;
 
 @RestController
 @RequestMapping("/pessoa")
@@ -51,6 +52,11 @@ public class PessoaResource {
 	@GetMapping("/alunos")
 	public List<PessoaDTO> buscarAlunos() {
 		return new PessoaController(pessoaRepository).buscarAlunos();
+	}
+
+	@GetMapping("/alunos/{idPessoa}")
+	public AlunoConsultaDTO buscarAlunos(@PathVariable Integer idPessoa) {
+		return new PessoaController(pessoaRepository).buscarAluno(idPessoa);
 	}
 
 	@GetMapping("/professores")

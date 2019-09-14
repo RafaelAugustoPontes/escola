@@ -1,5 +1,11 @@
 export const routes = [
   {
+    path: '/',
+    component: () => import('./components/pages/Home.vue').then(m => m.default),
+    titulo: 'vazio',
+    oculto: true,
+  },
+  {
     path: '/home',
     component: () => import('./components/pages/Home.vue').then(m => m.default),
     titulo: 'Home',
@@ -91,6 +97,16 @@ export const routes = [
       ),
     titulo: 'Turmas',
     oculto: false,
+    classe: 'consulta',
+  },
+  {
+    path: '/consulta-turma-detalhe/:id',
+    component: () =>
+      import(
+        './components/pages/consulta-turma-detalhe/consulta-turma-detalhe.vue'
+      ).then(m => m.default),
+    titulo: '1',
+    oculto: true,
     classe: 'consulta',
   },
   {

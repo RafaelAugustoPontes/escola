@@ -21,6 +21,7 @@ import br.com.escola.model.repository.TurmaRepository;
 import br.com.escola.model.repository.UnidadeRepository;
 import br.com.escola.view.dto.OpcaoParaSelect;
 import br.com.escola.view.dto.TurmaDTO;
+import br.com.escola.view.dto.turma.TurmaConsultaDTO;
 
 @RestController
 @RequestMapping("/turma")
@@ -47,6 +48,11 @@ public class TurmaResource {
 	@GetMapping("/{id}")
 	public TurmaDTO buscarPorId(@PathVariable Integer id) {
 		return new TurmaController(turmaRepository).buscarPorId(id);
+	}
+
+	@GetMapping("/{id}/detalhe")
+	public TurmaConsultaDTO buscarDadosTurma(@PathVariable Integer id) {
+		return new TurmaController(turmaRepository).buscarConsultaTurma(id);
 	}
 
 	@GetMapping
