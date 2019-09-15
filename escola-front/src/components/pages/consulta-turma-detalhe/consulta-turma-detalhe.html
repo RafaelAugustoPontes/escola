@@ -4,20 +4,42 @@
     :can-cancel="false"
     :is-full-page="true"
   ></loading>
+  <b-card-group deck>
+    <b-card :title="turma.nomeTurma">
+      <b-card-text>Curso: {{ turma.nomeCurso }}</b-card-text>
+      <b-card-text>Estágio: {{ turma.nomeEstagio }}</b-card-text>
+      <b-card-text>Professor: {{ turma.nomeProfessor }}</b-card-text>
+    </b-card>
+  </b-card-group>
   <table class="table">
     <thead>
       <tr>
-        <th scope="col">Turma</th>
-        <th scope="col">Curso</th>
-        <th scope="col">Professor</th>
-        <th scope="col">Estágio</th>
+        <th scope="col">Aluno</th>
         <th scope="col">Nota</th>
+        <th scope="col">Falta</th>
         <th scope="col">Aulas</th>
-        <th scope="col">Faltas</th>
         <th scope="col">Situação</th>
       </tr>
     </thead>
-    <tbody></tbody>
+    <tbody>
+      <tr
+        v-for="aluno in turma.alunos"
+        :value="aluno.idPessoa"
+        :key="aluno.idPessoa"
+      >
+        <th scope="row">{{ aluno.nome }}</th>
+        <th scope="row">{{ aluno.nota }}</th>
+        <th scope="row">{{ aluno.falta }}</th>
+        <th scope="row">{{ aluno.quantidadeAulas }}</th>
+        <div v-if="aluno.nota">
+          <th v-if="aluno.aprovado" scope="row">Aprovado</th>
+          <th v-else>Reprovado</th>
+        </div>
+        <div v-else>
+          <th>-</th>
+        </div>
+      </tr>
+    </tbody>
   </table>
   <b-button class="btn btn-secondary float-right" @click="voltar"
     >Voltar</b-button

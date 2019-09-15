@@ -5,8 +5,7 @@
     :is-full-page="true"
   ></loading>
   <b-card-group deck>
-    <b-button
-    <b-card  :title="aluno.nome">
+    <b-card :title="aluno.nome">
       <b-card-text>CPF: {{ aluno.cpf }}</b-card-text>
       <b-card-text
         >Data de nascimento: {{ aluno.dataNascimentoFormatada }}</b-card-text
@@ -50,5 +49,7 @@
       </tr>
     </tbody>
   </table>
-  <b-button class="btn btn-secondary float-right" @click="voltar">Voltar</b-button>
+  <b-button class="btn btn-secondary float-right" @click="voltar"
+    >Voltar</b-button
+  >
 </div>
