@@ -1,7 +1,8 @@
 export const routes = [
   {
     path: '/',
-    component: () => import('./components/pages/Home.vue').then(m => m.default),
+    component: () =>
+      import('./components/pages/Login.vue').then(m => m.default),
     titulo: 'vazio',
     oculto: true,
   },

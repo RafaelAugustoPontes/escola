@@ -1,6 +1,6 @@
-package br.com.escola.view.dto;
+package br.com.escola.view.jwt.filter;
 
-public class UsuarioDTO {
+public class UserCredentials {
 
 	private String username;
 	private String password;

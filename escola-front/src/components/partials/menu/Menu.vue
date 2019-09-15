@@ -44,7 +44,7 @@
                   <em>Rafael</em>
                 </template>
                 <b-dropdown-item href="#">Perfil</b-dropdown-item>
-                <b-dropdown-item href="#">Sair</b-dropdown-item>
+                <b-dropdown-item @click="logout()">Sair</b-dropdown-item>
               </b-nav-item-dropdown>
             </b-navbar-nav>
           </b-collapse>
@@ -57,6 +57,12 @@
 <script>
 export default {
   props: ['routes'],
+  methods: {
+    logout: function() {
+      this.$session.destroy();
+      this.$router.push('/login');
+    },
+  },
 };
 </script>
 

@@ -22,6 +22,12 @@
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
 export default {
+  beforeCreate: function() {
+    if (!this.$session.exists()) {
+      this.$router.push('/login');
+    }
+  },
+
   data() {
     return {
       series: [44, 55, 41, 17, 15],

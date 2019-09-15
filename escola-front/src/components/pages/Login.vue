@@ -1,51 +1,64 @@
 <template>
-  <div>
-    <b-form @submit.prevent="onSubmit">
-      <b-card class="mt-3" header="SISTEMA ESCOLAR">
-        <b-container class="bv-example-row">
-          <b-row>
-            <b-col></b-col>
-            <b-col colspan="3">
-              <b-form-group id="input-group-1" label="Login:" label-for="input-1">
-                <b-form-input
-                  id="input-1"
-                  v-model="form.username"
-                  type="text"
-                  required
-                  placeholder="Digite o seu login"
-                ></b-form-input>
-              </b-form-group>
-            </b-col>
-            <b-col></b-col>
-          </b-row>
-          <b-row>
-            <b-col></b-col>
-            <b-col>
-              <b-form-group id="input-group-2" label="Senha:" label-for="input-2">
-                <b-form-input
-                  id="input-2"
-                  v-model="form.password"
-                  type="password"
-                  required
-                  placeholder="Senha"
-                ></b-form-input>
-              </b-form-group>
-            </b-col>
-            <b-col></b-col>
-          </b-row>
-        </b-container>
-        <b-button-group>
-          <b-button type="submit" variant="primary">Entrar</b-button>
-          <router-link to="/home">Home</router-link>
-        </b-button-group>
-      </b-card>
-    </b-form>
+  <div class="container">
+    <div class="d-flex justify-content-center h-100">
+      <div class="card">
+        <div class="card-header">
+          <h3>E-Escola</h3>
+        </div>
+        <div class="card-body">
+          <form ref="form" @submit.stop.prevent="onSubmit">
+            <div class="input-group form-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  <i class="fas fa-user"></i>
+                </span>
+              </div>
+              <b-form-input
+                id="cpf"
+                v-model="form.username"
+                required
+                maxlength="14"
+                masked="false"
+                placeholder="CPF"
+              ></b-form-input>
+            </div>
+            <div class="input-group form-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  <i class="fas fa-key"></i>
+                </span>
+              </div>
+              <b-form-input
+                id="senha"
+                type="password"
+                placeholder="Senha"
+                v-model="form.password"
+                required
+                maxlength="45"
+              ></b-form-input>
+            </div>
+            <div class="form-group">
+              <b-button type="submit" class="btn float-right login_btn" variant="primary">Entrar</b-button>
+            </div>
+          </form>
+        </div>
+        <div class="card-footer">
+          <div class="d-flex justify-content-center">
+            <a href="#">Esqueceu a senha?</a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import { signIn } from '../../auth/auth';
+import { mask } from 'vue-the-mask';
 export default {
+  directives: { mask },
+  created() {
+    this.$bvToast.toast('Por favor, efetue o login', this.$toastInfo);
+  },
   data() {
     return {
       form: {
@@ -55,18 +68,97 @@ export default {
     };
   },
   methods: {
-    async onSubmit(evt) {
-      evt.preventDefault();
-      await signIn(this.email, this.password);
-      this.$router.push('/home');
+    onSubmit(evt) {
+      this.$http.post(process.env.VUE_APP_BASE_URI + 'login', this.form).then(
+        response => {
+          this.$bvToast.toast('Curso inserido com sucesso', this.$toastInfo);
+          if (response.status === 200 && 'token' in response.body) {
+            this.$session.start();
+            this.$session.set('jwt', response.body.token);
+            Vue.http.headers.common['Authorization'] =
+              'Bearer ' + response.body.token;
+            this.$router.push('/home');
+          }
+        },
+        erro => this.$bvToast.toast(erro.body, this.$toastInfo)
+      );
     },
   },
 };
 </script>
 
 <style scoped>
-.card-header {
-  background-color: darkred;
+html,
+body {
+  background-image: url('http://getwallpapers.com/wallpaper/full/a/5/d/544750.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100%;
+  font-family: 'Numans', sans-serif;
+}
+
+.container {
+  height: 100%;
+  align-content: center;
+}
+
+.card {
+  height: 370px;
+  margin-top: auto;
+  margin-bottom: auto;
+  width: 400px;
+  background-color: #2c3e50 !important;
+}
+
+.social_icon span {
+  font-size: 60px;
+  margin-left: 10px;
+  color: #ffc312;
+}
+
+.social_icon span:hover {
+  color: white;
+  cursor: pointer;
+}
+
+.card-header h3 {
+  color: white;
+}
+
+.social_icon {
+  position: absolute;
+  right: 20px;
+  top: -45px;
+}
+
+.input-group-prepend span {
+  width: 50px;
+  background-color: #ffc312;
   color: black;
+  border: 0 !important;
+}
+
+input:focus {
+  outline: 0 0 0 0 !important;
+  box-shadow: 0 0 0 0 !important;
+}
+
+.remember {
+  color: white;
+}
+
+.remember input {
+  width: 20px;
+  height: 20px;
+  margin-left: 15px;
+  margin-right: 5px;
+}
+
+.links {
+  color: white;
+}
+
+.links a {
+  margin-left: 4px;
 }
 </style>

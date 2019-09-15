@@ -7,11 +7,13 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 import { routes } from './routes';
 import VueApexCharts from 'vue-apexcharts';
+import VueSession from 'vue-session';
 
 Vue.component('apexchart', VueApexCharts);
 Vue.use(BootstrapVue);
 Vue.use(VueResource);
 Vue.use(VueRouter);
+Vue.use(VueSession);
 Vue.config.productionTip = false;
 Vue.prototype.$toastInfo = {
   title: 'Mensagem',
@@ -25,6 +27,12 @@ Vue.prototype.$toastErro = {
   appendToast: false,
   variant: 'danger',
 };
+
+Vue.http.headers.common['Content-Type'] = 'application/json';
+Vue.http.headers.common['Access-Control-Allow-Origin'] = '*';
+Vue.http.headers.common['Accept'] = 'application/json, text/plain, */*';
+Vue.http.headers.common['Access-Control-Allow-Headers'] =
+  'Origin, Accept, Content-Type, Authorization, Access-Control-Allow-Origin';
 
 const router = new VueRouter({ routes });
 
