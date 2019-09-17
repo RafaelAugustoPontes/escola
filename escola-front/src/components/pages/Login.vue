@@ -54,6 +54,7 @@
 
 <script>
 import { mask } from 'vue-the-mask';
+import Vue from 'vue';
 export default {
   directives: { mask },
   created() {
@@ -69,18 +70,23 @@ export default {
   },
   methods: {
     onSubmit(evt) {
+      console.log(this.form);
       this.$http.post(process.env.VUE_APP_BASE_URI + 'login', this.form).then(
         response => {
           this.$bvToast.toast('Curso inserido com sucesso', this.$toastInfo);
-          if (response.status === 200 && 'token' in response.body) {
+          if (response.status === 200) {
             this.$session.start();
-            this.$session.set('jwt', response.body.token);
-            Vue.http.headers.common['Authorization'] =
-              'Bearer ' + response.body.token;
+            this.$session.set('jwt', response.body);
+            Vue.http.headers.common['Authorization'] = response.body;
+            console.log(Vue.http.headers.common['Authorization']);
             this.$router.push('/home');
           }
         },
-        erro => this.$bvToast.toast(erro.body, this.$toastInfo)
+        erro =>
+          this.$bvToast.toast(
+            'Login ou senha inválido.' + erro,
+            this.$toastInfo
+          )
       );
     },
   },

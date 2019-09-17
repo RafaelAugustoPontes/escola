@@ -1,4 +1,4 @@
-package br.com.escola.view.jwt.filter;
+package br.com.escola.security;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -17,8 +17,6 @@ import org.springframework.security.web.authentication.AbstractAuthenticationPro
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import br.com.escola.view.jwt.service.TokenAuthenticationService;
 
 public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
 

@@ -14,6 +14,7 @@ Vue.use(BootstrapVue);
 Vue.use(VueResource);
 Vue.use(VueRouter);
 Vue.use(VueSession);
+const router = new VueRouter({ routes });
 Vue.config.productionTip = false;
 Vue.prototype.$toastInfo = {
   title: 'Mensagem',
@@ -28,13 +29,15 @@ Vue.prototype.$toastErro = {
   variant: 'danger',
 };
 
-Vue.http.headers.common['Content-Type'] = 'application/json';
-Vue.http.headers.common['Access-Control-Allow-Origin'] = '*';
-Vue.http.headers.common['Accept'] = 'application/json, text/plain, */*';
-Vue.http.headers.common['Access-Control-Allow-Headers'] =
-  'Origin, Accept, Content-Type, Authorization, Access-Control-Allow-Origin';
-
-const router = new VueRouter({ routes });
+Vue.http.interceptors.push((request, next) => {
+  next(response => {
+    console.log(response);
+    if (response && (response.status === 403 || response.status === 401)) {
+      sessionStorage.clear();
+      router.push('/login');
+    }
+  });
+});
 
 new Vue({
   render: h => h(App),

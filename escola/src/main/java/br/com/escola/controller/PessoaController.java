@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.Set;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import br.com.caelum.stella.format.CPFFormatter;
 import br.com.caelum.stella.validation.CPFValidator;
 import br.com.caelum.stella.validation.InvalidStateException;
 import br.com.escola.controller.exception.RegraDeNegocioException;
@@ -13,7 +15,9 @@ import br.com.escola.model.entidades.PerfilModel;
 import br.com.escola.model.entidades.PessoaModel;
 import br.com.escola.model.entidades.PessoaTurmaModel;
 import br.com.escola.model.entidades.TurmaModel;
+import br.com.escola.model.entidades.UsuarioModel;
 import br.com.escola.model.repository.PessoaRepository;
+import br.com.escola.model.repository.UsuarioRepository;
 import br.com.escola.view.dto.OpcaoDTO;
 import br.com.escola.view.dto.PessoaDTO;
 import br.com.escola.view.dto.pessoa.AlunoConsultaDTO;
@@ -23,6 +27,12 @@ public class PessoaController {
 
 	private PessoaRepository repository;
 	private final ModelMapper mapper = new ModelMapper();
+	private UsuarioRepository usuarioRepository;
+
+	public PessoaController(PessoaRepository repository, UsuarioRepository usuarioRepository) {
+		this.repository = repository;
+		this.usuarioRepository = usuarioRepository;
+	}
 
 	public PessoaController(PessoaRepository repository) {
 		this.repository = repository;
@@ -45,17 +55,40 @@ public class PessoaController {
 		return pessoas;
 	}
 
-	public PessoaDTO persistir(PessoaDTO dto) {
+	public PessoaDTO inserir(PessoaDTO dto) {
 		try {
 			CPFValidator validator = new CPFValidator();
 			validator.assertValid(dto.getCpf());
 			PessoaModel pessoa = mapper.map(dto, PessoaModel.class);
-			if (pessoa.getIdPessoa() == null) {
-				pessoa.setMatricula(buscarMatricula());
-				PessoaModel pessoaPorCpf = repository.findByCpf(dto.getCpf());
-				if (pessoaPorCpf != null)
-					throw new RegraDeNegocioException("Já existe uma pessoa cadastrada com esse CPF.");
-			}
+			pessoa.setMatricula(buscarMatricula());
+			PessoaModel pessoaPorCpf = repository.findByCpf(dto.getCpf());
+			if (pessoaPorCpf != null)
+				throw new RegraDeNegocioException("Já existe uma pessoa cadastrada com esse CPF.");
+			pessoa.setPerfil(PerfilModel.valueOf(dto.getPerfilDescricao()));
+			pessoa = repository.save(pessoa);
+			UsuarioModel usuarioModel = new UsuarioModel();
+			String cpfDesformatado = new CPFFormatter().unformat(dto.getCpf());
+			usuarioModel.setLogin(cpfDesformatado);
+			usuarioModel.setSenha(new BCryptPasswordEncoder().encode(cpfDesformatado));
+			usuarioModel.setPessoa(pessoa);
+
+			usuarioModel = usuarioRepository.save(usuarioModel);
+
+			return mapper.map(pessoa, PessoaDTO.class);
+		} catch (InvalidStateException e) {
+			e.printStackTrace();
+			throw new IllegalArgumentException("CPF inválido");
+		}
+	}
+
+	public PessoaDTO atualizar(PessoaDTO dto) {
+		try {
+			CPFValidator validator = new CPFValidator();
+			validator.assertValid(dto.getCpf());
+			PessoaModel pessoa = mapper.map(dto, PessoaModel.class);
+			PessoaModel pessoaPorCpf = repository.findByCpf(dto.getCpf());
+			if (pessoaPorCpf != null && !pessoaPorCpf.getIdPessoa().equals(dto.getIdPessoa()))
+				throw new RegraDeNegocioException("Já existe uma pessoa cadastrada com esse CPF.");
 			pessoa.setPerfil(PerfilModel.valueOf(dto.getPerfilDescricao()));
 			pessoa = repository.save(pessoa);
 

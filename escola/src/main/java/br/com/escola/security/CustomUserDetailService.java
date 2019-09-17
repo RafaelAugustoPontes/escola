@@ -1,0 +1,47 @@
+package br.com.escola.security;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Component;
+
+import br.com.escola.model.entidades.PerfilModel;
+import br.com.escola.model.entidades.UsuarioModel;
+import br.com.escola.model.repository.UsuarioRepository;
+
+@Component
+public class CustomUserDetailService implements UserDetailsService {
+
+	private final UsuarioRepository repository;
+
+	@Autowired
+	public CustomUserDetailService(UsuarioRepository repository) {
+		this.repository = repository;
+	}
+
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		UsuarioModel usuario = Optional.ofNullable(repository.findByLogin(username))
+				.orElseThrow(() -> new UsernameNotFoundException("Usuário não enontrado"));
+
+		List<GrantedAuthority> createAuthorityAdmin = AuthorityUtils.createAuthorityList(
+				PerfilModel.ADMINISTRADOR.getDescricaoRole(), PerfilModel.ALUNO.getDescricaoRole(),
+				PerfilModel.PROFESSOR.getDescricaoRole());
+//		List<GrantedAuthority> createAuthorityUser = AuthorityUtils.createAuthorityList(
+//				PerfilModel.ADMINISTRADOR.getDescricaoRole(), PerfilModel.ALUNO.getDescricaoRole(),
+//				PerfilModel.PROFESSOR.getDescricaoRole());
+
+		CustomUserDetails customUserDetails = new CustomUserDetails(usuario.getLogin(), usuario.getSenha(),
+				createAuthorityAdmin);
+		customUserDetails.setNome(usuario.getPessoa().getNome());
+
+		return customUserDetails;
+	}
+
+}

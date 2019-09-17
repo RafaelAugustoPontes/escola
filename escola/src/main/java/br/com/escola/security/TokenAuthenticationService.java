@@ -1,4 +1,4 @@
-package br.com.escola.view.jwt.service;
+package br.com.escola.security;
 
 import java.io.IOException;
 import java.util.Date;

@@ -1,4 +1,4 @@
-package br.com.escola.view.jwt.filter;
+package br.com.escola.security;
 
 import java.io.IOException;
 
@@ -11,8 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
-
-import br.com.escola.view.jwt.service.TokenAuthenticationService;
 
 public class JWTAuthenticationFilter extends GenericFilterBean {
 

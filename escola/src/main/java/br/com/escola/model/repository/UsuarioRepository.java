@@ -4,7 +4,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import br.com.escola.model.entidades.UsuarioModel;
 
+public interface UsuarioRepository extends JpaRepository<UsuarioModel, Integer> {
 
-public interface UsuarioRepository extends JpaRepository<UsuarioModel,Integer> {
+	public UsuarioModel findByLogin(String login);
 
 }

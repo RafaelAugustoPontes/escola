@@ -55,12 +55,14 @@
 </template>
 
 <script>
+import Vue from 'vue';
 export default {
   props: ['routes'],
   methods: {
     logout: function() {
       this.$session.destroy();
       this.$router.push('/login');
+      Vue.http.headers.common['Authorization'] = undefined;
     },
   },
 };

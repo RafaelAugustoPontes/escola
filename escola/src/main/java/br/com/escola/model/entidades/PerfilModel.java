@@ -13,7 +13,11 @@ public enum PerfilModel {
 	public String getDescricao() {
 		return descricao;
 	}
-	
+
+	public String getDescricaoRole() {
+		return "ROLE_" + name();
+	}
+
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
