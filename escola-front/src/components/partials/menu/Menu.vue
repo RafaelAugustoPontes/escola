@@ -41,9 +41,9 @@
             <b-navbar-nav class="ml-auto">
               <b-nav-item-dropdown right>
                 <template slot="button-content">
-                  <em>Rafael</em>
+                  <em>{{nomeUsuario}}</em>
                 </template>
-                <b-dropdown-item href="#">Perfil</b-dropdown-item>
+                <b-dropdown-item @click="alterarSenha()">Alterar senha</b-dropdown-item>
                 <b-dropdown-item @click="logout()">Sair</b-dropdown-item>
               </b-nav-item-dropdown>
             </b-navbar-nav>
@@ -56,13 +56,35 @@
 
 <script>
 import Vue from 'vue';
+
 export default {
+  data() {
+    return {
+      nomeUsuario: '',
+    };
+  },
+  beforeMount() {
+    this.$http.get(process.env.VUE_APP_BASE_URI + 'login/usuario').then(data =>
+      (this.nomeUsuario = data.json()).then(
+        data => {
+          console.log(data);
+          this.nomeUsuario = data.username;
+        },
+        err => console.log(err)
+      )
+    );
+  },
   props: ['routes'],
   methods: {
     logout: function() {
-      this.$session.destroy();
-      this.$router.push('/login');
+      sessionStorage.clear();
       Vue.http.headers.common['Authorization'] = undefined;
+      this.$router.push('/login');
+      location.reload();
+    },
+
+    alterarSenha() {
+      this.$emit('alterarSenha');
     },
   },
 };

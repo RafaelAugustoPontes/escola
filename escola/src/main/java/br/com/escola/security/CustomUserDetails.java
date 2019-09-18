@@ -8,8 +8,8 @@ import org.springframework.security.core.userdetails.User;
 public class CustomUserDetails extends User {
 
 	private static final long serialVersionUID = -5332890413893930641L;
-
 	private String nome;
+	private String token;
 
 	public CustomUserDetails(String username, String password, Collection<? extends GrantedAuthority> authorities) {
 		super(username, password, authorities);
@@ -21,5 +21,13 @@ public class CustomUserDetails extends User {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
 	}
 }

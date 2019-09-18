@@ -3,6 +3,7 @@ package br.com.escola.view.resource;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +21,7 @@ import br.com.escola.view.dto.PessoaDTO;
 import br.com.escola.view.dto.pessoa.AlunoConsultaDTO;
 
 @RestController
+
 @RequestMapping("/pessoa")
 public class PessoaResource {
 
@@ -30,6 +32,7 @@ public class PessoaResource {
 	private UsuarioRepository usuarioRepository;
 
 	@GetMapping
+	@PreAuthorize("hasRole('ADMINISTRADOR')")
 	public List<PessoaDTO> buscar() {
 		return new PessoaController(pessoaRepository).buscar();
 	}

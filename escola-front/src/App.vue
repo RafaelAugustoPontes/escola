@@ -1,10 +1,11 @@
 <template>
   <div id="app">
     <header id="header">
-      <Menu :routes="routes" v-if="!hide" />
+      <Menu :routes="routes" v-if="!hide" @alterarSenha="alterarSenha()" />
     </header>
     <main id="content">
       <router-view></router-view>
+      <modal-alteracao-senha ref="modal"></modal-alteracao-senha>
     </main>
   </div>
 </template>
@@ -12,11 +13,19 @@
 <script>
 import Menu from './components/partials/menu/Menu.vue';
 import { routes } from './routes.js';
+import ModalAlteracaoSenha from './components/modals/modal-alteracao-senha/modal-alteracao-senha.vue';
 
 export default {
   name: 'app',
   components: {
     Menu,
+    ModalAlteracaoSenha,
+  },
+
+  methods: {
+    alterarSenha() {
+      this.$refs.modal.abrir();
+    },
   },
 
   computed: {

@@ -70,15 +70,11 @@ export default {
   },
   methods: {
     onSubmit(evt) {
-      console.log(this.form);
       this.$http.post(process.env.VUE_APP_BASE_URI + 'login', this.form).then(
         response => {
-          this.$bvToast.toast('Curso inserido com sucesso', this.$toastInfo);
           if (response.status === 200) {
-            this.$session.start();
-            this.$session.set('jwt', response.body);
+            sessionStorage.setItem('jwt', response.body);
             Vue.http.headers.common['Authorization'] = response.body;
-            console.log(Vue.http.headers.common['Authorization']);
             this.$router.push('/home');
           }
         },
