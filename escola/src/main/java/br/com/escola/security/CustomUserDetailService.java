@@ -1,11 +1,11 @@
 package br.com.escola.security;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -29,11 +29,7 @@ public class CustomUserDetailService implements UserDetailsService {
 		UsuarioModel usuario = Optional.ofNullable(repository.findByLogin(username))
 				.orElseThrow(() -> new UsernameNotFoundException("Usuário não enontrado"));
 
-		List<GrantedAuthority> createAuthorityAdmin = AuthorityUtils
-				.createAuthorityList(usuario.getPessoa().getPerfil().getDescricaoRole());
-//		List<GrantedAuthority> createAuthorityUser = AuthorityUtils.createAuthorityList(
-//				PerfilModel.ADMINISTRADOR.getDescricaoRole(), PerfilModel.ALUNO.getDescricaoRole(),
-//				PerfilModel.PROFESSOR.getDescricaoRole());
+		List<GrantedAuthority> createAuthorityAdmin = Collections.emptyList();
 
 		CustomUserDetails customUserDetails = new CustomUserDetails(usuario.getLogin(), usuario.getSenha(),
 				createAuthorityAdmin);

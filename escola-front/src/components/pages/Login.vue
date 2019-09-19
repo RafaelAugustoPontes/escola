@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <app-loading :isLoading="isLoading"></app-loading>
     <div class="d-flex justify-content-center h-100">
       <div class="card">
         <div class="card-header">
@@ -55,8 +56,11 @@
 <script>
 import { mask } from 'vue-the-mask';
 import Vue from 'vue';
+import AppLoading from '../partials/app-loading/app-loading.vue';
+
 export default {
   directives: { mask },
+  components: { AppLoading },
   created() {
     this.$bvToast.toast('Por favor, efetue o login', this.$toastInfo);
   },
@@ -66,10 +70,12 @@ export default {
         username: '',
         password: '',
       },
+      isLoading: false,
     };
   },
   methods: {
     onSubmit(evt) {
+      this.isLoading = true;
       this.$http.post(process.env.VUE_APP_BASE_URI + 'login', this.form).then(
         response => {
           if (response.status === 200) {
@@ -77,12 +83,13 @@ export default {
             Vue.http.headers.common['Authorization'] = response.body;
             this.$router.push('/home');
           }
+          this.isLoading = false;
         },
-        erro =>
-          this.$bvToast.toast(
-            'Login ou senha inválido.' + erro,
-            this.$toastInfo
-          )
+        erro => {
+          this.$bvToast.toast('Login ou senha inválido.', this.$toastInfo);
+          console.log(erro);
+          this.isLoading = false;
+        }
       );
     },
   },
