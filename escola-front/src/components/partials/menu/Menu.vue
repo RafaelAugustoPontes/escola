@@ -10,7 +10,7 @@
           <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
           <b-collapse id="nav-collapse" is-nav>
-            <b-navbar-nav>
+            <b-navbar-nav v-if="userData.perfil === 'ADMINISTRADOR'">
               <b-dropdown id="dropdown-left" text="Cadastro" variant="primary" class="m-3">
                 <div v-for="rota in routes" :value="rota.titulo" :key="rota.titulo">
                   <b-nav-item v-if="!rota.oculto && rota.classe ==='cadastro'">
@@ -19,7 +19,7 @@
                 </div>
               </b-dropdown>
             </b-navbar-nav>
-            <b-navbar-nav>
+            <b-navbar-nav v-if="userData.perfil === 'ADMINISTRADOR' || 'PROFESSOR'">
               <b-dropdown id="dropdown-left" text="Lançamentos" variant="primary" class="m-3">
                 <div v-for="rota in routes" :value="rota.titulo" :key="rota.titulo">
                   <b-nav-item v-if="!rota.oculto && rota.classe ==='lancamento'">
@@ -28,7 +28,7 @@
                 </div>
               </b-dropdown>
             </b-navbar-nav>
-            <b-navbar-nav>
+            <b-navbar-nav v-if="userData.perfil === 'ADMINISTRADOR' || 'PROFESSOR'">
               <b-dropdown id="dropdown-left" text="Consultas" variant="primary" class="m-3">
                 <div v-for="rota in routes" :value="rota.titulo" :key="rota.titulo">
                   <b-nav-item v-if="!rota.oculto && rota.classe ==='consulta'">
@@ -41,7 +41,7 @@
             <b-navbar-nav class="ml-auto">
               <b-nav-item-dropdown right>
                 <template slot="button-content">
-                  <em>{{nomeUsuario}}</em>
+                  <em>{{userData.nomeUsuario}}</em>
                 </template>
                 <b-dropdown-item @click="alterarSenha()">Alterar senha</b-dropdown-item>
                 <b-dropdown-item @click="logout()">Sair</b-dropdown-item>
@@ -60,7 +60,10 @@ import Vue from 'vue';
 export default {
   data() {
     return {
-      nomeUsuario: '',
+      userData: {
+        nomeUsuario: '',
+        perfil: '',
+      },
     };
   },
   beforeMount() {
@@ -68,7 +71,9 @@ export default {
       (this.nomeUsuario = data.json()).then(
         data => {
           console.log(data);
-          this.nomeUsuario = data.username;
+          this.userData.nomeUsuario = data.username;
+          this.userData.perfil = data.perfil;
+          sessionStorage.setItem('usr', data);
         },
         err => console.log(err)
       )

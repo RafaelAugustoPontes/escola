@@ -1,7 +1,7 @@
 export default {
   data() {
     return {
-      usuario: { senhaAtual: '', novaSenha: '', repeticaoNovaSenha: '' },
+      usuario: { username: '', dataNascimento: '' },
     };
   },
 
@@ -10,11 +10,11 @@ export default {
       event.preventDefault();
       console.log(this.usuario);
       this.$http
-        .put(process.env.VUE_APP_BASE_URI + 'usuario/reset-senha', this.usuario)
+        .put(process.env.VUE_APP_BASE_URI + 'login/reset-senha', this.usuario)
         .then(
           () => {
             this.$bvToast.toast(
-              'Senha atualizada com sucesso',
+              'Senha resetada com sucesso. A senha agora é o seu CPF sem caracteres especiais',
               this.$toastInfo
             );
             this.$refs.modal.hide();
@@ -23,7 +23,7 @@ export default {
         );
     },
     resetModal() {
-      this.usuario = { senhaAtual: '', novaSenha: '', repeticaoNovaSenha: '' };
+      this.usuario = {};
     },
 
     abrir() {

@@ -18,9 +18,7 @@ import br.com.escola.model.repository.UsuarioRepository;
 import br.com.escola.view.dto.OpcaoDTO;
 import br.com.escola.view.dto.PessoaDTO;
 import br.com.escola.view.dto.pessoa.AlunoConsultaDTO;
-import br.com.escola.view.interceptor.Administrador;
 
-@Administrador
 @RestController
 @RequestMapping("/pessoa")
 public class PessoaResource {

@@ -2,39 +2,27 @@
   <b-modal
     id="modal-alteracao-senha"
     ref="modal"
-    title="Alterar senha"
+    title="Esqueceu a senha?"
     cancel-title="Cancelar"
-    ok-title="Alterar"
-    :ok-disabled="!usuario.senhaAtual && !formnovaSenha && !usuario.repeticaoNovaSenha"
+    ok-title="Resetar"
+    :ok-disabled="!usuario.username && !usuario.dataNascimento"
     @hidden="resetModal"
     @ok="handleSubmit"
   >
     <form ref="form" @submit.stop.prevent="handleSubmit">
-      <b-form-group label="Senha atual" label-for="senhaAtual">
+      <b-form-group label="Usuário" label-for="usr">
         <b-form-input
-          id="senhaAtual"
-          v-model="usuario.senhaAtual"
-          required
-          maxlength="45"
-          type="password"
+          id="usr"
+          v-model="usuario.username"
+          maxlength="14"
+          placeholder="Usuário"
         ></b-form-input>
       </b-form-group>
-      <b-form-group label="Nova senha" label-for="novaSenha">
+      <b-form-group label="Data de nascimento" label-for="dt">
         <b-form-input
-          id="novaSenha"
-          v-model="usuario.novaSenha"
-          required
-          maxlength="45"
-          type="password"
-        ></b-form-input>
-      </b-form-group>
-      <b-form-group label="Confirmar nova senha" label-for="confNovaSenha">
-        <b-form-input
-          id="confNovaSenha"
-          v-model="usuario.repeticaoNovaSenha"
-          required
-          maxlength="45"
-          type="password"
+          id="dt"
+          v-model="usuario.dataNascimento"
+          type="date"
         ></b-form-input>
       </b-form-group>
     </form>

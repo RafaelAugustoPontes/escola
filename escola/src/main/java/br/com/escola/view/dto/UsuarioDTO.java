@@ -1,11 +1,15 @@
 package br.com.escola.view.dto;
 
+import java.time.LocalDate;
+
 public class UsuarioDTO {
 
 	private String username;
 	private String senhaAtual;
 	private String novaSenha;
 	private String repeticaoNovaSenha;
+	private LocalDate dataNascimento;
+	private String perfil;
 
 	public UsuarioDTO() {
 
@@ -45,6 +49,22 @@ public class UsuarioDTO {
 
 	public void setRepeticaoNovaSenha(String repeticaoNovaSenha) {
 		this.repeticaoNovaSenha = repeticaoNovaSenha;
+	}
+
+	public LocalDate getDataNascimento() {
+		return dataNascimento;
+	}
+
+	public void setDataNascimento(LocalDate dataNascimento) {
+		this.dataNascimento = dataNascimento;
+	}
+
+	public String getPerfil() {
+		return perfil;
+	}
+
+	public void setPerfil(String perfil) {
+		this.perfil = perfil;
 	}
 
 }

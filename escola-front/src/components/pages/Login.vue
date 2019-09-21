@@ -19,8 +19,7 @@
                 v-model="form.username"
                 required
                 maxlength="14"
-                masked="false"
-                placeholder="CPF"
+                placeholder="Usuário"
               ></b-form-input>
             </div>
             <div class="input-group form-group">
@@ -45,22 +44,22 @@
         </div>
         <div class="card-footer">
           <div class="d-flex justify-content-center">
-            <a href="#">Esqueceu a senha?</a>
+            <a href="#" @click="esqueceuSenha()">Esqueceu a senha?</a>
           </div>
         </div>
       </div>
     </div>
+    <modal-reset-senha ref="modal"></modal-reset-senha>
   </div>
 </template>
 
 <script>
-import { mask } from 'vue-the-mask';
 import Vue from 'vue';
 import AppLoading from '../partials/app-loading/app-loading.vue';
+import ModalResetSenha from '../modals/modal-reset-senha/modal-reset-senha.vue';
 
 export default {
-  directives: { mask },
-  components: { AppLoading },
+  components: { AppLoading, ModalResetSenha },
   created() {
     this.$bvToast.toast('Por favor, efetue o login', this.$toastInfo);
   },
@@ -92,6 +91,10 @@ export default {
         }
       );
     },
+
+    esqueceuSenha() {
+      this.$refs.modal.abrir();
+    },
   },
 };
 </script>
@@ -99,7 +102,6 @@ export default {
 <style scoped>
 html,
 body {
-  background-image: url('http://getwallpapers.com/wallpaper/full/a/5/d/544750.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   height: 100%;

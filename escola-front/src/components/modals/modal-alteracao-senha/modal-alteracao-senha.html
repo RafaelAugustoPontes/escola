@@ -5,7 +5,7 @@
     title="Alterar senha"
     cancel-title="Cancelar"
     ok-title="Alterar"
-    :ok-disabled="!usuario.senhaAtual && !formnovaSenha && !usuario.repeticaoNovaSenha"
+    :ok-disabled="!usuario.senhaAtual && !usuario.novaSenha && !usuario.repeticaoNovaSenha"
     @hidden="resetModal"
     @ok="handleSubmit"
   >

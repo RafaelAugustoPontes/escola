@@ -20,9 +20,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
 		httpSecurity.csrf().disable().authorizeRequests().antMatchers(HttpMethod.POST, "/login").permitAll()
-				.anyRequest().authenticated().and().authorizeRequests()
-				.antMatchers(HttpMethod.POST, "/login/reset-senha").permitAll().and()
-
+				.antMatchers(HttpMethod.PUT, "/login/reset-senha").permitAll().anyRequest().authenticated().and()
 				// filtra requisições de login
 				.addFilterBefore(new JwtLoginFilter("/login", authenticationManager()),
 						UsernamePasswordAuthenticationFilter.class)
