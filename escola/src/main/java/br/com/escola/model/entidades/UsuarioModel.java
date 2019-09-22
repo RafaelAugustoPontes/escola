@@ -28,6 +28,18 @@ public class UsuarioModel {
 
 	}
 
+	public boolean isAdministrador() {
+		return pessoa.getPerfil().equals(PerfilModel.ADMINISTRADOR);
+	}
+
+	public boolean isProfessor() {
+		return pessoa.getPerfil().equals(PerfilModel.PROFESSOR);
+	}
+
+	public boolean isAluno() {
+		return pessoa.getPerfil().equals(PerfilModel.ALUNO);
+	}
+
 	public Integer getIdUsuario() {
 		return idUsuario;
 	}

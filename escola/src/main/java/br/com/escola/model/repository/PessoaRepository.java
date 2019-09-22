@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import br.com.escola.model.entidades.PerfilModel;
@@ -18,6 +19,11 @@ public interface PessoaRepository extends JpaRepository<PessoaModel, Integer> {
 	List<PessoaModel> findByPerfil(PerfilModel perfil);
 
 	List<PessoaModel> findByMatricula(Integer numero);
+
+	@Query("SELECT pessoa FROM PessoaModel pessoa" + " JOIN pessoa.pessoaTurmas pessoaTurmas"
+			+ " JOIN pessoaTurmas.turma turma " + " JOIN turma.professor professor "
+			+ " WHERE professor.idPessoa = :idPessoa ")
+	List<PessoaModel> findAlunoByProfessor(@Param("idPessoa") Integer idPessoa);
 
 	PessoaModel findByCpf(String cpf);
 

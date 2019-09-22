@@ -23,7 +23,7 @@ public class PessoaTurmaModel {
 	private PessoaModel pessoa;
 
 	@ManyToOne
-	@JoinColumn(name = "IDTURMA", nullable = false, insertable = true, updatable = true)
+	@JoinColumn(name = "IDTURMA")
 	private TurmaModel turma;
 
 	private Double nota;

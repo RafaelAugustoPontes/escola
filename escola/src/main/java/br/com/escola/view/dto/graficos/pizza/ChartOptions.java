@@ -1,9 +1,9 @@
-package br.com.escola.view.dto.graficos;
+package br.com.escola.view.dto.graficos.pizza;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class ChartOptions {
+class ChartOptions {
 
 	private Collection<String> labels = new ArrayList<>();
 

@@ -3,6 +3,8 @@ package br.com.escola.view.resource;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -58,7 +60,8 @@ public class PessoaResource {
 
 	@GetMapping("/alunos")
 	public List<PessoaDTO> buscarAlunos() {
-		return new PessoaController(pessoaRepository).buscarAlunos();
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		return new PessoaController(pessoaRepository, usuarioRepository).buscarAlunos(authentication.getName());
 	}
 
 	@GetMapping("/alunos/{idPessoa}")

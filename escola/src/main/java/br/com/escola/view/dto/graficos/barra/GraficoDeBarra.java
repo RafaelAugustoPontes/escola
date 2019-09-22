@@ -1,9 +1,11 @@
-package br.com.escola.view.dto.graficos;
+package br.com.escola.view.dto.graficos.barra;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class GraficoDePizza {
+import br.com.escola.view.dto.graficos.pizza.ChartOptions;
+
+public class GraficoDeBarra {
 
 	private Collection<Number> series = new ArrayList<>();
 	private ChartOptions chartOptions = new ChartOptions();

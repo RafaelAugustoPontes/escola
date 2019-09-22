@@ -1,8 +1,8 @@
 <template>
   <div>
     <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true"></loading>
-    <h1 class="display-4">Dashboard</h1>
     <div v-if="perfil === 'ADMINISTRADOR'">
+      <h1 class="display-4">Dashboard</h1>
       <b-card-group deck>
         <b-card header="Gráfico 1" header-tag="header" title="Pessoas por turma">
           <apexchart
@@ -12,8 +12,13 @@
             :series="graficoTurma.series"
           ></apexchart>
         </b-card>
-        <b-card header="Gráfico 2" header-tag="header" title="Title">
-          <apexchart width="380" type="donut" :options="chartOptions" :series="series"></apexchart>
+        <b-card header="Gráfico 2" header-tag="header" title="Turmas por unidade">
+          <apexchart
+            width="380"
+            type="bar"
+            :options="graficoUnidade.chartOptions"
+            :series="graficoUnidade.series"
+          ></apexchart>
         </b-card>
       </b-card-group>
     </div>
@@ -26,11 +31,22 @@ import 'vue-loading-overlay/dist/vue-loading.css';
 export default {
   data() {
     return {
-      series: [44, 55, 41, 17, 15],
-      chartOptions: {
-        labels: ['Apple', 'Mango', 'Orange', 'Watermelon'],
-      },
       graficoTurma: {},
+      graficoUnidade: {},
+      graficoUnidade: {
+        chart: {
+          id: 'basic-bar',
+        },
+        xaxis: {
+          categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999],
+        },
+      },
+      series: [
+        {
+          name: 'series-1',
+          data: [30, 40, 45, 50, 49, 60, 70, 91],
+        },
+      ],
       isLoading: true,
       perfil: {},
     };
@@ -38,10 +54,11 @@ export default {
 
   created() {
     setTimeout(() => {
-      this.buscarPessoasPorTurma();
       this.perfil = sessionStorage.getItem('perfil');
       console.log(this.perfil);
     }, 1000);
+    this.buscarPessoasPorTurma();
+    this.buscarTurmasPorUnidade();
   },
 
   methods: {
@@ -53,6 +70,25 @@ export default {
         .then(
           graficoTurma => {
             this.graficoTurma = graficoTurma;
+            this.isLoading = false;
+          },
+          erro => {
+            this.isLoading = false;
+            this.$bvToast.toast(
+              'Erro ao buscar as turmas' + erro.body.message,
+              this.$toastErro
+            );
+          }
+        );
+    },
+    buscarTurmasPorUnidade() {
+      this.isLoading = true;
+      this.$http
+        .get(process.env.VUE_APP_BASE_URI + 'grafico/turma-unidade')
+        .then(resposta => resposta.json())
+        .then(
+          graficoUnidade => {
+            this.graficoUnidade = graficoUnidade;
             this.isLoading = false;
           },
           erro => {

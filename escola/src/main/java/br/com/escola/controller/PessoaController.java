@@ -116,13 +116,19 @@ public class PessoaController {
 		return opcoes;
 	}
 
-	public List<PessoaDTO> buscarAlunos() {
+	public List<PessoaDTO> buscarAlunos(String username) {
 		List<PessoaDTO> resultado = new ArrayList<>();
-		List<PessoaModel> alunos = repository.findByPerfil(PerfilModel.ALUNO);
+		UsuarioModel usuario = usuarioRepository.findByLogin(username);
 
-		alunos.forEach(pessoa -> {
-			resultado.add(mapper.map(pessoa, PessoaDTO.class));
-		});
+		if (usuario.isAdministrador()) {
+			repository.findByPerfil(PerfilModel.ALUNO).forEach(pessoa -> {
+				resultado.add(mapper.map(pessoa, PessoaDTO.class));
+			});
+		} else {
+			repository.findAlunoByProfessor(usuario.getPessoa().getIdPessoa()).forEach(pessoa -> {
+				resultado.add(mapper.map(pessoa, PessoaDTO.class));
+			});
+		}
 
 		return resultado;
 	}

@@ -12,12 +12,14 @@ import br.com.escola.model.entidades.PessoaTurmaModel;
 import br.com.escola.model.entidades.TurmaModel;
 import br.com.escola.model.entidades.TurnoModel;
 import br.com.escola.model.entidades.UnidadeModel;
+import br.com.escola.model.entidades.UsuarioModel;
 import br.com.escola.model.repository.CursoRepository;
 import br.com.escola.model.repository.EstagioRepository;
 import br.com.escola.model.repository.PessoaRepository;
 import br.com.escola.model.repository.PessoaTurmaRepository;
 import br.com.escola.model.repository.TurmaRepository;
 import br.com.escola.model.repository.UnidadeRepository;
+import br.com.escola.model.repository.UsuarioRepository;
 import br.com.escola.view.dto.CursoDTO;
 import br.com.escola.view.dto.EstagioDTO;
 import br.com.escola.view.dto.OpcaoParaSelect;
@@ -81,30 +83,40 @@ public class TurmaController {
 		return obterDTO(turmaModel);
 	}
 
-	public List<TurmaDTO> buscar(String username) {
-
+	public List<TurmaDTO> buscar(String username, UsuarioRepository usuarioRepository) {
 		List<TurmaDTO> turma = new ArrayList<>();
-		repository.findAll().forEach(pessoa -> {
-			turma.add(obterDTO(pessoa));
-		});
+		UsuarioModel usuario = usuarioRepository.findByLogin(username);
+		if (usuario.isProfessor()) {
+			List<TurmaModel> turmas = repository.getByProfessor(usuario.getPessoa().getIdPessoa());
+			turmas.forEach(pessoa -> {
+				turma.add(obterDTO(pessoa));
+			});
+		} else {
+			repository.findAll().forEach(pessoa -> {
+				turma.add(obterDTO(pessoa));
+			});
+		}
 
 		return turma;
 	}
 
 	public void atualizar(TurmaDTO dto) {
-		TurmaModel turma = obterTurma(dto);
+		TurmaModel turma = repository.findById(dto.getIdTurma()).get();
 
 		alunos: for (PessoaDTO dtoAluno : dto.getAlunos()) {
-			if (turma.getAlunosTurma() != null)
+			if (turma.getAlunosTurma() != null) {
 				for (PessoaTurmaModel pessoaTurma : turma.getAlunosTurma()) {
 					if (pessoaTurma.getPessoa().getIdPessoa().equals(dtoAluno.getIdPessoa()))
 						continue alunos;
 				}
+			}
 			PessoaTurmaModel pessoaTurmaModel = new PessoaTurmaModel();
 			PessoaModel aluno = pessoaRepository.findById(dtoAluno.getIdPessoa()).get();
 			pessoaTurmaModel.setPessoa(aluno);
 			pessoaTurmaModel.setTurma(turma);
 			pessoaTurmaRepository.save(pessoaTurmaModel);
+			turma.adicionarAlunoTurma(pessoaTurmaModel);
+			repository.save(turma);
 		}
 	}
 
@@ -117,6 +129,8 @@ public class TurmaController {
 			pessoaTurmaModel.setPessoa(aluno);
 			pessoaTurmaModel.setTurma(turma);
 			pessoaTurmaRepository.save(pessoaTurmaModel);
+			turma.adicionarAlunoTurma(pessoaTurmaModel);
+			repository.save(turma);
 		}
 		return dto;
 	}

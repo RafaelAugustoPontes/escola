@@ -1,6 +1,6 @@
-package br.com.escola.view.dto.graficos;
+package br.com.escola.view.dto.graficos.pizza;
 
-public class DadosGrafico {
+class DadosGrafico {
 
 	private String nome;
 

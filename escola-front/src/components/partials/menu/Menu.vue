@@ -95,9 +95,7 @@ export default {
   methods: {
     logout: function() {
       sessionStorage.clear();
-      Vue.http.headers.common['Authorization'] = undefined;
       this.$router.push('/login');
-      location.reload();
     },
 
     alterarSenha() {

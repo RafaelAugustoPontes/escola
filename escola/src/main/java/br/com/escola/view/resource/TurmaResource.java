@@ -21,6 +21,7 @@ import br.com.escola.model.repository.PessoaRepository;
 import br.com.escola.model.repository.PessoaTurmaRepository;
 import br.com.escola.model.repository.TurmaRepository;
 import br.com.escola.model.repository.UnidadeRepository;
+import br.com.escola.model.repository.UsuarioRepository;
 import br.com.escola.view.dto.OpcaoParaSelect;
 import br.com.escola.view.dto.TurmaDTO;
 import br.com.escola.view.dto.turma.TurmaConsultaDTO;
@@ -47,6 +48,9 @@ public class TurmaResource {
 	@Autowired
 	private EstagioRepository estagioRepository;
 
+	@Autowired
+	private UsuarioRepository usuarioRepository;
+
 	@GetMapping("/{id}")
 	public TurmaDTO buscarPorId(@PathVariable Integer id) {
 		return new TurmaController(turmaRepository).buscarPorId(id);
@@ -60,7 +64,7 @@ public class TurmaResource {
 	@GetMapping
 	public List<TurmaDTO> buscar() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		return new TurmaController(turmaRepository).buscar(authentication.getName());
+		return new TurmaController(turmaRepository).buscar(authentication.getName(), usuarioRepository);
 	}
 
 	@GetMapping("/turnos")
