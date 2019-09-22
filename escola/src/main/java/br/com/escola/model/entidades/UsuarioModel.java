@@ -24,6 +24,10 @@ public class UsuarioModel {
 	@JoinColumn(name = "IDPESSOA")
 	private PessoaModel pessoa;
 
+	public UsuarioModel() {
+
+	}
+
 	public Integer getIdUsuario() {
 		return idUsuario;
 	}

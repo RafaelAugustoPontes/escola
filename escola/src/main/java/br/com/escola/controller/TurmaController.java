@@ -81,7 +81,8 @@ public class TurmaController {
 		return obterDTO(turmaModel);
 	}
 
-	public List<TurmaDTO> buscar() {
+	public List<TurmaDTO> buscar(String username) {
+
 		List<TurmaDTO> turma = new ArrayList<>();
 		repository.findAll().forEach(pessoa -> {
 			turma.add(obterDTO(pessoa));

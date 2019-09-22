@@ -78,8 +78,10 @@ export default {
       this.$http.post(process.env.VUE_APP_BASE_URI + 'login', this.form).then(
         response => {
           if (response.status === 200) {
-            sessionStorage.setItem('jwt', response.body);
+            // sessionStorage.setItem('jwt', response.body);
             Vue.http.headers.common['Authorization'] = response.body;
+            //cookie
+            this.$cookies.set('jwt', response.body);
             this.$router.push('/home');
           }
           this.isLoading = false;

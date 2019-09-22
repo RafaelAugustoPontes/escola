@@ -8,7 +8,6 @@
           </b-navbar-brand>
 
           <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
-
           <b-collapse id="nav-collapse" is-nav>
             <b-navbar-nav v-if="userData.perfil === 'ADMINISTRADOR'">
               <b-dropdown id="dropdown-left" text="Cadastro" variant="primary" class="m-3">
@@ -19,7 +18,9 @@
                 </div>
               </b-dropdown>
             </b-navbar-nav>
-            <b-navbar-nav v-if="userData.perfil === 'ADMINISTRADOR' || 'PROFESSOR'">
+            <b-navbar-nav
+              v-if="userData.perfil === 'ADMINISTRADOR' || userData.perfil ===  'PROFESSOR'"
+            >
               <b-dropdown id="dropdown-left" text="Lançamentos" variant="primary" class="m-3">
                 <div v-for="rota in routes" :value="rota.titulo" :key="rota.titulo">
                   <b-nav-item v-if="!rota.oculto && rota.classe ==='lancamento'">
@@ -28,10 +29,21 @@
                 </div>
               </b-dropdown>
             </b-navbar-nav>
-            <b-navbar-nav v-if="userData.perfil === 'ADMINISTRADOR' || 'PROFESSOR'">
+            <b-navbar-nav
+              v-if="userData.perfil === 'ADMINISTRADOR' || userData.perfil ===   'PROFESSOR'"
+            >
               <b-dropdown id="dropdown-left" text="Consultas" variant="primary" class="m-3">
                 <div v-for="rota in routes" :value="rota.titulo" :key="rota.titulo">
                   <b-nav-item v-if="!rota.oculto && rota.classe ==='consulta'">
+                    <router-link :to="rota.path ? rota.path  :  '/'">{{rota.titulo}}</router-link>
+                  </b-nav-item>
+                </div>
+              </b-dropdown>
+            </b-navbar-nav>
+            <b-navbar-nav v-if="userData.perfil === 'ALUNO'">
+              <b-dropdown id="dropdown-left" text="Consultas" variant="primary" class="m-3">
+                <div v-for="rota in routes" :value="rota.titulo" :key="rota.titulo">
+                  <b-nav-item v-if="!rota.oculto && rota.classe ==='aluno'">
                     <router-link :to="rota.path ? rota.path  :  '/'">{{rota.titulo}}</router-link>
                   </b-nav-item>
                 </div>
@@ -73,7 +85,7 @@ export default {
           console.log(data);
           this.userData.nomeUsuario = data.username;
           this.userData.perfil = data.perfil;
-          sessionStorage.setItem('usr', data);
+          sessionStorage.setItem('perfil', data.perfil);
         },
         err => console.log(err)
       )

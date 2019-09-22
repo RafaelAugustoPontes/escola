@@ -4,12 +4,14 @@ import java.security.Principal;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.escola.model.entidades.UsuarioModel;
+import br.com.escola.controller.UsuarioController;
 import br.com.escola.model.repository.UsuarioRepository;
 import br.com.escola.view.dto.UsuarioDTO;
 
@@ -27,13 +29,12 @@ public class LoginResource {
 	@RequestMapping(value = "/usuario", method = RequestMethod.GET)
 	@ResponseBody
 	public UsuarioDTO getDadosLogin(Principal principal) {
-		UsuarioModel usuarioModel = repository.findByLogin(principal.getName());
-		return new UsuarioDTO(usuarioModel.getPessoa().getNome());
+		return new UsuarioController(repository).dadosLogin(principal.getName());
 	}
 
-//	@PostMapping
-//	public void obterUsuarioLogado(@RequestBody UsuarioDTO credentials) {
-//		System.out.println(credentials.getUsername() + " - " + credentials.getPassword());
-//	}
+	@PutMapping("/reset-senha")
+	public void resetSenha(@RequestBody UsuarioDTO usuario) {
+		new UsuarioController(repository).resetarSenha(usuario);
+	}
 
 }

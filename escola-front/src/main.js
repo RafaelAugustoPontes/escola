@@ -7,21 +7,31 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 import { routes } from './routes';
 import VueApexCharts from 'vue-apexcharts';
-import VueSession from 'vue-session';
+import VueCookies from 'vue-cookies';
 
 Vue.component('apexchart', VueApexCharts);
 Vue.use(BootstrapVue);
 Vue.use(VueResource);
 Vue.use(VueRouter);
-Vue.use(VueSession);
-const router = new VueRouter({ routes });
+Vue.use(VueCookies);
+
+// set default config
+VueCookies.config('1d');
+
+// set global cookie
+VueCookies.set('theme', 'default');
+VueCookies.set('hover-time', '1s');
+
+let router = new VueRouter({ routes });
 Vue.config.productionTip = false;
+
 Vue.prototype.$toastInfo = {
   title: 'Mensagem',
   autoHideDelay: 5000,
   appendToast: false,
   variant: 'info',
 };
+
 Vue.prototype.$toastErro = {
   title: 'Erro',
   autoHideDelay: 5000,

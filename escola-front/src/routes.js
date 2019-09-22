@@ -1,3 +1,6 @@
+const _ADMINISTRADOR = 'ADMINISTRADOR';
+const _PROFESSOR = 'PROFESSOR';
+
 export const routes = [
   {
     path: '/',
@@ -19,6 +22,11 @@ export const routes = [
     titulo: 'Pessoas',
     oculto: false,
     classe: 'cadastro',
+    beforeEnter: (to, from, next) => {
+      let perfil = sessionStorage.getItem('perfil');
+      if (perfil === _ADMINISTRADOR) next(to.path.path);
+      else next('/home');
+    },
   },
   {
     path: '/unidades',
@@ -27,6 +35,11 @@ export const routes = [
     titulo: 'Unidade',
     oculto: false,
     classe: 'cadastro',
+    beforeEnter: (to, from, next) => {
+      let perfil = sessionStorage.getItem('perfil');
+      if (perfil === _ADMINISTRADOR) next(to.path.path);
+      else next('/home');
+    },
   },
   {
     path: '/cursos',
@@ -35,6 +48,11 @@ export const routes = [
     titulo: 'Curso',
     oculto: false,
     classe: 'cadastro',
+    beforeEnter: (to, from, next) => {
+      let perfil = sessionStorage.getItem('perfil');
+      if (perfil === _ADMINISTRADOR) next(to.path.path);
+      else next('/home');
+    },
   },
   {
     path: '/estagios',
@@ -43,6 +61,11 @@ export const routes = [
     titulo: 'Estágio',
     oculto: false,
     classe: 'cadastro',
+    beforeEnter: (to, from, next) => {
+      let perfil = sessionStorage.getItem('perfil');
+      if (perfil === _ADMINISTRADOR) next(to.path.path);
+      else next('/home');
+    },
   },
   {
     path: '/turmas',
@@ -51,6 +74,11 @@ export const routes = [
     titulo: 'Turma',
     oculto: false,
     classe: 'cadastro',
+    beforeEnter: (to, from, next) => {
+      let perfil = sessionStorage.getItem('perfil');
+      if (perfil === _ADMINISTRADOR) next(to.path.path);
+      else next('/home');
+    },
   },
   {
     path: '/aulas',
@@ -59,6 +87,12 @@ export const routes = [
     titulo: 'Aula',
     oculto: false,
     classe: 'lancamento',
+    beforeEnter: (to, from, next) => {
+      let perfil = sessionStorage.getItem('perfil');
+      if (perfil === _ADMINISTRADOR || perfil === _PROFESSOR)
+        next(to.path.path);
+      else next('/home');
+    },
   },
   {
     path: '/notas',
@@ -69,6 +103,12 @@ export const routes = [
     titulo: 'Nota',
     oculto: false,
     classe: 'lancamento',
+    beforeEnter: (to, from, next) => {
+      let perfil = sessionStorage.getItem('perfil');
+      if (perfil === _ADMINISTRADOR || perfil === _PROFESSOR)
+        next(to.path.path);
+      else next('/home');
+    },
   },
   {
     path: '/consulta-aluno',
@@ -79,6 +119,12 @@ export const routes = [
     titulo: 'Alunos',
     oculto: false,
     classe: 'consulta',
+    beforeEnter: (to, from, next) => {
+      let perfil = sessionStorage.getItem('perfil');
+      if (perfil === _ADMINISTRADOR || perfil === _PROFESSOR)
+        next(to.path.path);
+      else next('/home');
+    },
   },
   {
     path: '/consulta-aluno-detalhe/:id',
@@ -89,6 +135,27 @@ export const routes = [
     titulo: '',
     oculto: true,
     classe: '',
+    beforeEnter: (to, from, next) => {
+      let perfil = sessionStorage.getItem('perfil');
+      if (perfil === _ADMINISTRADOR || perfil === _PROFESSOR)
+        next(to.path.path);
+      else next('/home');
+    },
+  },
+  {
+    path: '/consulta-aluno-detalhe',
+    component: () =>
+      import(
+        './components/pages/consulta-aluno-detalhe/consulta-aluno-detalhe.vue'
+      ).then(m => m.default),
+    titulo: 'Notas',
+    oculto: false,
+    classe: 'aluno',
+    beforeEnter: (to, from, next) => {
+      let perfil = sessionStorage.getItem('perfil');
+      if (perfil === ALUNO) next(to.path.path);
+      else next('/home');
+    },
   },
   {
     path: '/consulta-turma',
@@ -99,6 +166,12 @@ export const routes = [
     titulo: 'Turmas',
     oculto: false,
     classe: 'consulta',
+    beforeEnter: (to, from, next) => {
+      let perfil = sessionStorage.getItem('perfil');
+      if (perfil === _ADMINISTRADOR || perfil === _PROFESSOR)
+        next(to.path.path);
+      else next('/home');
+    },
   },
   {
     path: '/consulta-turma-detalhe/:id',
@@ -109,6 +182,12 @@ export const routes = [
     titulo: '1',
     oculto: true,
     classe: 'consulta',
+    beforeEnter: (to, from, next) => {
+      let perfil = sessionStorage.getItem('perfil');
+      if (perfil === _ADMINISTRADOR || perfil === _PROFESSOR)
+        next(to.path.path);
+      else next('/home');
+    },
   },
   {
     path: '/login',
@@ -118,20 +197,4 @@ export const routes = [
     oculto: true,
     classe: '',
   },
-  // {
-  //   path: '/login',
-  //   component: () =>
-  //     import('./components/pages/Login.vue').then(m => m.default),
-  //   titulo: 'Login',
-  //   oculto: true,
-  //   beforeEnter(_, __, next) {
-  //     // Impede usuários assinados de
-  //     if (!isSignedIn()) {
-  //       // acessar a página de login.
-  //       next();
-  //       return;
-  //     }
-  //     next('/home');
-  //   },
-  // },
 ];

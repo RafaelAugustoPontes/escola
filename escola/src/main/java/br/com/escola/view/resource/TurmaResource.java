@@ -3,6 +3,8 @@ package br.com.escola.view.resource;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -57,7 +59,8 @@ public class TurmaResource {
 
 	@GetMapping
 	public List<TurmaDTO> buscar() {
-		return new TurmaController(turmaRepository).buscar();
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		return new TurmaController(turmaRepository).buscar(authentication.getName());
 	}
 
 	@GetMapping("/turnos")

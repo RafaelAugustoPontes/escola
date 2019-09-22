@@ -2,19 +2,21 @@
   <div>
     <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true"></loading>
     <h1 class="display-4">Dashboard</h1>
-    <b-card-group deck>
-      <b-card header="Gráfico 1" header-tag="header" title="Pessoas por turma">
-        <apexchart
-          width="380"
-          type="donut"
-          :options="graficoTurma.chartOptions"
-          :series="graficoTurma.series"
-        ></apexchart>
-      </b-card>
-      <b-card header="Gráfico 2" header-tag="header" title="Title">
-        <apexchart width="380" type="donut" :options="chartOptions" :series="series"></apexchart>
-      </b-card>
-    </b-card-group>
+    <div v-if="perfil === 'ADMINISTRADOR'">
+      <b-card-group deck>
+        <b-card header="Gráfico 1" header-tag="header" title="Pessoas por turma">
+          <apexchart
+            width="380"
+            type="donut"
+            :options="graficoTurma.chartOptions"
+            :series="graficoTurma.series"
+          ></apexchart>
+        </b-card>
+        <b-card header="Gráfico 2" header-tag="header" title="Title">
+          <apexchart width="380" type="donut" :options="chartOptions" :series="series"></apexchart>
+        </b-card>
+      </b-card-group>
+    </div>
   </div>
 </template>
 
@@ -30,11 +32,16 @@ export default {
       },
       graficoTurma: {},
       isLoading: true,
+      perfil: {},
     };
   },
 
   created() {
-    this.buscarPessoasPorTurma();
+    setTimeout(() => {
+      this.buscarPessoasPorTurma();
+      this.perfil = sessionStorage.getItem('perfil');
+      console.log(this.perfil);
+    }, 1000);
   },
 
   methods: {
