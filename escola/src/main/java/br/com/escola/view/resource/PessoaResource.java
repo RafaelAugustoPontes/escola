@@ -69,6 +69,12 @@ public class PessoaResource {
 		return new PessoaController(pessoaRepository).buscarAluno(idPessoa);
 	}
 
+	@GetMapping("/alunos/logado")
+	public AlunoConsultaDTO buscarAlunoLogado() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		return new PessoaController(pessoaRepository, usuarioRepository).buscarAlunoLogado(authentication.getName());
+	}
+
 	@GetMapping("/professores")
 	public List<PessoaDTO> buscarProfessores() {
 		return new PessoaController(pessoaRepository).buscarProfessores();

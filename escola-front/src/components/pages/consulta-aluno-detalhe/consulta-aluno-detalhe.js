@@ -20,12 +20,15 @@ export default {
     },
 
     buscarAluno() {
+      let id = this.$route.params.id;
+      let url = '';
+      if (id) {
+        url = 'pessoa/alunos/' + id;
+      } else {
+        url = 'pessoa/alunos/logado';
+      }
       this.$http
-        .get(
-          process.env.VUE_APP_BASE_URI +
-            'pessoa/alunos/' +
-            this.$route.params.id
-        )
+        .get(process.env.VUE_APP_BASE_URI + url)
         .then(resposta => resposta.json())
         .then(
           aluno => {

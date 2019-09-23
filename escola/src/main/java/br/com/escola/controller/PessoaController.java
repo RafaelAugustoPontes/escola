@@ -133,8 +133,21 @@ public class PessoaController {
 		return resultado;
 	}
 
+	public AlunoConsultaDTO buscarAlunoLogado(String username) {
+		UsuarioModel usuario = usuarioRepository.findByLogin(username);
+		PessoaModel pessoa = usuario.getPessoa();
+		AlunoConsultaDTO dto = new AlunoConsultaDTO();
+		criarDTOConsulta(pessoa.getIdPessoa(), dto);
+		return dto;
+	}
+
 	public AlunoConsultaDTO buscarAluno(Integer idPessoa) {
 		AlunoConsultaDTO dto = new AlunoConsultaDTO();
+		criarDTOConsulta(idPessoa, dto);
+		return dto;
+	}
+
+	private void criarDTOConsulta(Integer idPessoa, AlunoConsultaDTO dto) {
 		PessoaModel aluno = repository.findById(idPessoa).get();
 		dto.setIdPessoa(aluno.getIdPessoa());
 		dto.setNome(aluno.getNome());
@@ -156,7 +169,6 @@ public class PessoaController {
 
 			dto.adicionarDado(dado);
 		}
-		return dto;
 	}
 
 	public List<PessoaDTO> buscarProfessores() {

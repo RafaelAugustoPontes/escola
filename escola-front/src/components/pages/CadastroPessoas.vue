@@ -1,5 +1,6 @@
 <template>
   <div>
+    <app-loading :isLoading="isLoading"></app-loading>
     <h1>Cadastro de pessoas</h1>
     <b-form-group>
       <b-form-input type="search" placeholder="Digite um nome para pesquisar" v-model="filtro"></b-form-input>
@@ -13,11 +14,13 @@
 <script>
 import ModalCadastroPessoa from '../modals/ModalCadastroPessoa.vue';
 import TabelaPessoas from '../tables/TabelaPessoas.vue';
+import AppLoading from '../partials/app-loading/app-loading.vue';
 
 export default {
   components: {
     'modal-cadastro-pessoa': ModalCadastroPessoa,
     'tabela-pessoas': TabelaPessoas,
+    'app-loading': AppLoading,
   },
 
   computed: {},
@@ -27,6 +30,7 @@ export default {
       pessoa: {},
       pessoas: [],
       filtro: '',
+      isLoading: false,
     };
   },
 
@@ -44,16 +48,22 @@ export default {
       }
     },
     buscarPessoas() {
+      this.isLoading = true;
       this.$http
         .get(process.env.VUE_APP_BASE_URI + 'pessoa')
         .then(resposta => resposta.json())
         .then(
-          pessoas => (this.pessoas = pessoas),
-          erro =>
+          pessoas => {
+            this.pessoas = pessoas;
+            this.isLoading = false;
+          },
+          erro => {
             this.$bvToast.toast(
               'Erro ao buscar as pessoas' + erro.body.message,
               this.$toastErro
-            )
+            );
+            this.isLoading = false;
+          }
         );
     },
 

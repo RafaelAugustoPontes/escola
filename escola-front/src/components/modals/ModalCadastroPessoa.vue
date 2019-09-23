@@ -1,5 +1,6 @@
 <template>
   <div>
+    <app-loading :isLoading="isLoading"></app-loading>
     <b-modal
       size="xl"
       id="modal-cadastro-pessoa"
@@ -66,9 +67,14 @@
 
 <script>
 import { mask } from 'vue-the-mask';
+import AppLoading from '../partials/app-loading/app-loading.vue';
 export default {
   directives: { mask },
   props: ['pessoa'],
+
+  components: {
+    'app-loading': AppLoading,
+  },
 
   data() {
     return {
@@ -77,6 +83,7 @@ export default {
         { text: 'PROFESSOR', value: 'PROFESSOR' },
         { text: 'ALUNO', value: 'ALUNO' },
       ],
+      isLoading: false,
     };
   },
 
@@ -85,25 +92,35 @@ export default {
       this.$emit('modalFechada');
     },
 
-    atualizar() {
+    atualizar(evt) {
+      this.isLoading = true;
       this.$http.put(process.env.VUE_APP_BASE_URI + 'pessoa', this.pessoa).then(
         () => {
           this.$bvToast.toast('Pessoa atualizada com sucesso', this.$toastInfo);
+          this.isLoading = false;
           this.fechar();
         },
-        erro => this.$bvToast.toast(erro.body.message, this.$toastInfo)
+        erro => {
+          this.$bvToast.toast(erro.body.message, this.$toastInfo);
+          this.isLoading = false;
+        }
       );
     },
 
     inserir() {
+      this.isLoading = true;
       this.$http
         .post(process.env.VUE_APP_BASE_URI + 'pessoa', this.pessoa)
         .then(
           () => {
             this.$bvToast.toast('Pessoa inserida com sucesso', this.$toastInfo);
+            this.isLoading = false;
             this.fechar();
           },
-          erro => this.$bvToast.toast(erro.body.message, this.$toastInfo)
+          erro => {
+            this.$bvToast.toast(erro.body.message, this.$toastInfo);
+            this.isLoading = false;
+          }
         );
     },
 

@@ -1,12 +1,9 @@
 <template>
   <div>
+    <app-loading :isLoading="isLoading"></app-loading>
     <h1>Cadastro de cursos</h1>
     <b-form-group>
-      <b-form-input
-        type="search"
-        placeholder="Digite um nome para pesquisar"
-        v-model="filtro"
-      ></b-form-input>
+      <b-form-input type="search" placeholder="Digite um nome para pesquisar" v-model="filtro"></b-form-input>
     </b-form-group>
     <b-button class="btn btn-success float-right" v-b-modal.modal-cadastro-curso>Novo</b-button>
     <tabela-cursos :cursos="dadosComFiltro()" @editar="editar"></tabela-cursos>
@@ -17,10 +14,13 @@
 <script>
 import ModalCadastroCurso from '../modals/ModalCadastroCurso.vue';
 import TabelaCursos from '../tables/TabelaCursos.vue';
+import AppLoading from '../partials/app-loading/app-loading.vue';
+
 export default {
   components: {
     'modal-cadastro-curso': ModalCadastroCurso,
     'tabela-cursos': TabelaCursos,
+    'app-loading': AppLoading,
   },
 
   data() {
@@ -28,6 +28,7 @@ export default {
       curso: {},
       cursos: [],
       filtro: '',
+      isLoading: false,
     };
   },
 
@@ -46,16 +47,22 @@ export default {
     },
 
     buscarCursos() {
+      this.isLoading = true;
       this.$http
         .get(process.env.VUE_APP_BASE_URI + 'curso')
         .then(resposta => resposta.json())
         .then(
-          cursos => (this.cursos = cursos),
-          erro =>
+          cursos => {
+            this.cursos = cursos;
+            this.isLoading = false;
+          },
+          erro => {
             this.$bvToast.toast(
               'Erro ao buscar os cursos' + erro.body.message,
               this.$toastErro
-            )
+            );
+            this.isLoading = false;
+          }
         );
     },
 

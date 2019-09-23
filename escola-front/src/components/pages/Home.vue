@@ -15,7 +15,7 @@
         <b-card header="Gráfico 2" header-tag="header" title="Turmas por unidade">
           <apexchart
             width="380"
-            type="bar"
+            type="donut"
             :options="graficoUnidade.chartOptions"
             :series="graficoUnidade.series"
           ></apexchart>
@@ -33,20 +33,6 @@ export default {
     return {
       graficoTurma: {},
       graficoUnidade: {},
-      graficoUnidade: {
-        chart: {
-          id: 'basic-bar',
-        },
-        xaxis: {
-          categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999],
-        },
-      },
-      series: [
-        {
-          name: 'series-1',
-          data: [30, 40, 45, 50, 49, 60, 70, 91],
-        },
-      ],
       isLoading: true,
       perfil: {},
     };

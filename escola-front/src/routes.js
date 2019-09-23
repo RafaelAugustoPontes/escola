@@ -153,7 +153,7 @@ export const routes = [
     classe: 'aluno',
     beforeEnter: (to, from, next) => {
       let perfil = sessionStorage.getItem('perfil');
-      if (perfil === ALUNO) next(to.path.path);
+      if (perfil === 'ALUNO') next(to.path.path);
       else next('/home');
     },
   },

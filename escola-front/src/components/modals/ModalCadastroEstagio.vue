@@ -10,6 +10,7 @@
       @hidden="resetModal"
       @ok="handleSubmit"
     >
+      <app-loading :isLoading="isLoading"></app-loading>
       <form ref="form" @submit.stop.prevent="handleSubmit">
         <b-form-group label="Nome" label-for="nome">
           <b-form-input id="nome" v-model="estagio.nome" required maxlength="45"></b-form-input>
@@ -20,8 +21,19 @@
 </template>
 
 <script>
+import AppLoading from '../partials/app-loading/app-loading.vue';
 export default {
   props: ['estagio'],
+
+  components: {
+    AppLoading,
+  },
+
+  data() {
+    return {
+      isLoading: false,
+    };
+  },
 
   methods: {
     resetModal() {
@@ -29,34 +41,48 @@ export default {
     },
 
     atualizar() {
+      this.isLoading = true;
       this.$http
         .put(process.env.VUE_APP_BASE_URI + 'estagio', this.estagio)
         .then(
-          () =>
+          () => {
             this.$bvToast.toast(
               'Estágio atualizado com sucesso',
               this.$toastInfo
-            ),
-          erro => this.$bvToast.toast(erro.body.message, this.$toastInfo)
+            );
+            this.isLoading = false;
+            this.fechar();
+          },
+          erro => {
+            this.$bvToast.toast(erro.body.message, this.$toastInfo);
+            this.isLoading = false;
+          }
         );
-      this.fechar();
     },
 
     inserir() {
+      this.isLoading = true;
       this.$http
         .post(process.env.VUE_APP_BASE_URI + 'estagio', this.estagio)
         .then(
-          () =>
+          () => {
             this.$bvToast.toast(
               'Estágio inserido com sucesso',
               this.$toastInfo
-            ),
-          erro => this.$bvToast.toast(erro.body.message, this.$toastInfo)
+            );
+            this.isLoading = false;
+            this.fechar();
+          },
+          erro => {
+            this.$bvToast.toast(erro.body.message, this.$toastInfo);
+            this.isLoading = false;
+          }
         );
-      this.fechar();
     },
 
-    handleSubmit() {
+    handleSubmit(event) {
+      event.preventDefault();
+
       if (this.estagio.idEstagio) this.atualizar();
       else this.inserir();
     },

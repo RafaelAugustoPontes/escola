@@ -1,5 +1,6 @@
 <template>
   <div>
+    <app-loading :isLoading="isLoading"></app-loading>
     <h1>Cadastro de estágios</h1>
     <b-form-group>
       <b-form-input type="search" placeholder="Digite um nome para pesquisar" v-model="filtro"></b-form-input>
@@ -13,11 +14,13 @@
 <script>
 import ModalCadastroEstagio from '../modals/ModalCadastroEstagio.vue';
 import TabelaEstagios from '../tables/TabelaEstagios.vue';
+import AppLoading from '../partials/app-loading/app-loading.vue';
 
 export default {
   components: {
     'modal-cadastro-estagio': ModalCadastroEstagio,
     'tabela-estagios': TabelaEstagios,
+    'app-loading': AppLoading,
   },
 
   data() {
@@ -25,6 +28,7 @@ export default {
       estagio: {},
       estagios: [],
       filtro: '',
+      isLoading: false,
     };
   },
 
@@ -42,16 +46,22 @@ export default {
       }
     },
     buscarEstagios() {
+      this.isLoading = true;
       this.$http
         .get(process.env.VUE_APP_BASE_URI + 'estagio')
         .then(resposta => resposta.json())
         .then(
-          estagios => (this.estagios = estagios),
-          erro =>
+          estagios => {
+            this.isLoading = false;
+            this.estagios = estagios;
+          },
+          erro => {
             this.$bvToast.toast(
               'Erro ao buscar os estágios' + erro.body.message,
               this.$toastErro
-            )
+            );
+            this.isLoading = false;
+          }
         );
     },
 

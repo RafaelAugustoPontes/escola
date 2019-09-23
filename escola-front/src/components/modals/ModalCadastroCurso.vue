@@ -10,6 +10,7 @@
       @hidden="resetModal"
       @ok="handleSubmit"
     >
+      <app-loading :isLoading="isLoading"></app-loading>
       <form ref="form" @submit.stop.prevent="handleSubmit">
         <b-form-group label="Nome" label-for="nome">
           <b-form-input id="nome" v-model="curso.nome" required maxlength="45"></b-form-input>
@@ -20,8 +21,19 @@
 </template>
 
 <script>
+import AppLoading from '../partials/app-loading/app-loading.vue';
 export default {
   props: ['curso'],
+
+  components: {
+    AppLoading,
+  },
+
+  data() {
+    return {
+      isLoading: false,
+    };
+  },
 
   methods: {
     resetModal() {
@@ -29,31 +41,38 @@ export default {
     },
 
     atualizar() {
-      this.$http
-        .put(process.env.VUE_APP_BASE_URI + 'curso', this.curso)
-        .then(
-          () =>
-            this.$bvToast.toast(
-              'Curso atualizado com sucesso',
-              this.$toastInfo
-            ),
-          erro => this.$bvToast.toast(erro.body.message, this.$toastInfo)
-        );
-      this.fechar();
+      this.isLoading = true;
+      this.$http.put(process.env.VUE_APP_BASE_URI + 'curso', this.curso).then(
+        () => {
+          this.$bvToast.toast('Curso atualizado com sucesso', this.$toastInfo);
+          this.isLoading = false;
+          this.fechar();
+        },
+        erro => {
+          this.$bvToast.toast(erro.body.message, this.$toastInfo);
+          this.isLoading = false;
+        }
+      );
     },
 
     inserir() {
-      this.$http
-        .post(process.env.VUE_APP_BASE_URI + 'curso', this.curso)
-        .then(
-          () =>
-            this.$bvToast.toast('Curso inserido com sucesso', this.$toastInfo),
-          erro => this.$bvToast.toast(erro.body.message, this.$toastInfo)
-        );
-      this.fechar();
+      this.isLoading = true;
+      this.$http.post(process.env.VUE_APP_BASE_URI + 'curso', this.curso).then(
+        () => {
+          this.$bvToast.toast('Curso inserido com sucesso', this.$toastInfo);
+          this.isLoading = false;
+          this.fechar();
+        },
+        erro => {
+          this.isLoading = false;
+          this.$bvToast.toast(erro.body.message, this.$toastInfo);
+        }
+      );
     },
 
-    handleSubmit() {
+    handleSubmit(event) {
+      event.preventDefault();
+
       if (this.curso.idCurso) this.atualizar();
       else this.inserir();
     },

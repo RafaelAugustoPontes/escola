@@ -1,5 +1,6 @@
 <template>
   <div>
+    <app-loading :isLoading="isLoading"></app-loading>
     <b-modal
       id="modal-cadastro-unidade"
       ref="modal"
@@ -20,8 +21,17 @@
 </template>
 
 <script>
+import AppLoading from '../partials/app-loading/app-loading.vue';
 export default {
   props: ['unidade'],
+  data() {
+    return {
+      isLoading: false,
+    };
+  },
+  components: {
+    'app-loading': AppLoading,
+  },
 
   methods: {
     resetModal() {
@@ -29,34 +39,48 @@ export default {
     },
 
     atualizarUnidade() {
+      this.isLoading = true;
       this.$http
         .put(process.env.VUE_APP_BASE_URI + 'unidade', this.unidade)
         .then(
-          () =>
+          () => {
             this.$bvToast.toast(
               'Unidade atualizada com sucesso',
               this.$toastInfo
-            ),
-          erro => this.$bvToast.toast(erro.body.message, this.$toastInfo)
+            );
+            this.isLoading = false;
+            this.fechar();
+          },
+          erro => {
+            this.$bvToast.toast(erro.body.message, this.$toastInfo);
+            this.isLoading = false;
+          }
         );
       this.fechar();
     },
 
     inserirUnidade() {
+      this.isLoading = true;
       this.$http
         .post(process.env.VUE_APP_BASE_URI + 'unidade', this.unidade)
         .then(
-          () =>
+          () => {
             this.$bvToast.toast(
               'Unidade inserida com sucesso',
               this.$toastInfo
-            ),
-          erro => this.$bvToast.toast(erro.body.message, this.$toastInfo)
+            );
+            this.isLoading = false;
+            this.fechar();
+          },
+          erro => {
+            this.$bvToast.toast(erro.body.message, this.$toastInfo);
+            this.isLoading = false;
+          }
         );
-      this.fechar();
     },
 
-    handleSubmit() {
+    handleSubmit(evt) {
+      evt.preventDefault();
       if (this.unidade.idUnidade) this.atualizarUnidade();
       else this.inserirUnidade();
     },
