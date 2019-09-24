@@ -102,10 +102,13 @@ public class TurmaController {
 
 	public void atualizar(TurmaDTO dto) {
 		TurmaModel turma = repository.findById(dto.getIdTurma()).get();
+		TurmaModel turmaAtualizada = obterTurma(dto);
+		turmaAtualizada.setAlunosTurma(turma.getAlunosTurma());
+		turmaAtualizada.setIdTurma(turma.getIdTurma());
 
 		alunos: for (PessoaDTO dtoAluno : dto.getAlunos()) {
-			if (turma.getAlunosTurma() != null) {
-				for (PessoaTurmaModel pessoaTurma : turma.getAlunosTurma()) {
+			if (turmaAtualizada.getAlunosTurma() != null) {
+				for (PessoaTurmaModel pessoaTurma : turmaAtualizada.getAlunosTurma()) {
 					if (pessoaTurma.getPessoa().getIdPessoa().equals(dtoAluno.getIdPessoa()))
 						continue alunos;
 				}
@@ -113,11 +116,11 @@ public class TurmaController {
 			PessoaTurmaModel pessoaTurmaModel = new PessoaTurmaModel();
 			PessoaModel aluno = pessoaRepository.findById(dtoAluno.getIdPessoa()).get();
 			pessoaTurmaModel.setPessoa(aluno);
-			pessoaTurmaModel.setTurma(turma);
+			pessoaTurmaModel.setTurma(turmaAtualizada);
 			pessoaTurmaRepository.save(pessoaTurmaModel);
-			turma.adicionarAlunoTurma(pessoaTurmaModel);
-			repository.save(turma);
+			turmaAtualizada.adicionarAlunoTurma(pessoaTurmaModel);
 		}
+		repository.save(turmaAtualizada);
 	}
 
 	public TurmaDTO persistir(TurmaDTO dto) {

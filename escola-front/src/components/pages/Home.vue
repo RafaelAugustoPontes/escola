@@ -15,7 +15,7 @@
         <b-card header="Gráfico 2" header-tag="header" title="Turmas por unidade">
           <apexchart
             width="380"
-            type="donut"
+            type="bar"
             :options="graficoUnidade.chartOptions"
             :series="graficoUnidade.series"
           ></apexchart>

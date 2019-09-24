@@ -66,12 +66,22 @@ public class AulaController {
 		aulaRepository.save(aulaModel);
 
 		for (PessoaAulaModel pessoaAula : aulaModel.getPessoasAula()) {
-			pessoaAula.setPresente(false);
-			for (PessoaDTO alunoPresente : dto.getAlunos()) {
-				if (alunoPresente.getIdPessoa().equals(pessoaAula.getPessoa().getIdPessoa())) {
-					pessoaAula.setPresente(true);
+			pessoaAulaRepository.delete(pessoaAula);
+		}
+
+		for (PessoaTurmaModel pessoaTurma : turmaModel.getAlunosTurma()) {
+			PessoaModel alunoDaTurma = pessoaTurma.getPessoa();
+			boolean alunoPresente = false;
+			for (PessoaDTO aluno : dto.getAlunos()) {
+				if (aluno.getIdPessoa() == alunoDaTurma.getIdPessoa()) {
+					alunoPresente = true;
+					break;
 				}
 			}
+			PessoaAulaModel pessoaAula = new PessoaAulaModel();
+			pessoaAula.setAula(aulaModel);
+			pessoaAula.setPessoa(pessoaTurma.getPessoa());
+			pessoaAula.setPresente(alunoPresente);
 			pessoaAulaRepository.save(pessoaAula);
 		}
 

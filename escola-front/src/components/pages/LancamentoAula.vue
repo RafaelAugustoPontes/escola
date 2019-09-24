@@ -1,5 +1,6 @@
 <template>
   <div>
+    <app-loading :isLoading="isLoading"></app-loading>
     <h1>Lançamento de aulas</h1>
     <b-form-group label="Turma" label-for="select-turma">
       <b-form-select
@@ -25,6 +26,7 @@
 <script>
 import TabelaGenerica from '../tables/TabelaGenerica.vue';
 import ModalCadastroAula from '../modals/ModalCadastroAula.vue';
+import AppLoading from '../partials/app-loading/app-loading.vue';
 export default {
   data() {
     return {
@@ -41,6 +43,7 @@ export default {
       opcoesTurma: [],
       idTurmaSelecionada: null,
       campos: ['dataAula', 'diarioResumido'],
+      isLoading: false,
     };
   },
   created() {
@@ -49,6 +52,7 @@ export default {
 
   methods: {
     onChange(event) {
+      this.isLoading = true;
       this.idTurmaSelecionada = event;
       this.$http
         .get(process.env.VUE_APP_BASE_URI + 'aula/' + this.idTurmaSelecionada)
@@ -65,26 +69,37 @@ export default {
         .get(process.env.VUE_APP_BASE_URI + 'turma/' + this.idTurmaSelecionada)
         .then(resposta => resposta.json())
         .then(
-          turmaSelecionada => (this.aula.turma = turmaSelecionada),
-          erro =>
+          turmaSelecionada => {
+            this.aula.turma = turmaSelecionada;
+            this.isLoading = false;
+          },
+          erro => {
             this.$bvToast.toast(
               'Erro ao buscar as turmas' + erro.body.message,
               this.$toastErro
-            )
+            );
+            this.isLoading = false;
+          }
         );
     },
 
     buscarTurmas() {
+      this.isLoading = true;
       this.$http
         .get(process.env.VUE_APP_BASE_URI + 'turma')
         .then(resposta => resposta.json())
         .then(
-          opcoesTurma => (this.opcoesTurma = opcoesTurma),
-          erro =>
+          opcoesTurma => {
+            this.opcoesTurma = opcoesTurma;
+            this.isLoading = false;
+          },
+          erro => {
             this.$bvToast.toast(
               'Erro ao buscar as turmas' + erro.body.message,
               this.$toastErro
-            )
+            );
+            this.isLoading = false;
+          }
         );
     },
 
@@ -113,6 +128,7 @@ export default {
   components: {
     'tabela-generica': TabelaGenerica,
     ModalCadastroAula,
+    'app-loading': AppLoading,
   },
 };
 </script>

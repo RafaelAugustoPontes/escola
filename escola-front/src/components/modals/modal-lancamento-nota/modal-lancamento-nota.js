@@ -1,15 +1,20 @@
 export default {
   props: ['pessoasTurma'],
 
+  data() {
+    return {
+      isLoading: false,
+    };
+  },
+
   methods: {
     resetModal() {
       this.$emit('modalFechada');
     },
 
-    atualizar() {},
-
     handleSubmit(event) {
       event.preventDefault();
+      this.isLoading = true;
       this.$http
         .put(process.env.VUE_APP_BASE_URI + 'pessoa-turma', this.pessoasTurma)
         .then(
@@ -18,9 +23,13 @@ export default {
               'Notas atualizadas com sucesso',
               this.$toastInfo
             );
+            this.isLoading = false;
             this.fechar();
           },
-          erro => this.$bvToast.toast(erro.body.message, this.$toastInfo)
+          erro => {
+            this.$bvToast.toast(erro.body.message, this.$toastInfo);
+            this.isLoading = false;
+          }
         );
     },
 

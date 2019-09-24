@@ -15,6 +15,7 @@
       @ok="handleSubmit"
     >
       <form ref="form" @submit.stop.prevent="handleSubmit">
+        <app-loading :isLoading="isLoading"></app-loading>
         <b-form-group label="Nome" label-for="nome">
           <b-form-input id="nome" v-model="turma.nome" required maxlength="45"></b-form-input>
         </b-form-group>
@@ -61,6 +62,7 @@
 
 <script>
 import TabelaGenerica from '../tables/TabelaGenerica';
+import AppLoading from '../partials/app-loading/app-loading.vue';
 
 export default {
   created() {
@@ -83,11 +85,13 @@ export default {
       opcoesAlunos: [],
       opcoesTurno: [],
       campos: ['nome'],
+      isLoading: false,
     };
   },
 
   components: {
     'tabela-generica': TabelaGenerica,
+    'app-loading': AppLoading,
   },
 
   methods: {
@@ -96,31 +100,37 @@ export default {
     },
 
     atualizar() {
-      this.$http
-        .put(process.env.VUE_APP_BASE_URI + 'turma', this.turma)
-        .then(
-          () =>
-            this.$bvToast.toast(
-              'Turma atualizada com sucesso',
-              this.$toastInfo
-            ),
-          erro => this.$bvToast.toast(erro.body.message, this.$toastInfo)
-        );
-      this.fechar();
+      this.isLoading = true;
+      this.$http.put(process.env.VUE_APP_BASE_URI + 'turma', this.turma).then(
+        () => {
+          this.$bvToast.toast('Turma atualizada com sucesso', this.$toastInfo);
+          this.isLoading = false;
+          this.fechar();
+        },
+        erro => {
+          this.$bvToast.toast(erro.body.message, this.$toastInfo);
+          this.isLoading = false;
+        }
+      );
     },
 
     inserir() {
-      this.$http
-        .post(process.env.VUE_APP_BASE_URI + 'turma', this.turma)
-        .then(
-          () =>
-            this.$bvToast.toast('Turma inserida com sucesso', this.$toastInfo),
-          erro => this.$bvToast.toast(erro.body.message, this.$toastInfo)
-        );
-      this.fechar();
+      this.isLoading = true;
+      this.$http.post(process.env.VUE_APP_BASE_URI + 'turma', this.turma).then(
+        () => {
+          this.$bvToast.toast('Turma inserida com sucesso', this.$toastInfo);
+          this.isLoading = false;
+          this.fechar();
+        },
+        erro => {
+          this.$bvToast.toast(erro.body.message, this.$toastInfo);
+          this.isLoading = false;
+        }
+      );
     },
 
-    handleSubmit() {
+    handleSubmit(event) {
+      event.preventDefault();
       if (this.turma.idTurma) this.atualizar();
       else this.inserir();
     },

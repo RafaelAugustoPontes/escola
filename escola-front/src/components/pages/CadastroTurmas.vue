@@ -1,5 +1,6 @@
 <template>
   <div>
+    <app-loading :isLoading="isLoading"></app-loading>
     <h1>Cadastro de turmas</h1>
     <b-form-group>
       <b-form-input type="search" placeholder="Digite um nome para pesquisar" v-model="filtro"></b-form-input>
@@ -13,11 +14,13 @@
 <script>
 import TabelaGenerica from '../tables/TabelaGenerica.vue';
 import ModalCadastroTurma from '../modals/ModalCadastroTurma.vue';
+import AppLoading from '../partials/app-loading/app-loading.vue';
 
 export default {
   components: {
     'tabela-generica': TabelaGenerica,
     'modal-cadastro-turma': ModalCadastroTurma,
+    'app-loading': AppLoading,
   },
 
   data() {
@@ -32,6 +35,7 @@ export default {
       },
       campos: ['nome'],
       filtro: '',
+      isLoading: false,
     };
   },
 
@@ -49,16 +53,22 @@ export default {
       }
     },
     buscar() {
+      this.isLoading = true;
       this.$http
         .get(process.env.VUE_APP_BASE_URI + 'turma')
         .then(resposta => resposta.json())
         .then(
-          turmas => (this.turmas = turmas),
-          erro =>
+          turmas => {
+            this.turmas = turmas;
+            this.isLoading = false;
+          },
+          erro => {
             this.$bvToast.toast(
               'Erro ao buscar as turmas' + erro.body.message,
               this.$toastErro
-            )
+            );
+            this.isLoading = false;
+          }
         );
     },
 
