@@ -25,7 +25,7 @@ public interface TurmaRepository extends JpaRepository<TurmaModel, Integer> {
 
 	@Query(value = "SELECT turma.NOME,AVG(pessoaTurma.NOTA) FROM PESSOA_TURMA pessoaTurma " + " JOIN TURMA turma "
 			+ " ON turma.IDTURMA = pessoaTurma.IDTURMA " + " GROUP BY turma.NOME "
-			+ " HAVING AVG(pessoaTurma.NOTA) IS NOT NULL " + " ORDER BY AVG(pessoaTurma.NOTA) DESC "
+			+ " HAVING AVG(pessoaTurma.NOTA) IS NOT NULL " + " ORDER BY AVG(pessoaTurma.NOTA)  "
 			+ " LIMIT 10 ", nativeQuery = true)
 	Object[] find10TurmasMenoresMedias();
 
