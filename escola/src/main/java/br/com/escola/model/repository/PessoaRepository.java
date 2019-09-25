@@ -16,6 +16,11 @@ public interface PessoaRepository extends JpaRepository<PessoaModel, Integer> {
 	@Query(value = "SELECT COALESCE(MAX(MATRICULA) + 1, 1) FROM PESSOA", nativeQuery = true)
 	Integer findProximaMatricula();
 
+	@Query(value = "SELECT pessoa.NOME, COUNT(*) FROM PESSOA pessoa " + " JOIN PESSOA_AULA pessoaAula "
+			+ " ON pessoa.IDPESSOA = pessoaAula.IDPESSOA " + " WHERE pessoaAula.presente = false "
+			+ " GROUP BY pessoa.NOME " + " ORDER BY COUNT(*) DESC LIMIT 10 ", nativeQuery = true)
+	Object[] find10AlunosComMaisFaltas();
+
 	List<PessoaModel> findByPerfil(PerfilModel perfil);
 
 	List<PessoaModel> findByMatricula(Integer numero);

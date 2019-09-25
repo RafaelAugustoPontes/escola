@@ -16,8 +16,30 @@
           <apexchart
             width="380"
             type="bar"
-            :options="graficoUnidade.chartOptions"
+            :options="graficoUnidade.options"
             :series="graficoUnidade.series"
+          ></apexchart>
+        </b-card>
+      </b-card-group>
+      <b-card-group deck>
+        <b-card header="Gráfico 3" header-tag="header" title="Top 10 alunos com mais faltas">
+          <apexchart
+            width="380"
+            type="bar"
+            :options="graficoFaltas.options"
+            :series="graficoFaltas.series"
+          ></apexchart>
+        </b-card>
+        <b-card
+          header="Gráfico 4"
+          header-tag="header"
+          title="Top 10 turmas com a pior média de nota"
+        >
+          <apexchart
+            width="380"
+            type="bar"
+            :options="graficoMedia.options"
+            :series="graficoMedia.series"
           ></apexchart>
         </b-card>
       </b-card-group>
@@ -33,33 +55,36 @@ export default {
     return {
       graficoTurma: {},
       graficoUnidade: {},
+      graficoFaltas: {},
+      graficoMedia: {},
       isLoading: true,
       perfil: {},
     };
   },
 
   created() {
+    this.isLoading = true;
     setTimeout(() => {
       this.perfil = sessionStorage.getItem('perfil');
       console.log(this.perfil);
     }, 1000);
     this.buscarPessoasPorTurma();
     this.buscarTurmasPorUnidade();
+    this.buscarAlunosFaltantes();
+    this.buscarMediasTurma();
+    this.isLoading = false;
   },
 
   methods: {
     buscarPessoasPorTurma() {
-      this.isLoading = true;
       this.$http
         .get(process.env.VUE_APP_BASE_URI + 'grafico/pessoas-turma')
         .then(resposta => resposta.json())
         .then(
           graficoTurma => {
             this.graficoTurma = graficoTurma;
-            this.isLoading = false;
           },
           erro => {
-            this.isLoading = false;
             this.$bvToast.toast(
               'Erro ao buscar as turmas' + erro.body.message,
               this.$toastErro
@@ -68,19 +93,48 @@ export default {
         );
     },
     buscarTurmasPorUnidade() {
-      this.isLoading = true;
       this.$http
         .get(process.env.VUE_APP_BASE_URI + 'grafico/turma-unidade')
         .then(resposta => resposta.json())
         .then(
           graficoUnidade => {
             this.graficoUnidade = graficoUnidade;
-            this.isLoading = false;
           },
           erro => {
-            this.isLoading = false;
             this.$bvToast.toast(
               'Erro ao buscar as turmas' + erro.body.message,
+              this.$toastErro
+            );
+          }
+        );
+    },
+    buscarAlunosFaltantes() {
+      this.$http
+        .get(process.env.VUE_APP_BASE_URI + 'grafico/aluno-falta')
+        .then(resposta => resposta.json())
+        .then(
+          graficoFaltas => {
+            this.graficoFaltas = graficoFaltas;
+          },
+          erro => {
+            this.$bvToast.toast(
+              'Erro ao buscar o gráfico' + erro.body.message,
+              this.$toastErro
+            );
+          }
+        );
+    },
+    buscarMediasTurma() {
+      this.$http
+        .get(process.env.VUE_APP_BASE_URI + 'grafico/turma-media')
+        .then(resposta => resposta.json())
+        .then(
+          graficoMedia => {
+            this.graficoMedia = graficoMedia;
+          },
+          erro => {
+            this.$bvToast.toast(
+              'Erro ao buscar o gráfico' + erro.body.message,
               this.$toastErro
             );
           }
