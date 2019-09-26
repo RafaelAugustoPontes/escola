@@ -61,7 +61,6 @@ import ModalResetSenha from '../modals/modal-reset-senha/modal-reset-senha.vue';
 export default {
   components: { AppLoading, ModalResetSenha },
   created() {
-    Vue.http.headers.common['Authorization'] = 'Bearer YXBpOnBhc3N3b3Jk';
     this.$bvToast.toast('Por favor, efetue o login', this.$toastInfo);
   },
   data() {
