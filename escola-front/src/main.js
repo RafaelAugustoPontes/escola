@@ -7,11 +7,21 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 import { routes } from './routes';
 import VueApexCharts from 'vue-apexcharts';
+import VueToast from 'vue-toast-notification';
+import 'vue-toast-notification/dist/index.css';
+ 
 
 Vue.component('apexchart', VueApexCharts);
 Vue.use(BootstrapVue);
 Vue.use(VueResource);
 Vue.use(VueRouter);
+Vue.use(VueToast, {
+  position: 'top-right',
+  duration : 5000,
+  dismissible : true
+})
+
+
 
 let router = new VueRouter({ routes });
 Vue.config.productionTip = false;
