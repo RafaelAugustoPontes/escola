@@ -60,10 +60,7 @@ export default {
         .then(
           aulas => (this.aulas = aulas),
           erro =>
-            this.$bvToast.toast(
-              'Erro ao buscar as aulas' + erro.body.message,
-              this.$toastErro
-            )
+            this.$toast.error('Erro ao buscar as aulas' + erro.body.message)
         );
       this.$http
         .get(process.env.VUE_APP_BASE_URI + 'turma/' + this.idTurmaSelecionada)
@@ -74,10 +71,7 @@ export default {
             this.isLoading = false;
           },
           erro => {
-            this.$bvToast.toast(
-              'Erro ao buscar as turmas' + erro.body.message,
-              this.$toastErro
-            );
+            this.$toast.error('Erro ao buscar as turmas' + erro.body.message);
             this.isLoading = false;
           }
         );
@@ -94,10 +88,7 @@ export default {
             this.isLoading = false;
           },
           erro => {
-            this.$bvToast.toast(
-              'Erro ao buscar as turmas' + erro.body.message,
-              this.$toastErro
-            );
+            this.$toast.error('Erro ao buscar as turmas' + erro.body.message);
             this.isLoading = false;
           }
         );

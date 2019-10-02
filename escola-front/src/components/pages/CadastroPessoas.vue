@@ -58,10 +58,7 @@ export default {
             this.isLoading = false;
           },
           erro => {
-            this.$bvToast.toast(
-              'Erro ao buscar as pessoas' + erro.body.message,
-              this.$toastErro
-            );
+            this.$toast.error('Erro ao buscar as pessoas' + erro.body.message);
             this.isLoading = false;
           }
         );

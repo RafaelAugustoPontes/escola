@@ -5,6 +5,7 @@
       :total-rows="quantidade"
       :per-page="itensPorPagina"
       aria-controls="my-table"
+      responsive="true"
     ></b-pagination>
 
     <b-table

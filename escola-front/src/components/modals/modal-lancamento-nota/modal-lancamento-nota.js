@@ -19,15 +19,12 @@ export default {
         .put(process.env.VUE_APP_BASE_URI + 'pessoa-turma', this.pessoasTurma)
         .then(
           () => {
-            this.$bvToast.toast(
-              'Notas atualizadas com sucesso',
-              this.$toastInfo
-            );
+            this.$toast.success('Notas atualizadas com sucesso');
             this.isLoading = false;
             this.fechar();
           },
           erro => {
-            this.$bvToast.toast(erro.body.message, this.$toastInfo);
+            this.$toast.error(erro.body.message);
             this.isLoading = false;
           }
         );

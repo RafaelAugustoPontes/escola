@@ -61,7 +61,9 @@ import ModalResetSenha from '../modals/modal-reset-senha/modal-reset-senha.vue';
 export default {
   components: { AppLoading, ModalResetSenha },
   created() {
-    this.$toast.info('Por favor, efetue o login')
+    this.isLoading = true;
+    this.$toast.info('Por favor, efetue o login');
+    this.isLoading = false;
   },
   data() {
     return {
@@ -87,7 +89,7 @@ export default {
           this.isLoading = false;
         },
         erro => {
-          this.$toast.error('Login ou senha inválido')
+          this.$toast.error('Login ou senha inválido' + erro);
           console.log(erro);
           this.isLoading = false;
         }

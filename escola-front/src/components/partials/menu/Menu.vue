@@ -94,6 +94,7 @@ export default {
   props: ['routes'],
   methods: {
     logout: function() {
+      Vue.http.headers.common['Authorization'] = '';
       sessionStorage.clear();
       this.$router.push('/login');
     },

@@ -46,15 +46,12 @@ export default {
         .put(process.env.VUE_APP_BASE_URI + 'estagio', this.estagio)
         .then(
           () => {
-            this.$bvToast.toast(
-              'Estágio atualizado com sucesso',
-              this.$toastInfo
-            );
+            this.$toast.success('Estágio atualizado com sucesso');
             this.isLoading = false;
             this.fechar();
           },
           erro => {
-            this.$bvToast.toast(erro.body.message, this.$toastInfo);
+            this.$toast.error(erro.body.message);
             this.isLoading = false;
           }
         );
@@ -66,15 +63,12 @@ export default {
         .post(process.env.VUE_APP_BASE_URI + 'estagio', this.estagio)
         .then(
           () => {
-            this.$bvToast.toast(
-              'Estágio inserido com sucesso',
-              this.$toastInfo
-            );
+            this.$toast.success('Estágio inserido com sucesso');
             this.isLoading = false;
             this.fechar();
           },
           erro => {
-            this.$bvToast.toast(erro.body.message, this.$toastInfo);
+            this.$toast.error(erro.body.message);
             this.isLoading = false;
           }
         );

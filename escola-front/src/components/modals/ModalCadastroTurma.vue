@@ -103,12 +103,12 @@ export default {
       this.isLoading = true;
       this.$http.put(process.env.VUE_APP_BASE_URI + 'turma', this.turma).then(
         () => {
-          this.$bvToast.toast('Turma atualizada com sucesso', this.$toastInfo);
+          this.$toast.success('Turma atualizada com sucesso');
           this.isLoading = false;
           this.fechar();
         },
         erro => {
-          this.$bvToast.toast(erro.body.message, this.$toastInfo);
+          this.$toast.error(erro.body.message);
           this.isLoading = false;
         }
       );
@@ -118,12 +118,12 @@ export default {
       this.isLoading = true;
       this.$http.post(process.env.VUE_APP_BASE_URI + 'turma', this.turma).then(
         () => {
-          this.$bvToast.toast('Turma inserida com sucesso', this.$toastInfo);
+          this.$toast.success('Turma inserida com sucesso');
           this.isLoading = false;
           this.fechar();
         },
         erro => {
-          this.$bvToast.toast(erro.body.message, this.$toastInfo);
+          this.$toast.error(erro.body.message);
           this.isLoading = false;
         }
       );
@@ -154,9 +154,8 @@ export default {
     },
     remover(item) {
       if (this.turma.idTurma) {
-        this.$bvToast.toast(
-          'Não é possível remover alunos de uma turma em andamento',
-          this.$toastInfo
+        this.$toast.warning(
+          'Não é possível remover alunos de uma turma em andamento'
         );
       } else {
         let posicao = 0;
@@ -175,10 +174,7 @@ export default {
         .then(
           opcoesAlunos => (this.opcoesAlunos = opcoesAlunos),
           erro =>
-            this.$bvToast.toast(
-              'Erro ao buscar os alunos' + erro.body.message,
-              this.$toastErro
-            )
+            this.$toast.error('Erro ao buscar os alunos' + erro.body.message)
         );
     },
     buscarUnidades() {
@@ -188,10 +184,7 @@ export default {
         .then(
           opcoesUnidade => (this.opcoesUnidade = opcoesUnidade),
           erro =>
-            this.$bvToast.toast(
-              'Erro ao buscar as unidades' + erro.body.message,
-              this.$toastErro
-            )
+            this.$toast.error('Erro ao buscar as unidades' + erro.body.message)
         );
     },
     buscarCursos() {
@@ -201,10 +194,7 @@ export default {
         .then(
           opcoesCursos => (this.opcoesCursos = opcoesCursos),
           erro =>
-            this.$bvToast.toast(
-              'Erro ao buscar os cursos' + erro.body.message,
-              this.$toastErro
-            )
+            this.$toast.error('Erro ao buscar os cursos' + erro.body.message)
         );
     },
     buscarEstagios() {
@@ -214,10 +204,7 @@ export default {
         .then(
           opcoesEstagios => (this.opcoesEstagios = opcoesEstagios),
           erro =>
-            this.$bvToast.toast(
-              'Erro ao buscar os estágios' + erro.body.message,
-              this.$toastErro
-            )
+            this.$toast.error('Erro ao buscar os estágios' + erro.body.message)
         );
     },
     buscarProfessores() {
@@ -227,9 +214,8 @@ export default {
         .then(
           opcoesProfessores => (this.opcoesProfessores = opcoesProfessores),
           erro =>
-            this.$bvToast.toast(
-              'Erro ao buscar os professores' + erro.body.message,
-              this.$toastErro
+            this.$toast.error(
+              'Erro ao buscar os professores' + erro.body.message
             )
         );
     },
@@ -240,10 +226,7 @@ export default {
         .then(
           opcoesTurno => (this.opcoesTurno = opcoesTurno),
           erro =>
-            this.$bvToast.toast(
-              'Erro ao buscar os turnos' + erro.body.message,
-              this.$toastErro
-            )
+            this.$toast.error('Erro ao buscar os turnos' + erro.body.message)
         );
     },
   },

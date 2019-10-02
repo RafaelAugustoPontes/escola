@@ -13,13 +13,10 @@ export default {
         .put(process.env.VUE_APP_BASE_URI + 'usuario', this.usuario)
         .then(
           () => {
-            this.$bvToast.toast(
-              'Senha atualizada com sucesso',
-              this.$toastInfo
-            );
+            this.$toast.success('Senha atualizada com sucesso');
             this.$refs.modal.hide();
           },
-          erro => this.$bvToast.toast(erro.body.message, this.$toastInfo)
+          erro => this.$toast.error(erro.body.message)
         );
     },
     resetModal() {

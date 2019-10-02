@@ -56,10 +56,7 @@ export default {
             this.estagios = estagios;
           },
           erro => {
-            this.$bvToast.toast(
-              'Erro ao buscar os estágios' + erro.body.message,
-              this.$toastErro
-            );
+            this.$toast.error('Erro ao buscar os estágios' + erro.body.message);
             this.isLoading = false;
           }
         );

@@ -13,13 +13,12 @@ export default {
         .put(process.env.VUE_APP_BASE_URI + 'login/reset-senha', this.usuario)
         .then(
           () => {
-            this.$bvToast.toast(
-              'Senha resetada com sucesso. A senha agora é o seu CPF sem caracteres especiais',
-              this.$toastInfo
+            this.$toast.success(
+              'Senha resetada com sucesso. A senha agora é o seu CPF sem caracteres especiais'
             );
             this.$refs.modal.hide();
           },
-          erro => this.$bvToast.toast(erro.body.message, this.$toastInfo)
+          erro => this.$toast.error(erro.body.message)
         );
     },
     resetModal() {

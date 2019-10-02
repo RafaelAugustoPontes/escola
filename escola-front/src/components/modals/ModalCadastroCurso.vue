@@ -44,12 +44,12 @@ export default {
       this.isLoading = true;
       this.$http.put(process.env.VUE_APP_BASE_URI + 'curso', this.curso).then(
         () => {
-          this.$bvToast.toast('Curso atualizado com sucesso', this.$toastInfo);
+          this.$toast.success('Curso atualizado com sucesso');
           this.isLoading = false;
           this.fechar();
         },
         erro => {
-          this.$bvToast.toast(erro.body.message, this.$toastInfo);
+          this.$toast.error(erro.body.message);
           this.isLoading = false;
         }
       );
@@ -59,13 +59,13 @@ export default {
       this.isLoading = true;
       this.$http.post(process.env.VUE_APP_BASE_URI + 'curso', this.curso).then(
         () => {
-          this.$bvToast.toast('Curso inserido com sucesso', this.$toastInfo);
+          this.$toast.success('Curso inserido com sucesso');
           this.isLoading = false;
           this.fechar();
         },
         erro => {
           this.isLoading = false;
-          this.$bvToast.toast(erro.body.message, this.$toastInfo);
+          this.$toast.error(erro.body.message);
         }
       );
     },

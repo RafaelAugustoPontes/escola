@@ -35,10 +35,7 @@ export default {
             this.$refs.modal.abrir();
           },
           erro =>
-            this.$bvToast.toast(
-              'Erro ao buscar os alunos' + erro.body.message,
-              this.$toastErro
-            )
+            this.$toast.error('Erro ao buscar os alunos' + erro.body.message)
         );
     },
 
@@ -55,10 +52,7 @@ export default {
         .then(
           turmas => (this.turmas = turmas),
           erro =>
-            this.$bvToast.toast(
-              'Erro ao buscar as turmas' + erro.body.message,
-              this.$toastErro
-            )
+            this.$toast.error('Erro ao buscar as turmas' + erro.body.message)
         );
     },
   },

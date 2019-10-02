@@ -85,10 +85,7 @@ export default {
             this.graficoTurma = graficoTurma;
           },
           erro => {
-            this.$bvToast.toast(
-              'Erro ao buscar as turmas' + erro.body.message,
-              this.$toastErro
-            );
+            this.$toast.error('Erro ao buscar as turmas' + erro.body.message);
           }
         );
     },
@@ -101,10 +98,7 @@ export default {
             this.graficoUnidade = graficoUnidade;
           },
           erro => {
-            this.$bvToast.toast(
-              'Erro ao buscar as turmas' + erro.body.message,
-              this.$toastErro
-            );
+            this.$toast.error('Erro ao buscar as turmas' + erro.body.message);
           }
         );
     },
@@ -117,10 +111,7 @@ export default {
             this.graficoFaltas = graficoFaltas;
           },
           erro => {
-            this.$bvToast.toast(
-              'Erro ao buscar o gráfico' + erro.body.message,
-              this.$toastErro
-            );
+            this.$toast.error('Erro ao buscar o gráfico' + erro.body.message);
           }
         );
     },
@@ -133,10 +124,7 @@ export default {
             this.graficoMedia = graficoMedia;
           },
           erro => {
-            this.$bvToast.toast(
-              'Erro ao buscar o gráfico' + erro.body.message,
-              this.$toastErro
-            );
+            this.$toast.error('Erro ao buscar o gráfico' + erro.body.message);
           }
         );
     },

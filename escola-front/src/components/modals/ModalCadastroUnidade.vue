@@ -44,15 +44,12 @@ export default {
         .put(process.env.VUE_APP_BASE_URI + 'unidade', this.unidade)
         .then(
           () => {
-            this.$bvToast.toast(
-              'Unidade atualizada com sucesso',
-              this.$toastInfo
-            );
+            this.$toast.success('Unidade atualizada com sucesso');
             this.isLoading = false;
             this.fechar();
           },
           erro => {
-            this.$bvToast.toast(erro.body.message, this.$toastInfo);
+            this.$toast.error(erro.body.message);
             this.isLoading = false;
           }
         );
@@ -65,15 +62,12 @@ export default {
         .post(process.env.VUE_APP_BASE_URI + 'unidade', this.unidade)
         .then(
           () => {
-            this.$bvToast.toast(
-              'Unidade inserida com sucesso',
-              this.$toastInfo
-            );
+            this.$toast.success('Unidade inserida com sucesso');
             this.isLoading = false;
             this.fechar();
           },
           erro => {
-            this.$bvToast.toast(erro.body.message, this.$toastInfo);
+            this.$toast.error(erro.body.message);
             this.isLoading = false;
           }
         );

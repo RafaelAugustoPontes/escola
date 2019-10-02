@@ -96,12 +96,12 @@ export default {
       this.isLoading = true;
       this.$http.put(process.env.VUE_APP_BASE_URI + 'pessoa', this.pessoa).then(
         () => {
-          this.$bvToast.toast('Pessoa atualizada com sucesso', this.$toastInfo);
+          this.$toast.success('Pessoa atualizada com sucesso');
           this.isLoading = false;
           this.fechar();
         },
         erro => {
-          this.$bvToast.toast(erro.body.message, this.$toastInfo);
+          this.$toast.error(erro.body.message);
           this.isLoading = false;
         }
       );
@@ -113,12 +113,12 @@ export default {
         .post(process.env.VUE_APP_BASE_URI + 'pessoa', this.pessoa)
         .then(
           () => {
-            this.$bvToast.toast('Pessoa inserida com sucesso', this.$toastInfo);
+            this.$toast.success('Pessoa inserida com sucesso');
             this.isLoading = false;
             this.fechar();
           },
           erro => {
-            this.$bvToast.toast(erro.body.message, this.$toastInfo);
+            this.$toast.error(erro.body.message);
             this.isLoading = false;
           }
         );

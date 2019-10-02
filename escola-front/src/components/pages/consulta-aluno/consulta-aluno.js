@@ -40,10 +40,7 @@ export default {
             this.isLoading = false;
           },
           erro =>
-            this.$bvToast.toast(
-              'Erro ao buscar os alunos' + erro.body.message,
-              this.$toastErro
-            )
+            this.$toast.error('Erro ao buscar os alunos' + erro.body.message)
         );
     },
 

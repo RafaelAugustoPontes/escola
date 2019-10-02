@@ -93,11 +93,11 @@ export default {
       this.isLoading = true;
       this.$http.put(process.env.VUE_APP_BASE_URI + 'aula', this.aula).then(
         () => {
-          this.$bvToast.toast('Aula atualizada com sucesso', this.$toastInfo);
+          this.$toast.success('Aula atualizada com sucesso');
           this.isLoading = false;
           this.fechar();
         },
-        erro => this.$bvToast.toast(erro.body.message, this.$toastInfo)
+        erro => this.$toast.error(erro.body.message)
       );
       this.fechar();
     },
@@ -106,11 +106,11 @@ export default {
       this.isLoading = true;
       this.$http.post(process.env.VUE_APP_BASE_URI + 'aula', this.aula).then(
         () => {
-          this.$bvToast.toast('Aula inserida com sucesso', this.$toastInfo);
+          this.$toast.success('Aula inserida com sucesso');
           this.isLoading = false;
           this.fechar();
         },
-        erro => this.$bvToast.toast(erro.body.message, this.$toastInfo)
+        erro => this.$toast.error(erro.body.message)
       );
       this.fechar();
     },
