@@ -82,19 +82,17 @@ export default {
     this.$http.get(process.env.VUE_APP_BASE_URI + 'login/usuario').then(data =>
       (this.nomeUsuario = data.json()).then(
         data => {
-          console.log(data);
           this.userData.nomeUsuario = data.username;
           this.userData.perfil = data.perfil;
           sessionStorage.setItem('perfil', data.perfil);
         },
-        err => console.log(err)
+        err => this.$toast.error(err)
       )
     );
   },
   props: ['routes'],
   methods: {
-    logout: function() {
-      Vue.http.headers.common['Authorization'] = '';
+    logout() {
       sessionStorage.clear();
       this.$router.push('/login');
     },

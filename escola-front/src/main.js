@@ -38,12 +38,10 @@ Vue.prototype.$toastErro = {
 };
 
 Vue.http.interceptors.push((request, next) => {
-  console.log(sessionStorage.getItem('jwt'));
   if (sessionStorage.getItem('jwt'))
     Vue.http.headers.common['Authorization'] = sessionStorage.getItem('jwt');
-
+  else Vue.http.headers.common['Authorization'] = '';
   next(response => {
-    console.log(response);
     if (response && (response.status === 403 || response.status === 401)) {
       sessionStorage.clear();
       router.push('/login');
