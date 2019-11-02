@@ -45,6 +45,7 @@ export default {
     },
 
     editar(aluno) {
+      console.log(aluno);
       this.$router.push('/consulta-aluno-detalhe/' + aluno.idPessoa);
     },
   },

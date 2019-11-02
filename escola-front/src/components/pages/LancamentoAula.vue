@@ -105,11 +105,13 @@ export default {
           alunos: [],
         },
       };
+      console.log(this.aula);
       this.$refs.modal.fechar();
     },
 
     editar(aula) {
       this.aula = aula;
+      console.log(aula);
       this.$refs.modal.abrir();
     },
   },

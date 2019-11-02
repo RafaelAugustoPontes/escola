@@ -78,6 +78,7 @@ export default {
     onSubmit(evt) {
       evt.preventDefault();
       this.isLoading = true;
+      console.log(this.$http);
       this.$http.post(process.env.VUE_APP_BASE_URI + 'login', this.form).then(
         response => {
           if (response.status === 200) {
@@ -89,6 +90,7 @@ export default {
         },
         erro => {
           this.$toast.error('Login ou senha inválido' + erro);
+          console.log(erro);
           this.isLoading = false;
         }
       );
