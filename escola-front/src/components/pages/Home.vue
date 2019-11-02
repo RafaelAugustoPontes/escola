@@ -66,7 +66,6 @@ export default {
     this.isLoading = true;
     setTimeout(() => {
       this.perfil = sessionStorage.getItem('perfil');
-      console.log(this.perfil);
     }, 1000);
     this.buscarPessoasPorTurma();
     this.buscarTurmasPorUnidade();

@@ -8,7 +8,6 @@ export default {
   methods: {
     handleSubmit(event) {
       event.preventDefault();
-      console.log(this.usuario);
       this.$http
         .put(process.env.VUE_APP_BASE_URI + 'usuario', this.usuario)
         .then(

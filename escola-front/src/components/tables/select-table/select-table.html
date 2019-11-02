@@ -1,0 +1,33 @@
+<div>
+  <b-pagination
+    v-model="paginaAtual"
+    :total-rows="quantidade"
+    :per-page="itensPorPagina"
+    aria-controls="my-table"
+  ></b-pagination>
+
+  <b-table
+    id="my-table"
+    :items="itens"
+    :fields="campos"
+    :per-page="itensPorPagina"
+    :current-page="paginaAtual"
+    :striped="true"
+    :bordered="true"
+    head-variant="dark"
+    small
+  >
+    <template slot="selected" slot-scope="row">
+      <b-form-group>
+        <b-form-checkbox
+          id="checkbox-1"
+          v-model="isAlgumSelecionado"
+          name="checkbox-1"
+          class="text-center"
+        >
+        </b-form-checkbox>
+      </b-form-group>
+    </template>
+  </b-table>
+  {{ isAlgumSelecionado }}
+</div>
