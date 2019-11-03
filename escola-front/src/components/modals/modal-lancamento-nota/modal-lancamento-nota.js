@@ -12,8 +12,20 @@ export default {
       this.$emit('modalFechada');
     },
 
+    isNotasValidas() {
+      let validas = !this.pessoasTurma.some(
+        pessoaTurma => pessoaTurma.nota <= 0 || pessoaTurma.nota >= 100
+      );
+      return validas;
+    },
+
     handleSubmit(event) {
       event.preventDefault();
+      if (!this.isNotasValidas()) {
+        this.$toast.error('Uma nota deve ter um valor entre 0 e 100');
+        return;
+      }
+
       this.isLoading = true;
       this.$http
         .put(process.env.VUE_APP_BASE_URI + 'pessoa-turma', this.pessoasTurma)
