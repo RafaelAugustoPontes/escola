@@ -1,0 +1,17 @@
+<b-modal
+  size="lg"
+  id="modal-pesquisa-aluno"
+  ref="modalPesquisa"
+  title="Pesquisar aluno"
+  cancel-title="Cancelar"
+  ok-title="Gravar"
+>
+  <b-table
+    @row-clicked="selecionar"
+    striped
+    hover
+    :items="alunos"
+    :fields="campos"
+  >
+  </b-table>
+</b-modal>

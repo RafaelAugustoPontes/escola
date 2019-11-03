@@ -13,7 +13,7 @@
 
 <script>
 import TabelaGenerica from '../tables/TabelaGenerica.vue';
-import ModalCadastroTurma from '../modals/ModalCadastroTurma.vue';
+import ModalCadastroTurma from '../modals/modal-cadastro-turma/modal-cadastro-turma.vue';
 import AppLoading from '../partials/app-loading/app-loading.vue';
 
 export default {

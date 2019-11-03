@@ -1,0 +1,108 @@
+<div>
+  <b-modal
+    size="lg"
+    id="modal-cadastro-turma"
+    ref="modal"
+    title="Nova turma"
+    cancel-title="Cancelar"
+    ok-title="Gravar"
+    :ok-disabled="!turma || !turma.nome || !turma.dataInicio 
+      || !turma.dataFim || !turma.turno || !turma.unidade.idUnidade
+      || !turma.curso.idCurso || !turma.estagio.idEstagio || !turma.professor.idPessoa
+      || !turma.alunos.length > 0"
+    @hidden="resetModal"
+    @ok="handleSubmit"
+  >
+    <app-loading :isLoading="isLoading"></app-loading>
+    <form ref="form" @submit.stop.prevent="handleSubmit">
+      <div>
+        <b-card no-body>
+          <b-tabs pills card>
+            <b-tab title="Dados da turma" active>
+              <b-card-text>
+                <b-form-group label="Nome" label-for="nome">
+                  <b-form-input
+                    id="nome"
+                    v-model="turma.nome"
+                    required
+                    maxlength="45"
+                  ></b-form-input>
+                </b-form-group>
+                <b-form-group label="Data início" label-for="dataInicio">
+                  <b-form-input
+                    id="dataInicio"
+                    type="date"
+                    v-model="turma.dataInicio"
+                    required
+                  ></b-form-input>
+                </b-form-group>
+                <b-form-group label="Data fim" label-for="dataFim">
+                  <b-form-input
+                    id="dataFim"
+                    type="date"
+                    v-model="turma.dataFim"
+                    required
+                  ></b-form-input>
+                </b-form-group>
+                <b-form-group label="Turno" label-for="select-turno">
+                  <b-form-select
+                    id="select-turno"
+                    :options="opcoesTurno"
+                    v-model="turma.turno"
+                  ></b-form-select>
+                </b-form-group>
+                <b-form-group label="Unidade" label-for="select-unidade">
+                  <b-form-select
+                    id="select-unidade"
+                    :options="opcoesUnidade"
+                    v-model="turma.unidade.idUnidade"
+                  ></b-form-select>
+                </b-form-group>
+                <b-form-group label="Curso" label-for="Curso">
+                  <b-form-select
+                    :options="opcoesCursos"
+                    v-model="turma.curso.idCurso"
+                  ></b-form-select>
+                </b-form-group>
+                <b-form-group label="Estágio" label-for="Estágio">
+                  <b-form-select
+                    v-model="turma.estagio.idEstagio"
+                    :options="opcoesEstagios"
+                  ></b-form-select>
+                </b-form-group>
+                <b-form-group label="Professor" label-for="Professor">
+                  <b-form-select
+                    v-model="turma.professor.idPessoa"
+                    :options="opcoesProfessores"
+                  ></b-form-select>
+                </b-form-group>
+              </b-card-text>
+            </b-tab>
+            <b-tab title="Alunos">
+              <b-button v-b-modal.modal-pesquisa-aluno variant="info">
+                <i class="fas fa-search"></i>
+                Procurar</b-button
+              >
+              <div
+                v-for="aluno in turma.alunos"
+                :value="aluno.idPessoa"
+                :key="aluno.idPessoa"
+              >
+                <chip
+                  :title="aluno.nome"
+                  :id="aluno.idPessoa"
+                  @close="remover"
+                ></chip>
+              </div>
+              <modal-pesquisa-aluno
+                ref="modalPesquisa"
+                :alunos="opcoesAlunos"
+                @alunoSelecionado="alunoSelecionado"
+              ></modal-pesquisa-aluno>
+            </b-tab>
+          </b-tabs>
+        </b-card>
+      </div>
+    </form>
+  </b-modal>
+</div>

@@ -1,68 +1,7 @@
-<template>
-  <div>
-    <b-modal
-      size="xl"
-      id="modal-cadastro-turma"
-      ref="modal"
-      title="Nova turma"
-      cancel-title="Cancelar"
-      ok-title="Gravar"
-      :ok-disabled="!turma || !turma.nome || !turma.dataInicio 
-      || !turma.dataFim || !turma.turno || !turma.unidade.idUnidade
-      || !turma.curso.idCurso || !turma.estagio.idEstagio || !turma.professor.idPessoa
-      || !turma.alunos.length > 0"
-      @hidden="resetModal"
-      @ok="handleSubmit"
-    >
-      <form ref="form" @submit.stop.prevent="handleSubmit">
-        <app-loading :isLoading="isLoading"></app-loading>
-        <b-form-group label="Nome" label-for="nome">
-          <b-form-input id="nome" v-model="turma.nome" required maxlength="45"></b-form-input>
-        </b-form-group>
-        <b-form-group label="Data início" label-for="dataInicio">
-          <b-form-input id="dataInicio" type="date" v-model="turma.dataInicio" required></b-form-input>
-        </b-form-group>
-        <b-form-group label="Data fim" label-for="dataFim">
-          <b-form-input id="dataFim" type="date" v-model="turma.dataFim" required></b-form-input>
-        </b-form-group>
-        <b-form-group label="Turno" label-for="select-turno">
-          <b-form-select id="select-turno" :options="opcoesTurno" v-model="turma.turno"></b-form-select>
-        </b-form-group>
-        <b-form-group label="Unidade" label-for="select-unidade">
-          <b-form-select
-            id="select-unidade"
-            :options="opcoesUnidade"
-            v-model="turma.unidade.idUnidade"
-          ></b-form-select>
-        </b-form-group>
-        <b-form-group label="Curso" label-for="Curso">
-          <b-form-select :options="opcoesCursos" v-model="turma.curso.idCurso"></b-form-select>
-        </b-form-group>
-        <b-form-group label="Estágio" label-for="Estágio">
-          <b-form-select v-model="turma.estagio.idEstagio" :options="opcoesEstagios"></b-form-select>
-        </b-form-group>
-        <b-form-group label="Professor" label-for="Professor">
-          <b-form-select v-model="turma.professor.idPessoa" :options="opcoesProfessores"></b-form-select>
-        </b-form-group>
-        <b-card-group deck>
-          <b-card header="Alunos disponíveis">
-            <tabela-generica :itens="opcoesAlunos" :campos="campos" @selecionar="selecionar"></tabela-generica>
-          </b-card>
-        </b-card-group>
-        <br />
-        <b-card-group deck>
-          <b-card header="Alunos selecionados">
-            <tabela-generica :itens="turma.alunos" :campos="campos" @editar="remover"></tabela-generica>
-          </b-card>
-        </b-card-group>
-      </form>
-    </b-modal>
-  </div>
-</template>
-
-<script>
-import TabelaGenerica from '../tables/TabelaGenerica';
-import AppLoading from '../partials/app-loading/app-loading.vue';
+import TabelaGenerica from '../../tables/TabelaGenerica';
+import AppLoading from '../../partials/app-loading/app-loading.vue';
+import ModalPesquisaAluno from '../modal-pesquisa-aluno/modal-pesquisa-aluno.vue';
+import Chip from '../../partials/chip/chip.vue';
 
 export default {
   created() {
@@ -92,9 +31,15 @@ export default {
   components: {
     'tabela-generica': TabelaGenerica,
     'app-loading': AppLoading,
+    'modal-pesquisa-aluno': ModalPesquisaAluno,
+    chip: Chip,
   },
 
   methods: {
+    alunoSelecionado(aluno) {
+      this.selecionar(aluno);
+    },
+
     resetModal() {
       this.$emit('modalFechada');
     },
@@ -152,15 +97,14 @@ export default {
       });
       if (!alunoExiste) this.turma.alunos.unshift(item);
     },
-    remover(item) {
+    remover(id) {
       if (this.turma.idTurma) {
         this.$toast.warning(
           'Não é possível remover alunos de uma turma em andamento'
         );
       } else {
-        let posicao = 0;
         for (let i = 0; i < this.turma.alunos.length; i++) {
-          if (this.turma.alunos[i].idPessoa == item.idPessoa) {
+          if (this.turma.alunos[i].idPessoa == id) {
             this.turma.alunos.splice(i, 1);
           }
         }
@@ -231,8 +175,3 @@ export default {
     },
   },
 };
-</script>
-
-<style scoped>
-</style>
-
