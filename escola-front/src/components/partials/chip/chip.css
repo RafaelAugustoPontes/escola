@@ -5,13 +5,14 @@
   font-size: 14px;
   line-height: 50px;
   border-radius: 25px;
-  background-color: #007bff;
+  background-color: #3d3d3d;
+  color: white;
   margin: 1%;
 }
 
 .closebtn {
   padding-left: 10px;
-  color: red;
+  color: #cccccc;
   font-weight: bold;
   float: right;
   font-size: 20px;

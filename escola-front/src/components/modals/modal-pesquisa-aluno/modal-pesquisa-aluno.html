@@ -5,13 +5,20 @@
   title="Pesquisar aluno"
   cancel-title="Cancelar"
   ok-title="Gravar"
+  :hide-footer="exibirFooter"
 >
-  <b-table
-    @row-clicked="selecionar"
-    striped
-    hover
-    :items="alunos"
-    :fields="campos"
+  <b-form-group>
+    <b-form-input
+      type="search"
+      placeholder="Digite um nome para pesquisar"
+      v-model="filtro"
+      @input="pesquisar($event.target.value)"
+    ></b-form-input>
+  </b-form-group>
+  <tabela-generica
+    :itens="dadosComFiltro()"
+    :campos="campos"
+    @editar="selecionar"
   >
-  </b-table>
+  </tabela-generica>
 </b-modal>
