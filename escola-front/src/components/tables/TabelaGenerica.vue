@@ -3,7 +3,7 @@
     <b-pagination
       v-model="paginaAtual"
       :total-rows="quantidade"
-      :per-page="itensPorPagina"
+      :per-page="10"
       aria-controls="my-table"
     ></b-pagination>
 
@@ -18,7 +18,16 @@
       @row-clicked="editar"
       @row-dblclicked="selecionar"
       small
-    ></b-table>
+    >
+       <template slot="actions" slot-scope="row">
+          <b-button size="sm" pill variant="info" @click="editar(row.item)" class="mr-1">
+            Editar
+          </b-button>
+          <b-button size="sm" pill variant="danger" @click="arquivar(row.item)">
+            Arquivar
+          </b-button>
+      </template>
+    </b-table>
   </div>
 </template>
 
@@ -36,10 +45,14 @@ export default {
 
   methods: {
     editar(item) {
+      console.log(item)
       this.$emit('editar', item);
     },
     selecionar(item, index) {
       this.$emit('selecionar', item, index);
+    },
+    arquivar(item){
+      alert(item)
     },
   },
 };

@@ -6,31 +6,38 @@
       <b-form-input type="search" placeholder="Digite um nome para pesquisar" v-model="filtro"></b-form-input>
     </b-form-group>
     <b-button class="btn btn-success float-right" v-b-modal.modal-cadastro-pessoa>Nova</b-button>
-    <tabela-pessoas :pessoas="dadosComFiltro()" @editar="editar"></tabela-pessoas>
+    <tabela-generica :itens="dadosComFiltro()" :campos="campos" @editar="editar"></tabela-generica>
     <modal-cadastro-pessoa ref="modal" :pessoa="pessoa" @modalFechada="fecharModal()"></modal-cadastro-pessoa>
   </div>
+
 </template>
 
 <script>
 import ModalCadastroPessoa from '../modals/ModalCadastroPessoa.vue';
-import TabelaPessoas from '../tables/TabelaPessoas.vue';
 import AppLoading from '../partials/app-loading/app-loading.vue';
+import TabelaGenerica from '../tables/TabelaGenerica';
 
 export default {
   components: {
     'modal-cadastro-pessoa': ModalCadastroPessoa,
-    'tabela-pessoas': TabelaPessoas,
     'app-loading': AppLoading,
+    TabelaGenerica,
   },
 
   computed: {},
 
   data() {
     return {
+      teste : [{'nome' : 'Rafael'}],
+       fields: [
+          { key: 'nome', label: 'Person Full name', sortable: true, sortDirection: 'desc' },
+          { key: 'actions', label: 'Actions' }
+       ],
       pessoa: {},
       pessoas: [],
       filtro: '',
       isLoading: false,
+      campos: ['nome', 'cpf', 'matricula', { key: 'actions', label: 'Ações' }],
     };
   },
 
