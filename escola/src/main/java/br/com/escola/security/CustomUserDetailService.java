@@ -2,7 +2,6 @@ package br.com.escola.security;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -26,8 +25,10 @@ public class CustomUserDetailService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		UsuarioModel usuario = Optional.ofNullable(repository.findByLogin(username))
-				.orElseThrow(() -> new UsernameNotFoundException("Usuário não enontrado"));
+		UsuarioModel usuario = repository.findByLogin(username);
+		
+		if (usuario == null || usuario.getPessoa().getArquivado())
+			throw new UsernameNotFoundException("Usuário ou senha inválidos");
 
 		List<GrantedAuthority> createAuthorityAdmin = Collections.emptyList();
 

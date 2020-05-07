@@ -20,10 +20,13 @@
       small
     >
        <template slot="actions" slot-scope="row">
-          <b-button size="sm" pill variant="info" @click="editar(row.item)" class="mr-1">
+          <b-button size="sm" variant="info" @click="editar(row.item)" class="mr-1">
             Editar
           </b-button>
-          <b-button size="sm" pill variant="danger" @click="arquivar(row.item)">
+          <b-button size="sm" variant="success" @click="arquivar(row.item)" v-if="row.item.arquivado">
+            Desarquivar
+          </b-button>
+          <b-button size="sm" variant="danger" @click="arquivar(row.item)" v-else>
             Arquivar
           </b-button>
       </template>
@@ -52,7 +55,7 @@ export default {
       this.$emit('selecionar', item, index);
     },
     arquivar(item){
-      alert(item)
+      this.$emit('arquivar', item);
     },
   },
 };

@@ -182,4 +182,11 @@ public class PessoaController {
 		return resultado;
 	}
 
+	public PessoaDTO arquivar(Integer idPessoa) {
+		PessoaModel pessoa = this.repository.getOne(idPessoa);
+		pessoa.setArquivado(!pessoa.getArquivado());
+		repository.save(pessoa);
+		
+		return mapper.map(pessoa, PessoaDTO.class);
+	}
 }

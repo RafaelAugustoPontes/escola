@@ -42,6 +42,8 @@ public class PessoaModel {
 
 	@OneToMany(mappedBy = "pessoa")
 	private Set<PessoaAulaModel> pessoaAulas;
+	
+	private Boolean arquivado;
 
 	public Integer getIdPessoa() {
 		return idPessoa;
@@ -169,6 +171,14 @@ public class PessoaModel {
 
 	public void setPessoaAulas(Set<PessoaAulaModel> pessoaAulas) {
 		this.pessoaAulas = pessoaAulas;
+	}
+
+	public Boolean getArquivado() {
+		return arquivado;
+	}
+
+	public void setArquivado(Boolean arquivado) {
+		this.arquivado = arquivado;
 	}
 
 	@Override
