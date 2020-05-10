@@ -61,6 +61,7 @@ public class PessoaController {
 			validator.assertValid(dto.getCpf());
 			PessoaModel pessoa = mapper.map(dto, PessoaModel.class);
 			pessoa.setMatricula(buscarMatricula());
+			pessoa.setArquivado(false);
 			PessoaModel pessoaPorCpf = repository.findByCpf(dto.getCpf());
 			if (pessoaPorCpf != null)
 				throw new RegraDeNegocioException("Já existe uma pessoa cadastrada com esse CPF.");
@@ -173,7 +174,7 @@ public class PessoaController {
 
 	public List<PessoaDTO> buscarProfessores() {
 		List<PessoaDTO> resultado = new ArrayList<>();
-		List<PessoaModel> alunos = repository.findByPerfil(PerfilModel.PROFESSOR);
+		List<PessoaModel> alunos = repository.findByPerfilAndArquivadoFalse(PerfilModel.PROFESSOR);
 
 		alunos.forEach(pessoa -> {
 			resultado.add(mapper.map(pessoa, PessoaDTO.class));
@@ -182,4 +183,11 @@ public class PessoaController {
 		return resultado;
 	}
 
+	public PessoaDTO arquivar(Integer idPessoa) {
+		PessoaModel pessoa = this.repository.getOne(idPessoa);
+		pessoa.setArquivado(!pessoa.getArquivado());
+		repository.save(pessoa);
+		
+		return mapper.map(pessoa, PessoaDTO.class);
+	}
 }

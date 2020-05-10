@@ -23,7 +23,7 @@ public class UsuarioModel {
 	@ManyToOne
 	@JoinColumn(name = "IDPESSOA")
 	private PessoaModel pessoa;
-
+	
 	public UsuarioModel() {
 
 	}

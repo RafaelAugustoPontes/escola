@@ -6,21 +6,30 @@
       <b-form-input type="search" placeholder="Digite um nome para pesquisar" v-model="filtro"></b-form-input>
     </b-form-group>
     <b-button class="btn btn-success float-right" v-b-modal.modal-cadastro-pessoa>Nova</b-button>
-    <tabela-pessoas :pessoas="dadosComFiltro()" @editar="editar"></tabela-pessoas>
+    <tabela-generica 
+        :itens="dadosComFiltro()" 
+        :campos="campos" 
+        @editar="editar" 
+        @arquivar="arquivar"
+        sucessValueButtonName="Ativar"
+        dangerValueButtonName="Inativar"
+        >
+    </tabela-generica>
     <modal-cadastro-pessoa ref="modal" :pessoa="pessoa" @modalFechada="fecharModal()"></modal-cadastro-pessoa>
   </div>
+
 </template>
 
 <script>
 import ModalCadastroPessoa from '../modals/ModalCadastroPessoa.vue';
-import TabelaPessoas from '../tables/TabelaPessoas.vue';
 import AppLoading from '../partials/app-loading/app-loading.vue';
+import TabelaGenerica from '../tables/TabelaGenerica';
 
 export default {
   components: {
     'modal-cadastro-pessoa': ModalCadastroPessoa,
-    'tabela-pessoas': TabelaPessoas,
     'app-loading': AppLoading,
+    TabelaGenerica,
   },
 
   computed: {},
@@ -31,6 +40,15 @@ export default {
       pessoas: [],
       filtro: '',
       isLoading: false,
+      campos: [ 
+          {key: 'nome', label : 'Nome', sortable : true}, 
+          {key: 'matricula', label: 'Matrícula', sortable : true}, 
+          {key: 'descricaoArquivado', label: 'Situação', sortable : true}, 
+          {key: 'perfilDescricao', label: 'Perfil', sortable : true}, 
+          {key: 'cpf', label: 'CPF', sortable : false},
+          {key: 'first', label: '', sortable : false},
+          {key: 'second', label: '', sortable : false},
+        ],
     };
   },
 
@@ -74,6 +92,24 @@ export default {
       this.pessoa = pessoa;
       this.$refs.modal.abrir();
     },
+
+    arquivar(pessoa){
+      this.isLoading = true;
+      this.$http
+        .put(process.env.VUE_APP_BASE_URI + `pessoa/arquivo/${pessoa.idPessoa}`)
+        .then(resposta => resposta.json())
+        .then(
+          () => {
+            this.$toast.success('Operação realizada com sucesso');
+            this.buscarPessoas()
+          },
+          erro => {
+            this.$toast.error('Erro ao buscar ao arquivar a pessoa' + erro.body.message);
+            this.isLoading = false;
+          }
+        );
+    },
+
   },
 };
 </script>

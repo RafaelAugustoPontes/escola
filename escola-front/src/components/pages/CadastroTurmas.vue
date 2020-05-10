@@ -6,7 +6,14 @@
       <b-form-input type="search" placeholder="Digite um nome para pesquisar" v-model="filtro"></b-form-input>
     </b-form-group>
     <b-button class="btn btn-success float-right" v-b-modal.modal-cadastro-turma>Nova</b-button>
-    <tabela-generica :itens="dadosComFiltro()" :campos="campos" @editar="editar"></tabela-generica>
+    <tabela-generica 
+        :itens="dadosComFiltro()" 
+        :campos="campos" 
+        @editar="editar" 
+        @arquivar="arquivar"
+        dangerValueButtonName="Arquivar"
+        >
+    </tabela-generica>
     <modal-cadastro-turma ref="modal" :turma="turma" @modalFechada="fecharModal()"></modal-cadastro-turma>
   </div>
 </template>
@@ -18,9 +25,9 @@ import AppLoading from '../partials/app-loading/app-loading.vue';
 
 export default {
   components: {
-    'tabela-generica': TabelaGenerica,
     'modal-cadastro-turma': ModalCadastroTurma,
     'app-loading': AppLoading,
+    TabelaGenerica,
   },
 
   data() {
@@ -33,7 +40,13 @@ export default {
         professor: {},
         alunos: [],
       },
-      campos: ['nome'],
+      campos: [ 
+          {key: 'nome', label : 'Nome', sortable : true}, 
+          {key: 'dataInicioFormatada', label : 'Data início', sortable : true}, 
+          {key: 'dataFimFormatada', label : 'Data fim', sortable : true}, 
+          {key: 'first', label: '', sortable : false},
+          {key: 'second', label: '', sortable : false},
+        ],
       filtro: '',
       isLoading: false,
     };
@@ -88,6 +101,22 @@ export default {
     editar(turma) {
       this.turma = turma;
       this.$refs.modal.abrir();
+    },
+
+    arquivar(turma) {
+      this.isLoading = true;
+      this.$http
+        .put(process.env.VUE_APP_BASE_URI + `turma/arquivar/${turma.idTurma}`)
+        .then(resposta => resposta.json())
+        .then(turma => {
+          this.isLoading = false;
+          this.buscar();
+        }, erro => {
+           console.log("Erro**")
+           console.log(erro);
+           this.$toast.error('Erro ao arquivar a asd');
+           this.isLoading = false;
+        })
     },
   },
 };

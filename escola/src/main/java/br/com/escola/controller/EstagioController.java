@@ -20,7 +20,7 @@ public class EstagioController {
 
 	public List<EstagioDTO> buscar() {
 		List<EstagioDTO> estagio = new ArrayList<>();
-		repository.findAll().forEach(pessoa -> {
+		repository.findByArquivadoFalse().forEach(pessoa -> {
 			estagio.add(mapper.map(pessoa, EstagioDTO.class));
 		});
 
@@ -36,8 +36,19 @@ public class EstagioController {
 	}
 
 	public EstagioDTO persistir(EstagioDTO dto) {
-		EstagioModel estagio = repository.save(mapper.map(dto, EstagioModel.class));
+		EstagioModel map = mapper.map(dto, EstagioModel.class);
+		if (map.getIdEstagio() == null)
+			map.setArquivado(false);
+			
+		EstagioModel estagio = repository.save(map);
 
+		return mapper.map(estagio, EstagioDTO.class);
+	}
+	
+	public EstagioDTO arquivar(Integer idEstagio) {
+		EstagioModel estagio = repository.getOne(idEstagio);
+		estagio.setArquivado(true);
+		estagio = repository.save(estagio);
 		return mapper.map(estagio, EstagioDTO.class);
 	}
 

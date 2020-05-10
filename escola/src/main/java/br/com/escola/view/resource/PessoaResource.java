@@ -79,5 +79,11 @@ public class PessoaResource {
 	public List<PessoaDTO> buscarProfessores() {
 		return new PessoaController(pessoaRepository).buscarProfessores();
 	}
+	
+	@PutMapping("/arquivo/{idPessoa}")
+	public PessoaDTO arquivar(@PathVariable Integer idPessoa) {
+		return new PessoaController(pessoaRepository).arquivar(idPessoa);
+	}
+
 
 }

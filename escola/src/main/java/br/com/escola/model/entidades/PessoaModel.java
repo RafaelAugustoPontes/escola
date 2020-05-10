@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "PESSOA")
@@ -42,6 +43,9 @@ public class PessoaModel {
 
 	@OneToMany(mappedBy = "pessoa")
 	private Set<PessoaAulaModel> pessoaAulas;
+	
+	@NotNull
+	private Boolean arquivado;
 
 	public Integer getIdPessoa() {
 		return idPessoa;
@@ -169,6 +173,20 @@ public class PessoaModel {
 
 	public void setPessoaAulas(Set<PessoaAulaModel> pessoaAulas) {
 		this.pessoaAulas = pessoaAulas;
+	}
+
+	public Boolean getArquivado() {
+		return arquivado;
+	}
+
+	public void setArquivado(Boolean arquivado) {
+		this.arquivado = arquivado;
+	}
+	
+	public String getDescricaoArquivado() {
+		if (arquivado)
+			return "Inativo";
+		return "Ativo";
 	}
 
 	@Override

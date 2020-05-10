@@ -85,5 +85,11 @@ public class TurmaResource {
 		new TurmaController(turmaRepository, pessoaTurmaRepository, pessoaRepository, unidadeRepository,
 				cursoRepository, estagioRepository).atualizar(dto);
 	}
+	
+	@PutMapping("/arquivar/{idTurma}")
+	public TurmaDTO arquivar(@PathVariable Integer idTurma) {
+		return new TurmaController(turmaRepository, pessoaTurmaRepository, pessoaRepository, unidadeRepository,
+				cursoRepository, estagioRepository).arquivar(idTurma);
+	}
 
 }

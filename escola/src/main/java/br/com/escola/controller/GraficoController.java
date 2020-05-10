@@ -78,7 +78,7 @@ public class GraficoController {
 		for (Object linha : turmasMenoresMedias) {
 			Object[] array = (Object[]) linha;
 			Serie serie = new Serie(array[0].toString());
-			serie.addData(Double.valueOf(array[1].toString()));
+			serie.addData(Math.ceil(Double.valueOf(array[1].toString())));
 			grafico.addSerie(serie);
 		}
 		return grafico;

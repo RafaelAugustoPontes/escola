@@ -18,17 +18,34 @@
       @row-clicked="editar"
       @row-dblclicked="selecionar"
       small
-    ></b-table>
+    >
+       <template slot="first" slot-scope="row">
+          <b-button size="sm" variant="info" @click="editar(row.item)" class="mr-1">
+            <span v-if="editButtonName">{{editButtonName}}</span>
+            <span v-else>Editar</span>
+          </b-button>
+      </template>
+      <template slot="second" slot-scope="row">
+           <b-button size="sm" variant="success" @click="arquivar(row.item)" v-if="row.item.arquivado">
+              <span v-if="sucessValueButtonName">{{sucessValueButtonName}}</span>
+              <span v-else>Desarquivar</span>
+            </b-button>
+            <b-button size="sm" variant="danger" @click="arquivar(row.item)" v-else>
+              <span v-if="dangerValueButtonName">{{dangerValueButtonName}}</span>
+              <span v-else>Arquivar</span>
+            </b-button>
+      </template>
+    </b-table>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['itens', 'campos'],
+  props: ['itens', 'campos', 'sucessValueButtonName', 'dangerValueButtonName', 'editButtonName'],
 
   data() {
     return {
-      itensPorPagina: 10,
+      itensPorPagina: 20,
       paginaAtual: 1,
       quantidade: this.itens.length,
     };
@@ -40,6 +57,9 @@ export default {
     },
     selecionar(item, index) {
       this.$emit('selecionar', item, index);
+    },
+    arquivar(item){
+      this.$emit('arquivar', item);
     },
   },
 };

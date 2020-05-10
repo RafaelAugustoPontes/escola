@@ -18,6 +18,8 @@ public class PessoaDTO implements OpcaoParaSelect {
 	private String cep;
 	private String telefone;
 	private String email;
+	private Boolean arquivado;
+	private String descricaoArquivado;
 
 	public PessoaDTO() {
 
@@ -145,6 +147,22 @@ public class PessoaDTO implements OpcaoParaSelect {
 
 	public Integer getValue() {
 		return idPessoa;
+	}
+
+	public Boolean getArquivado() {
+		return arquivado;
+	}
+
+	public void setArquivado(Boolean arquivado) {
+		this.arquivado = arquivado;
+	}
+
+	public String getDescricaoArquivado() {
+		return descricaoArquivado;
+	}
+
+	public void setDescricaoArquivado(String descricaoArquivado) {
+		this.descricaoArquivado = descricaoArquivado;
 	}
 
 }

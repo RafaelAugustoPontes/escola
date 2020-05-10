@@ -32,7 +32,6 @@ public class CursoResource {
 		return new CursoController(repository).buscar(id);
 	}
 
-
 	@PostMapping
 	public void inserir(@RequestBody CursoDTO pessoa) {
 		new CursoController(repository).persistir(pessoa);
@@ -41,6 +40,11 @@ public class CursoResource {
 	@PutMapping
 	public CursoDTO atualizar(@RequestBody CursoDTO pessoa) {
 		return new CursoController(repository).persistir(pessoa);
+	}
+	
+	@PutMapping("/arquivar/{idUnidade}")
+	public CursoDTO arquivar(@PathVariable Integer idUnidade) {
+		return new CursoController(repository).arquivar(idUnidade);
 	}
 
 }

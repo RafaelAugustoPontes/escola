@@ -4,6 +4,7 @@ public class CursoDTO implements OpcaoParaSelect {
 
 	private Integer idCurso;
 	private String nome;
+	private Boolean arquivado;
 
 	public Integer getIdCurso() {
 		return idCurso;
@@ -27,6 +28,14 @@ public class CursoDTO implements OpcaoParaSelect {
 
 	public Integer getValue() {
 		return idCurso;
+	}
+
+	public Boolean getArquivado() {
+		return arquivado;
+	}
+
+	public void setArquivado(Boolean arquivado) {
+		this.arquivado = arquivado;
 	}
 
 }

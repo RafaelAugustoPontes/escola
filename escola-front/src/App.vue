@@ -65,4 +65,9 @@ export default {
   width: 78%;
   margin: 0 auto;
 }
+
+.colunaMenor{
+  max-width: 30px;
+}
+
 </style>

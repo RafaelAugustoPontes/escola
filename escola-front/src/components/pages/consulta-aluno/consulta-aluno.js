@@ -2,9 +2,6 @@ import TabelaGenerica from '../../tables/TabelaGenerica';
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
 
-// Aulas / Frequencia
-// Nota outros alunos
-//
 
 export default {
   created() {
@@ -14,7 +11,10 @@ export default {
   data() {
     return {
       filtro: '',
-      campos: ['nome'],
+      campos: [ 
+        {key: 'nome', label : 'Nome', sortable : true}, 
+        {key: 'first', label: '', sortable : false, class : "colunaMenor"}
+      ],
       alunos: [],
       isLoading: true,
     };

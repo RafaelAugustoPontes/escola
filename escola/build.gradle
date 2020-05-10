@@ -4,6 +4,7 @@ plugins {
 }
 
 apply plugin: 'io.spring.dependency-management'
+apply plugin: "war"
 
 group = 'br.com'
 version = '0.0.1-SNAPSHOT'
@@ -24,5 +25,5 @@ dependencies {
 	testCompile group: 'junit', name: 'junit', version: '4.12'
 	compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
 	compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.1.8.RELEASE'
-		
+	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 }
