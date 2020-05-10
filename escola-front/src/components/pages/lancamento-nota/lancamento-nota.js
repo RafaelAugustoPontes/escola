@@ -10,8 +10,11 @@ export default {
     return {
       turmas: [],
       filtro: '',
-      campos: ['nome'],
       pessoasTurma: [],
+      campos: [ 
+        {key: 'nome', label : 'Nome', sortable : true}, 
+        {key: 'first', label: '', sortable : false, class : "colunaMenor"}
+      ],
     };
   },
 

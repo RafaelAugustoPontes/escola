@@ -20,8 +20,8 @@ public class UnidadeController {
 
 	public List<UnidadeDTO> buscar() {
 		List<UnidadeDTO> unidades = new ArrayList<>();
-		repository.findAll().forEach(pessoa -> {
-			unidades.add(mapper.map(pessoa, UnidadeDTO.class));
+		repository.findByArquivadoFalse().forEach(unidade -> {
+			unidades.add(mapper.map(unidade, UnidadeDTO.class));
 		});
 
 		return unidades;
@@ -36,9 +36,19 @@ public class UnidadeController {
 	}
 
 	public UnidadeDTO persistir(UnidadeDTO dto) {
-		UnidadeModel unidadeAtualizada = repository.save(mapper.map(dto, UnidadeModel.class));
+		UnidadeModel unidadeModel = mapper.map(dto, UnidadeModel.class);
+		unidadeModel.setArquivado(false);
+		UnidadeModel unidadeAtualizada = repository.save(unidadeModel);
 
 		return mapper.map(unidadeAtualizada, UnidadeDTO.class);
+	}
+
+	public UnidadeDTO arquivar(Integer idUnidade) {
+		UnidadeModel unidadeModel = repository.getOne(idUnidade);
+		unidadeModel.setArquivado(true);
+		repository.save(unidadeModel);
+		
+		return mapper.map(unidadeModel, UnidadeDTO.class);
 	}
 
 }

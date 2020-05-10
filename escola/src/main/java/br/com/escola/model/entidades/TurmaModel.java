@@ -15,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "TURMA")
@@ -56,6 +57,9 @@ public class TurmaModel {
 
 	@OneToMany(mappedBy = "turma")
 	private Set<AulaModel> aulas;
+	
+	@NotNull
+	private Boolean arquivado;
 
 	public Integer getIdTurma() {
 		return idTurma;
@@ -149,6 +153,14 @@ public class TurmaModel {
 
 	public void setAulas(Set<AulaModel> aulas) {
 		this.aulas = aulas;
+	}
+
+	public Boolean getArquivado() {
+		return arquivado;
+	}
+
+	public void setArquivado(Boolean arquivado) {
+		this.arquivado = arquivado;
 	}
 
 	@Override

@@ -42,7 +42,11 @@ export default {
       },
       opcoesTurma: [],
       idTurmaSelecionada: null,
-      campos: ['dataAula', 'diarioResumido'],
+      campos: [ 
+          {key: 'dataAula', label : 'Data da aula', sortable : true}, 
+          {key: 'diarioResumido', label: 'Diário resumido', sortable : true},
+          {key: 'first', label: '', sortable : false, class : "colunaMenor"},
+        ],
       isLoading: false,
     };
   },

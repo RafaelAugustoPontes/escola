@@ -11,6 +11,7 @@
     :itens="dadosComFiltro()"
     :campos="campos"
     @editar="editar"
+    :hideSecondButton="true"
   ></tabela-generica>
   <div v-if="pessoasTurma">
     <modal-lancamento-nota

@@ -32,7 +32,6 @@ public class UnidadeResource {
 		return new UnidadeController(unidadeRepository).buscar(id);
 	}
 
-
 	@PostMapping
 	public void inserir(@RequestBody UnidadeDTO pessoa) {
 		new UnidadeController(unidadeRepository).persistir(pessoa);
@@ -41,6 +40,11 @@ public class UnidadeResource {
 	@PutMapping
 	public UnidadeDTO atualizar(@RequestBody UnidadeDTO pessoa) {
 		return new UnidadeController(unidadeRepository).persistir(pessoa);
+	}
+	
+	@PutMapping("/arquivar/{idUnidade}")
+	public UnidadeDTO arquivar(@PathVariable Integer idUnidade) {
+		return new UnidadeController(unidadeRepository).arquivar(idUnidade);
 	}
 
 }

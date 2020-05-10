@@ -41,5 +41,14 @@ public class EstagioResource {
 	public EstagioDTO atualizar(@RequestBody EstagioDTO pessoa) {
 		return new EstagioController(repository).persistir(pessoa);
 	}
+	
+	
+	@PutMapping("/arquivar/{idEstagio}")
+	public EstagioDTO arqvuiar(@PathVariable Integer idEstagio) {
+		return new EstagioController(repository).arquivar(idEstagio);
+	}
+	
+	
+
 
 }

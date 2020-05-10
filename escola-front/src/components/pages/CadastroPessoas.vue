@@ -6,7 +6,15 @@
       <b-form-input type="search" placeholder="Digite um nome para pesquisar" v-model="filtro"></b-form-input>
     </b-form-group>
     <b-button class="btn btn-success float-right" v-b-modal.modal-cadastro-pessoa>Nova</b-button>
-    <tabela-generica :itens="dadosComFiltro()" :campos="campos" @editar="editar" @arquivar="arquivar"></tabela-generica>
+    <tabela-generica 
+        :itens="dadosComFiltro()" 
+        :campos="campos" 
+        @editar="editar" 
+        @arquivar="arquivar"
+        sucessValueButtonName="Ativar"
+        dangerValueButtonName="Inativar"
+        >
+    </tabela-generica>
     <modal-cadastro-pessoa ref="modal" :pessoa="pessoa" @modalFechada="fecharModal()"></modal-cadastro-pessoa>
   </div>
 
@@ -28,20 +36,18 @@ export default {
 
   data() {
     return {
-      teste : [{'nome' : 'Rafael'}],
-       fields: [
-          { key: 'nome', label: 'Person Full name', sortable: true, sortDirection: 'desc' },
-          { key: 'actions', label: 'Actions' }
-       ],
       pessoa: {},
       pessoas: [],
       filtro: '',
       isLoading: false,
       campos: [ 
-          { key: 'nome', label : 'Nome', sortable : true}, 
+          {key: 'nome', label : 'Nome', sortable : true}, 
           {key: 'matricula', label: 'Matrícula', sortable : true}, 
+          {key: 'descricaoArquivado', label: 'Situação', sortable : true}, 
+          {key: 'perfilDescricao', label: 'Perfil', sortable : true}, 
           {key: 'cpf', label: 'CPF', sortable : false},
-          { key: 'actions', label: 'Ações', sortable : false}
+          {key: 'first', label: '', sortable : false},
+          {key: 'second', label: '', sortable : false},
         ],
     };
   },

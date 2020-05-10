@@ -6,21 +6,28 @@
       <b-form-input type="search" placeholder="Digite um nome para pesquisar" v-model="filtro"></b-form-input>
     </b-form-group>
     <b-button class="btn btn-success float-right" v-b-modal.modal-cadastro-curso>Novo</b-button>
-    <tabela-cursos :cursos="dadosComFiltro()" @editar="editar"></tabela-cursos>
+     <tabela-generica 
+        :itens="dadosComFiltro()" 
+        :campos="campos" 
+        @editar="editar" 
+        @arquivar="arquivar"
+        dangerValueButtonName="Arquivar"
+        >
+    </tabela-generica>
     <modal-cadastro-curso ref="modal" :curso="curso" @modalFechada="fecharModal()"></modal-cadastro-curso>
   </div>
 </template>
 
 <script>
 import ModalCadastroCurso from '../modals/ModalCadastroCurso.vue';
-import TabelaCursos from '../tables/TabelaCursos.vue';
 import AppLoading from '../partials/app-loading/app-loading.vue';
+import TabelaGenerica from '../tables/TabelaGenerica';
 
 export default {
   components: {
     'modal-cadastro-curso': ModalCadastroCurso,
-    'tabela-cursos': TabelaCursos,
     'app-loading': AppLoading,
+    TabelaGenerica,
   },
 
   data() {
@@ -29,6 +36,11 @@ export default {
       cursos: [],
       filtro: '',
       isLoading: false,
+       campos: [ 
+          {key: 'nome', label : 'Nome', sortable : true}, 
+          {key: 'first', label: '', sortable : false, class : "colunaMenor"},
+          {key: 'second', label: '', sortable : false, class : "colunaMenor"},
+        ],
     };
   },
 
@@ -73,6 +85,21 @@ export default {
       this.curso = curso;
       this.$refs.modal.abrir();
     },
+
+     arquivar(curso){
+      this.isLoading = true;
+      this.$http
+        .put(process.env.VUE_APP_BASE_URI + `curso/arquivar/${curso.idCurso}`)
+        .then(resposta => resposta.json())
+        .then(unidade => {
+          this.isLoading = false;
+          this.buscarCursos();
+        }, erro => {
+           this.$toast.error('Erro ao arquivar o curso' + erro.body.message);
+           this.isLoading = false;
+        })
+    },
+
   },
 };
 </script>

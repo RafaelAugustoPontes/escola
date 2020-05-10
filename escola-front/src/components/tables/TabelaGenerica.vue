@@ -3,7 +3,7 @@
     <b-pagination
       v-model="paginaAtual"
       :total-rows="quantidade"
-      :per-page="10"
+      :per-page="itensPorPagina"
       aria-controls="my-table"
     ></b-pagination>
 
@@ -19,16 +19,21 @@
       @row-dblclicked="selecionar"
       small
     >
-       <template slot="actions" slot-scope="row">
+       <template slot="first" slot-scope="row">
           <b-button size="sm" variant="info" @click="editar(row.item)" class="mr-1">
-            Editar
+            <span v-if="editButtonName">{{editButtonName}}</span>
+            <span v-else>Editar</span>
           </b-button>
-          <b-button size="sm" variant="success" @click="arquivar(row.item)" v-if="row.item.arquivado">
-            Desarquivar
-          </b-button>
-          <b-button size="sm" variant="danger" @click="arquivar(row.item)" v-else>
-            Arquivar
-          </b-button>
+      </template>
+      <template slot="second" slot-scope="row">
+           <b-button size="sm" variant="success" @click="arquivar(row.item)" v-if="row.item.arquivado">
+              <span v-if="sucessValueButtonName">{{sucessValueButtonName}}</span>
+              <span v-else>Desarquivar</span>
+            </b-button>
+            <b-button size="sm" variant="danger" @click="arquivar(row.item)" v-else>
+              <span v-if="dangerValueButtonName">{{dangerValueButtonName}}</span>
+              <span v-else>Arquivar</span>
+            </b-button>
       </template>
     </b-table>
   </div>
@@ -36,11 +41,11 @@
 
 <script>
 export default {
-  props: ['itens', 'campos'],
+  props: ['itens', 'campos', 'sucessValueButtonName', 'dangerValueButtonName', 'editButtonName'],
 
   data() {
     return {
-      itensPorPagina: 10,
+      itensPorPagina: 20,
       paginaAtual: 1,
       quantidade: this.itens.length,
     };
@@ -48,7 +53,6 @@ export default {
 
   methods: {
     editar(item) {
-      console.log(item)
       this.$emit('editar', item);
     },
     selecionar(item, index) {

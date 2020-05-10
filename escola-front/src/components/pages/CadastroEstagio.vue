@@ -6,21 +6,28 @@
       <b-form-input type="search" placeholder="Digite um nome para pesquisar" v-model="filtro"></b-form-input>
     </b-form-group>
     <b-button class="btn btn-success float-right" v-b-modal.modal-cadastro-estagio>Novo</b-button>
-    <tabela-estagios :estagios="dadosComFiltro()" @editar="editar"></tabela-estagios>
+      <tabela-generica 
+        :itens="dadosComFiltro()" 
+        :campos="campos" 
+        @editar="editar" 
+        @arquivar="arquivar"
+        dangerValueButtonName="Arquivar"
+        >
+    </tabela-generica>
     <modal-cadastro-estagio ref="modal" :estagio="estagio" @modalFechada="fecharModal()"></modal-cadastro-estagio>
   </div>
 </template>
 
 <script>
 import ModalCadastroEstagio from '../modals/ModalCadastroEstagio.vue';
-import TabelaEstagios from '../tables/TabelaEstagios.vue';
 import AppLoading from '../partials/app-loading/app-loading.vue';
+import TabelaGenerica from '../tables/TabelaGenerica';
 
 export default {
   components: {
     'modal-cadastro-estagio': ModalCadastroEstagio,
-    'tabela-estagios': TabelaEstagios,
     'app-loading': AppLoading,
+    TabelaGenerica,
   },
 
   data() {
@@ -29,6 +36,11 @@ export default {
       estagios: [],
       filtro: '',
       isLoading: false,
+      campos: [ 
+          {key: 'nome', label : 'Nome', sortable : true}, 
+          {key: 'first', label: '', sortable : false, class : "colunaMenor"},
+          {key: 'second', label: '', sortable : false, class : "colunaMenor"},
+        ],
     };
   },
 
@@ -72,6 +84,23 @@ export default {
       this.estagio = {};
       this.$refs.modal.fechar();
     },
+
+    arquivar(estagio){
+      this.isLoading = true;
+      this.$http
+        .put(process.env.VUE_APP_BASE_URI + `estagio/arquivar/${estagio.idEstagio}`)
+        .then(resposta => resposta.json())
+        .then(estagio => {
+          this.isLoading = false;
+          this.buscarEstagios();
+        }, erro => {
+           this.$toast.error('Erro ao arquivar o estágio' + erro.body.message);
+           this.isLoading = false;
+        })
+    },
+
+
+
   },
 };
 </script>

@@ -10,7 +10,10 @@ export default {
   data() {
     return {
       filtro: '',
-      campos: ['nome'],
+      campos: [ 
+        {key: 'nome', label : 'Nome', sortable : true}, 
+        {key: 'first', label: '', sortable : false, class : "colunaMenor"}
+      ],
       turmas: [],
       isLoading: true,
     };

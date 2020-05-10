@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.escola.view.util.DataUtil;
+
 public class TurmaDTO implements OpcaoParaSelect {
 
 	private Integer idTurma;
@@ -16,6 +18,7 @@ public class TurmaDTO implements OpcaoParaSelect {
 	private String turno;
 	private List<PessoaDTO> alunos;
 	private EstagioDTO estagio;
+	private Boolean arquivado;
 
 	public void adicionarAluno(PessoaDTO aluno) {
 		if (alunos == null)
@@ -42,6 +45,10 @@ public class TurmaDTO implements OpcaoParaSelect {
 	public LocalDate getDataInicio() {
 		return dataInicio;
 	}
+	
+	public String getDataInicioFormatada() {
+		return DataUtil.formatar(dataInicio);
+	}
 
 	public void setDataInicio(LocalDate dataInicio) {
 		this.dataInicio = dataInicio;
@@ -49,6 +56,10 @@ public class TurmaDTO implements OpcaoParaSelect {
 
 	public LocalDate getDataFim() {
 		return dataFim;
+	}
+	
+	public String getDataFimFormatada() {
+		return DataUtil.formatar(dataFim);
 	}
 
 	public void setDataFim(LocalDate dataFim) {
@@ -111,6 +122,14 @@ public class TurmaDTO implements OpcaoParaSelect {
 	@Override
 	public Integer getValue() {
 		return getIdTurma();
+	}
+
+	public Boolean getArquivado() {
+		return arquivado;
+	}
+
+	public void setArquivado(Boolean arquivado) {
+		this.arquivado = arquivado;
 	}
 
 }

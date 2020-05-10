@@ -6,21 +6,28 @@
       <b-form-input type="search" placeholder="Digite um nome para pesquisar" v-model="filtro"></b-form-input>
     </b-form-group>
     <b-button class="btn btn-success float-right" v-b-modal.modal-cadastro-unidade>Nova</b-button>
-    <tabela-unidades :unidades="dadosComFiltro()" @editar="editar"></tabela-unidades>
+    <tabela-generica 
+        :itens="dadosComFiltro()" 
+        :campos="campos" 
+        @editar="editar" 
+        @arquivar="arquivar"
+        dangerValueButtonName="Arquivar"
+        >
+    </tabela-generica>
     <modal-cadastro-unidade ref="modal" :unidade="unidade" @modalFechada="fecharModal()"></modal-cadastro-unidade>
   </div>
 </template>
 
 <script>
+import TabelaGenerica from '../tables/TabelaGenerica';
 import ModalCadastroUnidade from '../modals/ModalCadastroUnidade.vue';
-import TabelaUnidades from '../tables/TabelaUnidades.vue';
 import AppLoading from '../partials/app-loading/app-loading.vue';
 
 export default {
   components: {
     'modal-cadastro-unidade': ModalCadastroUnidade,
-    'tabela-unidades': TabelaUnidades,
     'app-loading': AppLoading,
+    TabelaGenerica,
   },
 
   data() {
@@ -29,6 +36,11 @@ export default {
       unidades: [],
       filtro: '',
       isLoading: false,
+      campos: [ 
+          {key: 'nome', label : 'Nome', sortable : true}, 
+          {key: 'first', label: 'Editar', sortable : false, class : "colunaMenor"},
+          {key: 'second', label: 'Arquivar', sortable : false, class : "colunaMenor"},
+        ],
     };
   },
 
@@ -71,6 +83,20 @@ export default {
       this.unidade = {};
       this.buscarUnidades();
       this.$refs.modal.fechar();
+    },
+
+    arquivar(unidade){
+      this.isLoading = true;
+      this.$http
+        .put(process.env.VUE_APP_BASE_URI + `unidade/arquivar/${unidade.idUnidade}`)
+        .then(resposta => resposta.json())
+        .then(unidade => {
+          this.isLoading = false;
+          this.buscarUnidades();
+        }, erro => {
+           this.$toast.error('Erro ao arquivar a unidade' + erro.body.message);
+           this.isLoading = false;
+        })
     },
   },
 };
