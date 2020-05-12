@@ -3,6 +3,8 @@ package br.com.escola.view.resource;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,9 +44,11 @@ public class UnidadeResource {
 		return new UnidadeController(unidadeRepository).persistir(pessoa);
 	}
 	
-	@PutMapping("/arquivar/{idUnidade}")
-	public UnidadeDTO arquivar(@PathVariable Integer idUnidade) {
-		return new UnidadeController(unidadeRepository).arquivar(idUnidade);
+	@DeleteMapping("/{id}")
+	public ResponseEntity<?> excluir(@PathVariable Integer id) {
+		unidadeRepository.deleteById(id);
+		
+		return ResponseEntity.ok().build();
 	}
 
 }

@@ -92,7 +92,7 @@ public class TurmaController {
 				turma.add(obterDTO(pessoa));
 			});
 		} else {
-			repository.findByArquivadoFalse().forEach(pessoa -> {
+			repository.findAll().forEach(pessoa -> {
 				turma.add(obterDTO(pessoa));
 			});
 		}
@@ -125,7 +125,6 @@ public class TurmaController {
 
 	public TurmaDTO persistir(TurmaDTO dto) {
 		TurmaModel turma = obterTurma(dto);
-		turma.setArquivado(false);
 		repository.save(turma);
 		for (PessoaDTO dtoAluno : dto.getAlunos()) {
 			PessoaTurmaModel pessoaTurmaModel = new PessoaTurmaModel();
@@ -155,7 +154,6 @@ public class TurmaController {
 		turma.setTurno(TurnoModel.valueOf(dto.getTurno()));
 		EstagioModel estagioModel = estagioRepository.findById(dto.getEstagio().getIdEstagio()).get();
 		turma.setEstagio(estagioModel);
-		turma.setArquivado(dto.getArquivado());
 
 		return turma;
 	}
@@ -192,7 +190,6 @@ public class TurmaController {
 		}
 
 		dto.setAlunos(alunos);
-		dto.setArquivado(turma.getArquivado());
 
 		return dto;
 	}
@@ -206,12 +203,4 @@ public class TurmaController {
 		return opcoes;
 	}
 	
-	public TurmaDTO arquivar(Integer idTurma) {
-		TurmaModel turma = repository.getOne(idTurma);
-		turma.setArquivado(true);
-		repository.save(turma);
-		
-		return obterDTO(turma);
-	}
-
 }

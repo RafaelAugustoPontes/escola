@@ -20,7 +20,7 @@ public class CursoController {
 
 	public List<CursoDTO> buscar() {
 		List<CursoDTO> cursos = new ArrayList<>();
-		repository.findByArquivadoFalse().forEach(curso -> {
+		repository.findAll().forEach(curso -> {
 			cursos.add(mapper.map(curso, CursoDTO.class));
 		});
 
@@ -37,19 +37,10 @@ public class CursoController {
 
 	public CursoDTO persistir(CursoDTO dto) {
 		CursoModel map = mapper.map(dto, CursoModel.class);
-		if (map.getIdCurso() == null)
-			map.setArquivado(false);
-		
 		CursoModel cursoAtualizado = repository.save(map);
 
 		return mapper.map(cursoAtualizado, CursoDTO.class);
 	}
 
-	public CursoDTO arquivar(Integer idUnidade) {
-		CursoModel curso = repository.getOne(idUnidade);
-		curso.setArquivado(true);
-		curso = repository.save(curso);
-		return mapper.map(curso, CursoDTO.class);
-	}
 
 }

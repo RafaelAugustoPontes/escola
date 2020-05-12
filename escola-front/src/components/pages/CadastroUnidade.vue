@@ -10,8 +10,8 @@
         :itens="dadosComFiltro()" 
         :campos="campos" 
         @editar="editar" 
-        @arquivar="arquivar"
-        dangerValueButtonName="Arquivar"
+        @arquivar="excluir"
+        dangerValueButtonName="Excluir"
         >
     </tabela-generica>
     <modal-cadastro-unidade ref="modal" :unidade="unidade" @modalFechada="fecharModal()"></modal-cadastro-unidade>
@@ -39,7 +39,7 @@ export default {
       campos: [ 
           {key: 'nome', label : 'Nome', sortable : true}, 
           {key: 'first', label: 'Editar', sortable : false, class : "colunaMenor"},
-          {key: 'second', label: 'Arquivar', sortable : false, class : "colunaMenor"},
+          {key: 'second', label: 'Excluir', sortable : false, class : "colunaMenor"},
         ],
     };
   },
@@ -85,16 +85,15 @@ export default {
       this.$refs.modal.fechar();
     },
 
-    arquivar(unidade){
+    excluir(unidade){
       this.isLoading = true;
       this.$http
-        .put(process.env.VUE_APP_BASE_URI + `unidade/arquivar/${unidade.idUnidade}`)
-        .then(resposta => resposta.json())
-        .then(unidade => {
+        .delete(process.env.VUE_APP_BASE_URI + `unidade/${unidade.idUnidade}`)
+        .then(() => {
           this.isLoading = false;
           this.buscarUnidades();
         }, erro => {
-           this.$toast.error('Erro ao arquivar a unidade' + erro.body.message);
+           this.$toast.error('Erro ao excluir a unidade. Verifique se está em uso e tente novamente.');
            this.isLoading = false;
         })
     },

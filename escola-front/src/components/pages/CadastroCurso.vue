@@ -10,8 +10,8 @@
         :itens="dadosComFiltro()" 
         :campos="campos" 
         @editar="editar" 
-        @arquivar="arquivar"
-        dangerValueButtonName="Arquivar"
+        @arquivar="excluir"
+        dangerValueButtonName="Excluir"
         >
     </tabela-generica>
     <modal-cadastro-curso ref="modal" :curso="curso" @modalFechada="fecharModal()"></modal-cadastro-curso>
@@ -86,16 +86,16 @@ export default {
       this.$refs.modal.abrir();
     },
 
-     arquivar(curso){
+
+     excluir(curso){
       this.isLoading = true;
       this.$http
-        .put(process.env.VUE_APP_BASE_URI + `curso/arquivar/${curso.idCurso}`)
-        .then(resposta => resposta.json())
-        .then(unidade => {
+        .delete(process.env.VUE_APP_BASE_URI + `curso/${curso.idCurso}`)
+        .then(() => {
           this.isLoading = false;
           this.buscarCursos();
         }, erro => {
-           this.$toast.error('Erro ao arquivar o curso' + erro.body.message);
+           this.$toast.error('Erro ao excluir o curso. Verifique se está em uso e tente novamente.');
            this.isLoading = false;
         })
     },
