@@ -3,9 +3,11 @@ package br.com.escola.view.resource;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.escola.controller.TurmaController;
+import br.com.escola.model.entidades.PessoaTurmaModel;
+import br.com.escola.model.entidades.TurmaModel;
 import br.com.escola.model.repository.CursoRepository;
 import br.com.escola.model.repository.EstagioRepository;
 import br.com.escola.model.repository.PessoaRepository;
@@ -86,10 +90,18 @@ public class TurmaResource {
 				cursoRepository, estagioRepository).atualizar(dto);
 	}
 	
-	@PutMapping("/arquivar/{idTurma}")
-	public TurmaDTO arquivar(@PathVariable Integer idTurma) {
-		return new TurmaController(turmaRepository, pessoaTurmaRepository, pessoaRepository, unidadeRepository,
-				cursoRepository, estagioRepository).arquivar(idTurma);
+	@DeleteMapping("/{id}")
+	@Transactional
+	public ResponseEntity<?> excluir(@PathVariable Integer id) {
+		TurmaModel turma = turmaRepository.getOne(id);
+		for (PessoaTurmaModel pessoaTurma : turma.getAlunosTurma()) {
+			pessoaTurmaRepository.delete(pessoaTurma);
+		}
+		
+		turmaRepository.deleteById(id);
+		
+		return ResponseEntity.ok().build();
+		
 	}
 
 }

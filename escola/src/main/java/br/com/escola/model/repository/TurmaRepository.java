@@ -21,8 +21,6 @@ public interface TurmaRepository extends JpaRepository<TurmaModel, Integer> {
 	@Query(" SELECT unidade.nome, COUNT(DISTINCT turma.idTurma) FROM TurmaModel turma JOIN turma.unidade unidade WHERE turma.dataFim >= CURDATE() GROUP BY unidade.nome")
 	public Object[] contarTurmasPorUnidade();
 	
-	public List<TurmaModel> findByArquivadoFalse();
-
 	@Query("SELECT turma FROM TurmaModel turma JOIN FETCH turma.professor professor WHERE professor.idPessoa = :idPessoa ")
 	public List<TurmaModel> getByProfessorArquivadoFalse(@Param("idPessoa") Integer idPessoa);
 

@@ -10,8 +10,8 @@
         :itens="dadosComFiltro()" 
         :campos="campos" 
         @editar="editar" 
-        @arquivar="arquivar"
-        dangerValueButtonName="Arquivar"
+        @arquivar="excluir"
+        dangerValueButtonName="Excluir"
         >
     </tabela-generica>
     <modal-cadastro-estagio ref="modal" :estagio="estagio" @modalFechada="fecharModal()"></modal-cadastro-estagio>
@@ -85,16 +85,15 @@ export default {
       this.$refs.modal.fechar();
     },
 
-    arquivar(estagio){
+    excluir(estagio){
       this.isLoading = true;
       this.$http
-        .put(process.env.VUE_APP_BASE_URI + `estagio/arquivar/${estagio.idEstagio}`)
-        .then(resposta => resposta.json())
-        .then(estagio => {
+        .delete(process.env.VUE_APP_BASE_URI + `estagio/${estagio.idEstagio}`)
+        .then(() => {
           this.isLoading = false;
           this.buscarEstagios();
         }, erro => {
-           this.$toast.error('Erro ao arquivar o estágio' + erro.body.message);
+           this.$toast.error('Erro ao excluir o estágio. Verifique se está em uso e tente novamente.');
            this.isLoading = false;
         })
     },

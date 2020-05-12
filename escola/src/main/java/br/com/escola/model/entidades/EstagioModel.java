@@ -5,7 +5,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "ESTAGIO")
@@ -15,8 +14,6 @@ public class EstagioModel {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idEstagio;
 	private String nome;
-	@NotNull
-	private Boolean arquivado;
 
 
 	public Integer getIdEstagio() {
@@ -33,14 +30,6 @@ public class EstagioModel {
 
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-
-	public Boolean getArquivado() {
-		return arquivado;
-	}
-
-	public void setArquivado(Boolean arquivado) {
-		this.arquivado = arquivado;
 	}
 
 	@Override

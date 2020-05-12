@@ -10,8 +10,8 @@
         :itens="dadosComFiltro()" 
         :campos="campos" 
         @editar="editar" 
-        @arquivar="arquivar"
-        dangerValueButtonName="Arquivar"
+        @arquivar="excluir"
+        dangerValueButtonName="Excluir"
         >
     </tabela-generica>
     <modal-cadastro-turma ref="modal" :turma="turma" @modalFechada="fecharModal()"></modal-cadastro-turma>
@@ -103,18 +103,15 @@ export default {
       this.$refs.modal.abrir();
     },
 
-    arquivar(turma) {
+    excluir(turma) {
       this.isLoading = true;
       this.$http
-        .put(process.env.VUE_APP_BASE_URI + `turma/arquivar/${turma.idTurma}`)
-        .then(resposta => resposta.json())
-        .then(turma => {
+        .delete(process.env.VUE_APP_BASE_URI + `turma/${turma.idTurma}`)
+        .then(() => {
           this.isLoading = false;
           this.buscar();
         }, erro => {
-           console.log("Erro**")
-           console.log(erro);
-           this.$toast.error('Erro ao arquivar a asd');
+           this.$toast.error('Erro ao excluir a turma. Verifique se está em uso e tente novamente.');
            this.isLoading = false;
         })
     },

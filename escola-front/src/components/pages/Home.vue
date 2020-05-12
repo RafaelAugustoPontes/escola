@@ -21,8 +21,9 @@
           ></apexchart>
         </b-card>
       </b-card-group>
+      <br>
       <b-card-group deck>
-        <b-card header="Gráfico 3" header-tag="header" title="Top 10 alunos com mais faltas">
+        <b-card header="Gráfico 3" header-tag="header" title="Alunos com mais faltas">
           <apexchart
             width="380"
             type="bar"
@@ -33,7 +34,7 @@
         <b-card
           header="Gráfico 4"
           header-tag="header"
-          title="Top 10 turmas com a pior média de nota"
+          title="Turmas com a menor média de nota"
         >
           <apexchart
             width="380"

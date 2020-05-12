@@ -14,7 +14,7 @@ export default {
 
     isNotasValidas() {
       let validas = !this.pessoasTurma.some(
-        pessoaTurma => pessoaTurma.nota <= 0 || pessoaTurma.nota >= 100
+        pessoaTurma => pessoaTurma.nota < 0 || pessoaTurma.nota > 100
       );
       return validas;
     },
